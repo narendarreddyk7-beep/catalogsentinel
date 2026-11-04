@@ -117,6 +117,12 @@
                         <goals>
                             <goal>test-jar</goal>
                         </goals>
+                        <configuration>
+                            <!-- Test logging config for this module only; the apps use Spring Boot's. -->
+                            <excludes>
+                                <exclude>logback-test.xml</exclude>
+                            </excludes>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

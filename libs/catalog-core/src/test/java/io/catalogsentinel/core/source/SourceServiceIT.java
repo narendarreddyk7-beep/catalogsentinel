@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.groups.Tuple.tuple;
 
 class SourceServiceIT {
 
@@ -48,6 +49,24 @@ class SourceServiceIT {
                 .satisfies(e -> assertThat(((DomainValidationException) e).violations())
                         .extracting(DomainValidationException.Violation::field)
                         .containsExactlyInAnyOrder("code", "name", "role"));
+    }
+
+    @Test
+    void anUnknownRoleFromARequestIsReportedTogetherWithTheOtherInvalidFields() {
+        assertThatThrownBy(() -> ctx.sourceService.registerFromRequest("Bad Code", "", "SELLER", true))
+                .isInstanceOf(DomainValidationException.class)
+                .satisfies(e -> assertThat(((DomainValidationException) e).violations())
+                        .extracting(DomainValidationException.Violation::field, DomainValidationException.Violation::message)
+                        .containsExactlyInAnyOrder(
+                                tuple("code", "must match ^[a-z0-9][a-z0-9_-]{1,63}$"),
+                                tuple("name", "must not be blank"),
+                                tuple("role", "must be MARKETPLACE or REFERENCE")));
+        assertThatThrownBy(() -> ctx.sourceService.registerFromRequest("acme-market", "Acme", "seller", true))
+                .isInstanceOf(DomainValidationException.class)
+                .satisfies(e -> assertThat(((DomainValidationException) e).violations())
+                        .extracting(DomainValidationException.Violation::field).containsExactly("role"));
+        CatalogSource s = ctx.sourceService.registerFromRequest("acme-market", "Acme", " marketplace ", null);
+        assertThat(s.role()).isEqualTo(SourceRole.MARKETPLACE);
     }
 
     @Test

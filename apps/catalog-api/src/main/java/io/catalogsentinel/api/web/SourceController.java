@@ -34,7 +34,7 @@ public class SourceController {
     @PostMapping
     @Operation(summary = "Register a catalog source", description = "201 with Location; 409 SOURCE_CODE_TAKEN if the code exists")
     public ResponseEntity<SourceResponse> register(@RequestBody RegisterSourceRequest body) {
-        CatalogSource s = sources.register(body.code(), body.name(), parseRole(body.role()), body.enabled());
+        CatalogSource s = sources.registerFromRequest(body.code(), body.name(), body.role(), body.enabled());
         return ResponseEntity.created(URI.create("/api/v1/sources/" + s.sourceId())).body(SourceResponse.from(s));
     }
 
@@ -61,17 +61,6 @@ public class SourceController {
             throw new DomainValidationException("enabled", "is required");
         }
         return SourceResponse.from(sources.setEnabled(sourceId, body.enabled()));
-    }
-
-    private static SourceRole parseRole(String role) {
-        if (role == null) {
-            return null;
-        }
-        try {
-            return SourceRole.valueOf(role.strip().toUpperCase(java.util.Locale.ROOT));
-        } catch (IllegalArgumentException e) {
-            throw new DomainValidationException("role", "must be MARKETPLACE or REFERENCE");
-        }
     }
 
     public record RegisterSourceRequest(String code, String name, String role, Boolean enabled) {

@@ -10,6 +10,8 @@ import io.catalogsentinel.domain.source.SourceCode;
 import io.catalogsentinel.domain.source.SourceRole;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
+
 /** Registration and lookup of catalog sources. */
 @Service
 public class SourceService {
@@ -27,12 +29,38 @@ public class SourceService {
      * @throws ConflictException                                          when the code is already registered
      */
     public CatalogSource register(String code, String name, SourceRole role, Boolean enabled) {
+        return register(code, name, role, null, enabled);
+    }
+
+    /**
+     * Registers a new source from raw request input. The role is parsed here rather than by the caller so that an
+     * unknown role is reported together with every other invalid field, not instead of them.
+     *
+     * @throws io.catalogsentinel.domain.common.DomainValidationException for invalid input, listing all violations
+     * @throws ConflictException                                          when the code is already registered
+     */
+    public CatalogSource registerFromRequest(String code, String name, String role, Boolean enabled) {
+        SourceRole parsed = null;
+        String roleError = null;
+        if (role != null) {
+            try {
+                parsed = SourceRole.valueOf(role.strip().toUpperCase(Locale.ROOT));
+            } catch (IllegalArgumentException e) {
+                roleError = "must be MARKETPLACE or REFERENCE";
+            }
+        }
+        return register(code, name, parsed, roleError, enabled);
+    }
+
+    private CatalogSource register(String code, String name, SourceRole role, String roleError, Boolean enabled) {
         Violations v = new Violations();
         if (!SourceCode.isValid(code)) {
             v.add("code", "must match ^[a-z0-9][a-z0-9_-]{1,63}$");
         }
         v.requireText("name", name, 200);
-        if (role == null) {
+        if (roleError != null) {
+            v.add("role", roleError);
+        } else if (role == null) {
             v.add("role", "is required (MARKETPLACE or REFERENCE)");
         }
         v.throwIfAny();

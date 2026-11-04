@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    catalog-core tests run without Spring Boot, so without this file Logback logs everything at DEBUG, including
+    every SQL statement JdbcTemplate executes (about 95,000 lines per CI run, enough for GitHub to truncate the log).
+    Excluded from the test-jar so the apps keep Spring Boot's own logging configuration in their tests.
+-->
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="io.catalogsentinel" level="INFO"/>
+    <logger name="org.testcontainers" level="INFO"/>
+    <root level="WARN">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
