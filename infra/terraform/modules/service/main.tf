@@ -12,14 +12,14 @@ locals {
   listing_dlq = var.dlq_names["catalog-listing-events"]
   change_dlq  = var.dlq_names["catalog-change-events"]
   db_url      = "jdbc:postgresql://${var.db_address}:${var.db_port}/catalogsentinel?sslmode=require"
-  queue_env   = [
+  queue_env = [
     { name = "AWS_REGION", value = var.region },
     { name = "LISTING_EVENTS_QUEUE", value = local.listing_q },
     { name = "LISTING_EVENTS_DLQ", value = local.listing_dlq },
     { name = "CHANGE_EVENTS_QUEUE", value = local.change_q },
     { name = "CHANGE_EVENTS_DLQ", value = local.change_dlq },
   ]
-  db_env     = [{ name = "DB_URL", value = local.db_url }]
+  db_env = [{ name = "DB_URL", value = local.db_url }]
   db_secrets = [
     { name = "DB_USERNAME", valueFrom = "${var.db_secret_arn}:username::" },
     { name = "DB_PASSWORD", valueFrom = "${var.db_secret_arn}:password::" },
@@ -253,7 +253,7 @@ resource "aws_lb_listener_rule" "admin_denied" {
   action {
     type = "fixed-response"
     fixed_response {
-      content_type = "application/problem+json"
+      content_type = "application/json"
       status_code  = "403"
       message_body = "{\"status\":403,\"code\":\"FORBIDDEN\",\"detail\":\"Not reachable from this network\"}"
     }
@@ -302,10 +302,10 @@ resource "aws_iam_role_policy_attachment" "execution" {
 }
 
 resource "aws_iam_role_policy" "execution_secrets" {
-  name   = "read-task-secrets"
-  role   = aws_iam_role.execution.id
+  name = "read-task-secrets"
+  role = aws_iam_role.execution.id
   policy = jsonencode({
-    Version   = "2012-10-17"
+    Version = "2012-10-17"
     Statement = [{
       Effect   = "Allow"
       Action   = ["secretsmanager:GetSecretValue"]
@@ -341,10 +341,10 @@ resource "aws_iam_role" "api" {
 }
 
 resource "aws_iam_role_policy" "api" {
-  name   = "api"
-  role   = aws_iam_role.api.id
+  name = "api"
+  role = aws_iam_role.api.id
   policy = jsonencode({
-    Version   = "2012-10-17"
+    Version = "2012-10-17"
     Statement = [
       {
         Sid      = "EnqueueListingEvents"
@@ -386,10 +386,10 @@ resource "aws_iam_role" "worker" {
 }
 
 resource "aws_iam_role_policy" "worker" {
-  name   = "worker"
-  role   = aws_iam_role.worker.id
+  name = "worker"
+  role = aws_iam_role.worker.id
   policy = jsonencode({
-    Version   = "2012-10-17"
+    Version = "2012-10-17"
     Statement = [
       {
         Sid      = "ConsumeWorkQueues"
@@ -429,7 +429,7 @@ resource "aws_iam_role" "dashboard" {
 locals {
   log_config = { for app in ["catalog-api", "ingestion-worker", "dashboard", "adot"] : app => {
     logDriver = "awslogs"
-    options   = {
+    options = {
       awslogs-group         = aws_cloudwatch_log_group.app[app].name
       awslogs-region        = var.region
       awslogs-stream-prefix = app
@@ -466,12 +466,12 @@ resource "aws_ecs_task_definition" "api" {
     readonlyRootFilesystem = true
     mountPoints            = [{ sourceVolume = "tmp", containerPath = "/tmp", readOnly = false }]
     portMappings           = [{ containerPort = 8080, protocol = "tcp" }]
-    environment            = concat(local.queue_env, local.db_env, [
+    environment = concat(local.queue_env, local.db_env, [
       { name = "SPRING_PROFILES_ACTIVE", value = "aws,json-logs" },
       { name = "TRACING_SAMPLING_PROBABILITY", value = tostring(var.trace_sampling) },
       { name = "OTEL_EXPORTER_OTLP_ENDPOINT", value = "http://localhost:4318/v1/traces" },
     ])
-    secrets     = concat(local.db_secrets, [{ name = "CATALOGSENTINEL_API_KEYS", valueFrom = aws_secretsmanager_secret.api_keys.arn }])
+    secrets = concat(local.db_secrets, [{ name = "CATALOGSENTINEL_API_KEYS", valueFrom = aws_secretsmanager_secret.api_keys.arn }])
     healthCheck = {
       command     = ["CMD-SHELL", "curl -fsS http://localhost:8080/actuator/health/liveness || exit 1"]
       interval    = 15
@@ -506,12 +506,12 @@ resource "aws_ecs_task_definition" "worker" {
     readonlyRootFilesystem = true
     mountPoints            = [{ sourceVolume = "tmp", containerPath = "/tmp", readOnly = false }]
     portMappings           = [{ containerPort = 8081, protocol = "tcp" }]
-    environment            = concat(local.queue_env, local.db_env, [
+    environment = concat(local.queue_env, local.db_env, [
       { name = "SPRING_PROFILES_ACTIVE", value = "json-logs" },
       { name = "TRACING_SAMPLING_PROBABILITY", value = tostring(var.trace_sampling) },
       { name = "OTEL_EXPORTER_OTLP_ENDPOINT", value = "http://localhost:4318/v1/traces" },
     ])
-    secrets     = local.db_secrets
+    secrets = local.db_secrets
     healthCheck = {
       command     = ["CMD-SHELL", "curl -fsS http://localhost:8081/actuator/health/liveness || exit 1"]
       interval    = 15

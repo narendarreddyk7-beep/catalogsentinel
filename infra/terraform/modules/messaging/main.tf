@@ -18,15 +18,15 @@ resource "aws_sqs_queue" "work" {
   receive_wait_time_seconds  = 20
   message_retention_seconds  = 345600 # 4 days
   sqs_managed_sse_enabled    = true
-  redrive_policy             = jsonencode({
+  redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.dlq[each.key].arn
     maxReceiveCount     = var.max_receive_count
   })
 }
 
 resource "aws_sqs_queue_redrive_allow_policy" "dlq" {
-  for_each             = local.queues
-  queue_url            = aws_sqs_queue.dlq[each.key].id
+  for_each  = local.queues
+  queue_url = aws_sqs_queue.dlq[each.key].id
   redrive_allow_policy = jsonencode({
     redrivePermission = "byQueue"
     sourceQueueArns   = [aws_sqs_queue.work[each.key].arn]
@@ -37,8 +37,8 @@ resource "aws_sqs_queue_redrive_allow_policy" "dlq" {
 resource "aws_sqs_queue_policy" "tls_only" {
   for_each  = merge({ for k, q in aws_sqs_queue.work : k => q }, { for k, q in aws_sqs_queue.dlq : "${k}-dlq" => q })
   queue_url = each.value.id
-  policy    = jsonencode({
-    Version   = "2012-10-17"
+  policy = jsonencode({
+    Version = "2012-10-17"
     Statement = [{
       Sid       = "DenyInsecureTransport"
       Effect    = "Deny"
