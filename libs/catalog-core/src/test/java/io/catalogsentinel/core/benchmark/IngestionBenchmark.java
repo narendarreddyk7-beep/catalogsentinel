@@ -1,6 +1,6 @@
 package io.catalogsentinel.core.benchmark;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import io.catalogsentinel.core.ingestion.IngestionPath;

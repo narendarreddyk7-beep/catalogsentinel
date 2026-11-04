@@ -41,6 +41,13 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
 
+        <!-- Shared fixture locator (domain testsupport.RepoFiles). -->
+        <dependency>
+            <groupId>io.catalogsentinel</groupId>
+            <artifactId>catalog-domain</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
         <!-- Tests run against a real PostgreSQL 16 (Testcontainers, or CATALOGSENTINEL_TEST_JDBC_URL). -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

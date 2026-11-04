@@ -38,7 +38,7 @@ jobs:
       TF_VAR_admin_cidrs: ${{ vars.ADMIN_CIDRS }}
       TF_VAR_alarm_emails: ${{ vars.ALARM_EMAILS || '[]' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.DEPLOY_ROLE_ARN }}

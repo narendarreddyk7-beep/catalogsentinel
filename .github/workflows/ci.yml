@@ -18,8 +18,8 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "21"
@@ -40,8 +40,8 @@ jobs:
       run:
         working-directory: jobs/catalog-batch
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with: { distribution: temurin, java-version: "21" }
       - uses: actions/setup-python@v5
         with: { python-version: "3.13", cache: pip, cache-dependency-path: jobs/catalog-batch/requirements-lock.txt }
@@ -58,7 +58,7 @@ jobs:
       run:
         working-directory: apps/dashboard
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/setup-node@v4
         with: { node-version: "22", cache: npm, cache-dependency-path: apps/dashboard/package-lock.json }
       - run: npm ci --no-audit --no-fund
@@ -70,7 +70,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: hashicorp/setup-terraform@v3
         with: { terraform_version: "1.9.8" }
       - run: terraform fmt -check -recursive infra/terraform
@@ -89,7 +89,7 @@ jobs:
     needs: [java, batch, dashboard]
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: docker/setup-buildx-action@v3
       - run: docker build -f apps/Dockerfile.spring --build-arg APP=catalog-api --build-arg PORT=8080 -t catalogsentinel/catalog-api:ci .
       - run: docker build -f apps/Dockerfile.spring --build-arg APP=ingestion-worker --build-arg PORT=8081 -t catalogsentinel/ingestion-worker:ci .
