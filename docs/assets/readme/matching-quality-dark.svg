@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="440" viewBox="0 0 960 440" role="img" aria-labelledby="t d">
+<title id="t">Matching quality by matcher version</title>
+<desc id="d">Assisted F1 on the golden dev set (150 listings): title-only baseline 0.352, rules-v1 0.745, v2 0.824, v3 0.824, v4 0.829. On the golden holdout set (48 listings): baseline 0.409, v1 0.762, v2 0.880, v3 0.898, v4 0.898.</desc>
+<style>svg{--bg:#0D1117;--panel:#161B22;--card:#0D1117;--line:#30363D;--track:#21262D;--ink:#E6EDF3;--muted:#9198A1;--teal:#0D9488;--indigo:#6366F1;--amber:#D97706;--teal-soft:#10302D;--amber-soft:#3A2410;--indigo-soft:#1F2147}</style>
+<rect x="0.5" y="0.5" width="959" height="439" rx="12" fill="var(--panel)" stroke="var(--line)"/>
+<text x="24" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="var(--ink)" text-anchor="start" >Matching quality by matcher version</text>
+<text x="24" y="64" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="var(--muted)" text-anchor="start" >F1 when the review queue counts as found. Pairwise, all pairs, hand-labeled sets.</text>
+<circle cx="30.0" cy="92.0" r="5" fill="var(--teal)"/>
+<text x="42" y="97" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="var(--muted)" text-anchor="start" >golden dev, 150 listings</text>
+<rect x="245.5" y="87.5" width="9" height="9" rx="1.5" fill="var(--indigo)"/>
+<text x="262" y="97" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="var(--muted)" text-anchor="start" >golden holdout, 48 listings</text>
+<line x1="84" y1="360.0" x2="936" y2="360.0" stroke="var(--line)" stroke-width="1.5"/>
+<text x="74" y="364.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12.5" font-weight="400" fill="var(--muted)" text-anchor="end" >0.00</text>
+<line x1="84" y1="300.5" x2="936" y2="300.5" stroke="var(--line)" stroke-width="1"/>
+<text x="74" y="305.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12.5" font-weight="400" fill="var(--muted)" text-anchor="end" >0.25</text>
+<line x1="84" y1="241.0" x2="936" y2="241.0" stroke="var(--line)" stroke-width="1"/>
+<text x="74" y="245.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12.5" font-weight="400" fill="var(--muted)" text-anchor="end" >0.50</text>
+<line x1="84" y1="181.5" x2="936" y2="181.5" stroke="var(--line)" stroke-width="1"/>
+<text x="74" y="186.0" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12.5" font-weight="400" fill="var(--muted)" text-anchor="end" >0.75</text>
+<line x1="84" y1="122.0" x2="936" y2="122.0" stroke="var(--line)" stroke-width="1"/>
+<text x="74" y="126.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12.5" font-weight="400" fill="var(--muted)" text-anchor="end" >1.00</text>
+<line x1="236.0" y1="116" x2="236.0" y2="360" stroke="var(--line)" stroke-dasharray="3 4"/>
+<text x="138" y="384" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="var(--ink)" text-anchor="middle" >title-only</text>
+<text x="138" y="401" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="var(--ink)" text-anchor="middle" >baseline</text>
+<text x="334" y="384" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" font-weight="400" fill="var(--ink)" text-anchor="middle" >rules-v1</text>
+<text x="484" y="384" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" font-weight="400" fill="var(--ink)" text-anchor="middle" >rules-v2</text>
+<text x="634" y="384" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" font-weight="400" fill="var(--ink)" text-anchor="middle" >rules-v3</text>
+<text x="784" y="384" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" font-weight="400" fill="var(--ink)" text-anchor="middle" >rules-v4</text>
+<polyline points="334,182.7 484,163.9 634,163.9 784,162.7" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="138.0" cy="276.2" r="6" fill="var(--teal)" stroke="var(--panel)" stroke-width="2"/>
+<circle cx="334.0" cy="182.7" r="6" fill="var(--teal)" stroke="var(--panel)" stroke-width="2"/>
+<circle cx="484.0" cy="163.9" r="6" fill="var(--teal)" stroke="var(--panel)" stroke-width="2"/>
+<circle cx="634.0" cy="163.9" r="6" fill="var(--teal)" stroke="var(--panel)" stroke-width="2"/>
+<circle cx="784.0" cy="162.7" r="6" fill="var(--teal)" stroke="var(--panel)" stroke-width="2"/>
+<polyline points="334,178.6 484,150.6 634,146.3 784,146.3" fill="none" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/>
+<rect x="132.5" y="257.2" width="11" height="11" rx="1.5" fill="var(--indigo)" stroke="var(--panel)" stroke-width="2"/>
+<rect x="328.5" y="173.1" width="11" height="11" rx="1.5" fill="var(--indigo)" stroke="var(--panel)" stroke-width="2"/>
+<rect x="478.5" y="145.1" width="11" height="11" rx="1.5" fill="var(--indigo)" stroke="var(--panel)" stroke-width="2"/>
+<rect x="628.5" y="140.8" width="11" height="11" rx="1.5" fill="var(--indigo)" stroke="var(--panel)" stroke-width="2"/>
+<rect x="778.5" y="140.8" width="11" height="11" rx="1.5" fill="var(--indigo)" stroke="var(--panel)" stroke-width="2"/>
+<text x="138" y="298.224" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" font-weight="600" fill="var(--ink)" text-anchor="middle" >0.352</text>
+<text x="138" y="248.65800000000002" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" font-weight="600" fill="var(--ink)" text-anchor="middle" >0.409</text>
+<text x="802" y="176.698" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="600" fill="var(--ink)" text-anchor="start" >dev 0.829</text>
+<text x="802" y="140.27599999999998" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="600" fill="var(--ink)" text-anchor="start" >holdout 0.898</text>
+<text x="24" y="422" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="400" fill="var(--muted)" text-anchor="start" >rules-v3 was motivated by a holdout error, so the v3 and v4 holdout values are optimistic. Source: docs/benchmarks/matching.</text>
+</svg>

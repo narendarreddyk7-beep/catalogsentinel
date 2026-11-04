@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="636" viewBox="0 0 960 636" role="img" aria-labelledby="t d">
+<title id="t">Two comparisons by the rules-v4 matcher</title>
+<desc id="d">The black reference listing compared with two others. Against a reworded marketplace listing of the same product: model 0.92, title 0.62, brand 0.90, attributes 1.00, category 1.00, no GTIN on both sides; identifier agreement gives AUTO_MATCH with score 0.90. Against the silver reference listing: model 1.00, title 0.78, brand 1.00, but GTIN 0.00 and attributes 0.00; GTIN_CONFLICT and VARIANT_CONFLICT (black vs silver) give NO_MATCH with score 0.45.</desc>
+<style>svg{--bg:#0D1117;--panel:#161B22;--card:#0D1117;--line:#30363D;--track:#21262D;--ink:#E6EDF3;--muted:#9198A1;--teal:#0D9488;--indigo:#6366F1;--amber:#D97706;--teal-soft:#10302D;--amber-soft:#3A2410;--indigo-soft:#1F2147}</style>
+<rect x="0.5" y="0.5" width="959" height="635" rx="12" fill="var(--panel)" stroke="var(--line)"/>
+<text x="24" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="var(--muted)" text-anchor="start" >Reference listing -01</text>
+<text x="24" y="64" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="var(--ink)" text-anchor="start" >Sony WH-1000XM5 Wireless Noise Canceling Headphones, Black</text>
+<rect x="24" y="88" width="444" height="524" rx="10" fill="var(--card)" stroke="var(--line)"/>
+<text x="44" y="118" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="var(--muted)" text-anchor="start" >vs Marketplace A listing -02</text>
+<text x="44" y="142" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="14.5" font-weight="600" fill="var(--ink)" text-anchor="start" >SONY WH1000XM5 Wireless Industry Leading Noise</text>
+<text x="44" y="162" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="14.5" font-weight="600" fill="var(--ink)" text-anchor="start" >Cancelling Over-Ear Headphones - Black</text>
+<text x="44" y="192" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="var(--muted)" text-anchor="start" >feature</text>
+<text x="174" y="192" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="var(--muted)" text-anchor="start" >weight</text>
+<text x="44" y="219" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="var(--ink)" text-anchor="start" >GTIN</text>
+<text x="174" y="219" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="var(--muted)" text-anchor="start" >rule</text>
+<rect x="232" y="208" width="168" height="12" rx="4" fill="var(--track)"/>
+<text x="240" y="218.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="var(--muted)" text-anchor="start" >not on both sides</text>
+<text x="448" y="219" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="400" fill="var(--muted)" text-anchor="end" >-</text>
+<text x="44" y="253" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="var(--ink)" text-anchor="start" >Model number</text>
+<text x="174" y="253" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="var(--muted)" text-anchor="start" >35 %</text>
+<rect x="232" y="242" width="168" height="12" rx="4" fill="var(--track)"/>
+<rect x="232" y="242" width="154.6" height="12" rx="4" fill="var(--teal)"/>
+<text x="448" y="253" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="600" fill="var(--ink)" text-anchor="end" >0.92</text>
+<text x="44" y="287" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="var(--ink)" text-anchor="start" >Title</text>
+<text x="174" y="287" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="var(--muted)" text-anchor="start" >25 %</text>
+<rect x="232" y="276" width="168" height="12" rx="4" fill="var(--track)"/>
+<rect x="232" y="276" width="104.2" height="12" rx="4" fill="var(--muted)"/>
+<text x="448" y="287" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="400" fill="var(--ink)" text-anchor="end" >0.62</text>
+<text x="44" y="321" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="var(--ink)" text-anchor="start" >Brand</text>
+<text x="174" y="321" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="var(--muted)" text-anchor="start" >15 %</text>
+<rect x="232" y="310" width="168" height="12" rx="4" fill="var(--track)"/>
+<rect x="232" y="310" width="151.2" height="12" rx="4" fill="var(--teal)"/>
+<text x="448" y="321" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="600" fill="var(--ink)" text-anchor="end" >0.90</text>
+<text x="44" y="355" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="var(--ink)" text-anchor="start" >Attributes</text>
+<text x="174" y="355" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="var(--muted)" text-anchor="start" >15 %</text>
+<rect x="232" y="344" width="168" height="12" rx="4" fill="var(--track)"/>
+<rect x="232" y="344" width="168.0" height="12" rx="4" fill="var(--muted)"/>
+<text x="448" y="355" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="400" fill="var(--ink)" text-anchor="end" >1.00</text>
+<text x="44" y="389" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="var(--ink)" text-anchor="start" >Category</text>
+<text x="174" y="389" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="var(--muted)" text-anchor="start" >10 %</text>
+<rect x="232" y="378" width="168" height="12" rx="4" fill="var(--track)"/>
+<rect x="232" y="378" width="168.0" height="12" rx="4" fill="var(--muted)"/>
+<text x="448" y="389" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="400" fill="var(--ink)" text-anchor="end" >1.00</text>
+<text x="44" y="426" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="var(--muted)" text-anchor="start" >evidence stored with the pair</text>
+<rect x="44" y="438" width="161" height="24" rx="6" fill="var(--teal-soft)" stroke="var(--teal)"/>
+<text x="54" y="454.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="500" fill="var(--ink)" text-anchor="start" >MODEL_REGION_SUFFIX</text>
+<rect x="212.6" y="438" width="124" height="24" rx="6" fill="var(--teal-soft)" stroke="var(--teal)"/>
+<text x="222.6" y="454.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="500" fill="var(--ink)" text-anchor="start" >BRAND_IN_TITLE</text>
+<rect x="44" y="470" width="138" height="24" rx="6" fill="var(--teal-soft)" stroke="var(--teal)"/>
+<text x="54" y="486.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="500" fill="var(--ink)" text-anchor="start" >ATTRIBUTES_AGREE</text>
+<rect x="190.4" y="470" width="168" height="24" rx="6" fill="var(--teal-soft)" stroke="var(--teal)"/>
+<text x="200.4" y="486.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="500" fill="var(--ink)" text-anchor="start" >IDENTIFIER_AGREEMENT</text>
+<line x1="25" y1="520" x2="467" y2="520" stroke="var(--line)"/>
+<rect x="44" y="538" width="120" height="32" rx="8" fill="var(--teal-soft)" stroke="var(--teal)" stroke-width="1.5"/>
+<text x="58" y="559" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" font-weight="700" fill="var(--ink)" text-anchor="start" >AUTO_MATCH</text>
+<text x="178.0" y="559" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="var(--ink)" text-anchor="start" >score 0.90</text>
+<text x="44" y="594" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="var(--muted)" text-anchor="start" >Model and brand agree, so a reworded title still matches.</text>
+<rect x="492" y="88" width="444" height="524" rx="10" fill="var(--card)" stroke="var(--line)"/>
+<text x="512" y="118" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="var(--muted)" text-anchor="start" >vs Reference listing -04</text>
+<text x="512" y="142" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="14.5" font-weight="600" fill="var(--ink)" text-anchor="start" >Sony WH-1000XM5 Wireless Noise Canceling</text>
+<text x="512" y="162" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="14.5" font-weight="600" fill="var(--ink)" text-anchor="start" >Headphones, Silver</text>
+<text x="512" y="192" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="var(--muted)" text-anchor="start" >feature</text>
+<text x="642" y="192" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="var(--muted)" text-anchor="start" >weight</text>
+<text x="512" y="219" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="var(--ink)" text-anchor="start" >GTIN</text>
+<text x="642" y="219" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="var(--muted)" text-anchor="start" >rule</text>
+<rect x="700" y="208" width="168" height="12" rx="4" fill="var(--track)"/>
+<rect x="700" y="208" width="4" height="12" rx="2" fill="var(--amber)"/>
+<text x="916" y="219" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="600" fill="var(--ink)" text-anchor="end" >0.00</text>
+<text x="512" y="253" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="var(--ink)" text-anchor="start" >Model number</text>
+<text x="642" y="253" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="var(--muted)" text-anchor="start" >35 %</text>
+<rect x="700" y="242" width="168" height="12" rx="4" fill="var(--track)"/>
+<rect x="700" y="242" width="168.0" height="12" rx="4" fill="var(--muted)"/>
+<text x="916" y="253" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="400" fill="var(--ink)" text-anchor="end" >1.00</text>
+<text x="512" y="287" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="var(--ink)" text-anchor="start" >Title</text>
+<text x="642" y="287" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="var(--muted)" text-anchor="start" >25 %</text>
+<rect x="700" y="276" width="168" height="12" rx="4" fill="var(--track)"/>
+<rect x="700" y="276" width="131.0" height="12" rx="4" fill="var(--muted)"/>
+<text x="916" y="287" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="400" fill="var(--ink)" text-anchor="end" >0.78</text>
+<text x="512" y="321" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="var(--ink)" text-anchor="start" >Brand</text>
+<text x="642" y="321" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="var(--muted)" text-anchor="start" >15 %</text>
+<rect x="700" y="310" width="168" height="12" rx="4" fill="var(--track)"/>
+<rect x="700" y="310" width="168.0" height="12" rx="4" fill="var(--muted)"/>
+<text x="916" y="321" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="400" fill="var(--ink)" text-anchor="end" >1.00</text>
+<text x="512" y="355" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="var(--ink)" text-anchor="start" >Attributes</text>
+<text x="642" y="355" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="var(--muted)" text-anchor="start" >15 %</text>
+<rect x="700" y="344" width="168" height="12" rx="4" fill="var(--track)"/>
+<rect x="700" y="344" width="4" height="12" rx="2" fill="var(--amber)"/>
+<text x="916" y="355" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="600" fill="var(--ink)" text-anchor="end" >0.00</text>
+<text x="512" y="389" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="var(--ink)" text-anchor="start" >Category</text>
+<text x="642" y="389" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="var(--muted)" text-anchor="start" >10 %</text>
+<rect x="700" y="378" width="168" height="12" rx="4" fill="var(--track)"/>
+<rect x="700" y="378" width="168.0" height="12" rx="4" fill="var(--muted)"/>
+<text x="916" y="389" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" font-weight="400" fill="var(--ink)" text-anchor="end" >1.00</text>
+<text x="512" y="426" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="var(--muted)" text-anchor="start" >evidence stored with the pair</text>
+<rect x="512" y="438" width="116" height="24" rx="6" fill="var(--amber-soft)" stroke="var(--amber)"/>
+<text x="522" y="454.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="500" fill="var(--ink)" text-anchor="start" >GTIN_CONFLICT</text>
+<rect x="636.2" y="438" width="264" height="24" rx="6" fill="var(--amber-soft)" stroke="var(--amber)"/>
+<text x="646.2" y="454.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="500" fill="var(--ink)" text-anchor="start" >VARIANT_CONFLICT: black vs silver</text>
+<rect x="512" y="470" width="101" height="24" rx="6" fill="var(--teal-soft)" stroke="var(--teal)"/>
+<text x="522" y="486.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="500" fill="var(--ink)" text-anchor="start" >MODEL_MATCH</text>
+<rect x="621.4" y="470" width="101" height="24" rx="6" fill="var(--teal-soft)" stroke="var(--teal)"/>
+<text x="631.4" y="486.5" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="12" font-weight="500" fill="var(--ink)" text-anchor="start" >BRAND_MATCH</text>
+<line x1="493" y1="520" x2="935" y2="520" stroke="var(--line)"/>
+<rect x="512" y="538" width="102" height="32" rx="8" fill="var(--amber-soft)" stroke="var(--amber)" stroke-width="1.5"/>
+<text x="526" y="559" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace" font-size="15" font-weight="700" fill="var(--ink)" text-anchor="start" >NO_MATCH</text>
+<text x="627.6" y="559" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="15" font-weight="600" fill="var(--ink)" text-anchor="start" >score 0.45</text>
+<text x="512" y="594" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="var(--muted)" text-anchor="start" >A more similar title, yet a different product.</text>
+</svg>
