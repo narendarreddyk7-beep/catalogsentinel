@@ -1,0 +1,19 @@
+%% Restartable batch ingestion. Rendered copy: batch-pipeline.svg
+flowchart TB
+    m["manifest.json<br/>source, files, sha256, record counts"] --> key["job key = source : sha256(canonical manifest)"]
+    key --> reg{"POST /ingestion/jobs<br/>201 new · 200 existing"}
+    reg -- "PUBLISHED" --> done(["exit: nothing to redo"])
+    reg -- "REGISTERED or FAILED" --> run["PATCH status RUNNING<br/>(FAILED → RUNNING starts attempt + 1)"]
+    run --> verify["stage inputs, verify sha256 of every file"]
+    verify --> spark["Spark: parse → validate (Java-parity rules) → normalize (norm-v2) → dedup inside the export"]
+    spark --> curated[("curated Parquet<br/>partitioned by category_root")]
+    spark --> rejected[("rejected JSONL<br/>record + reasons")]
+    spark --> events["one event per surviving record<br/>id = UUIDv5(job key, source, external id, version, type)"]
+    events --> parts["partition = crc32(event id) mod N"]
+    parts --> marker{"partition marker<br/>already written?"}
+    marker -- "yes (earlier attempt)" --> skip["skip partition"]
+    marker -- "no" --> send["SendMessageBatch with retries,<br/>then write the marker"]
+    send --> fin["PATCH status PUBLISHED with counts"]
+    skip --> fin
+    send -. "crash or error" .-> failed["PATCH status FAILED"]
+    failed -. "re-run the same manifest" .-> reg

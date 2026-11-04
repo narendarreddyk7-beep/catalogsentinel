@@ -1,0 +1,49 @@
+id	source	truth_key	family	title	brand	model	category	gtin	attributes
+macbook-01	ref	mba13-m3-8-256-midnight	macbook	Apple MacBook Air 13-inch M3 chip 8GB RAM 256GB SSD - Midnight	Apple	MRXV3LL/A	Electronics > Computers > Laptops	2112177038989	ram=8 GB;storage=256 GB;color=Midnight
+macbook-02	mkt	mba13-m3-8-256-midnight	macbook	Apple 2024 MacBook Air 13" Laptop M3 8GB 256GB Midnight	Apple	MRXV3LL/A	Laptops		
+macbook-03	mkt2	mba13-m3-8-256-midnight	macbook	MacBook Air 13.6 inch M3 (8GB/256GB) Midnight MRXV3			Computers		
+macbook-04	ref	mba13-m3-16-512-midnight	macbook	Apple MacBook Air 13-inch M3 chip 16GB RAM 512GB SSD - Midnight	Apple	MXCV3LL/A	Electronics > Computers > Laptops	2414839063484	ram=16 GB;storage=512 GB;color=Midnight
+macbook-05	ref	mbp14-m3-8-512-gray	macbook	Apple MacBook Pro 14-inch M3 chip 8GB RAM 512GB SSD - Space Gray	Apple	MTL73LL/A	Electronics > Computers > Laptops	2623285376523	ram=8 GB;storage=512 GB;color=Space Gray
+macbook-06	mkt	mbp14-m3-8-512-gray	macbook	Apple MacBook Pro 14 inch M3 8GB 512GB Space Grey	Apple		Laptops		
+bose-soundlink-01	ref	sl-flex-black	bose-soundlink	Bose SoundLink Flex Bluetooth Portable Speaker, Black	Bose	865983-0100	Electronics > Audio > Portable Speakers	2733821623285	color=Black
+bose-soundlink-02	mkt	sl-flex-black	bose-soundlink	Bose SoundLink Flex Wireless Waterproof Speaker - Black	Bose Corporation		Speakers		
+bose-soundlink-03	ref	sl-flex-blue	bose-soundlink	Bose SoundLink Flex Bluetooth Portable Speaker, Stone Blue	Bose	865983-0200	Electronics > Audio > Portable Speakers	2853338438315	color=Stone Blue
+bose-soundlink-04	mkt	sl-flex-blue	bose-soundlink	Bose SoundLink Flex Speaker Stone Blue	Bose	865983-0200	Speakers		
+bose-soundlink-05	ref	sl-micro-black	bose-soundlink	Bose SoundLink Micro Bluetooth Speaker, Black	Bose	783342-0100	Electronics > Audio > Portable Speakers	2314986006955	color=Black
+keurig-01	ref	kmini-black	keurig	Keurig K-Mini Single Serve Coffee Maker, Black	Keurig	K-Mini	Home > Kitchen > Coffee Makers	2129765457411	color=Black
+keurig-02	mkt	kmini-black	keurig	Keurig K Mini Single-Serve K-Cup Pod Coffee Brewer Black	Keurig Dr Pepper		Coffee Machines		
+keurig-03	ref	kminiplus-black	keurig	Keurig K-Mini Plus Single Serve Coffee Maker, Black	Keurig	K-Mini Plus	Home > Kitchen > Coffee Makers	2368773656465	color=Black
+keurig-04	mkt	kminiplus-black	keurig	Keurig K-Mini Plus Coffee Maker with Pod Storage, Black	Keurig		Coffee Machines		
+sonicare-01	ref	sonicare-4100-white	sonicare	Philips Sonicare ProtectiveClean 4100 Rechargeable Electric Toothbrush, White	Philips Sonicare	HX6817/01	Beauty > Oral Care > Electric Toothbrushes	2415067533497	color=White
+sonicare-02	mkt	sonicare-4100-white	sonicare	Philips Sonicare 4100 Electric Toothbrush HX6817 White	Philips	HX6817/01	Oral Care		
+sonicare-03	ref	sonicare-5100-white	sonicare	Philips Sonicare ProtectiveClean 5100 Rechargeable Electric Toothbrush, White	Philips Sonicare	HX6857/11	Beauty > Oral Care > Electric Toothbrushes	2114855252588	color=White
+sonicare-04	mkt	sonicare-5100-white	sonicare	Philips Sonicare ProtectiveClean 5100 Toothbrush (White)	Philips		Oral Care		
+crayola-01	ref	crayola-24	crayola	Crayola Crayons, 24 Count, Assorted Colors	Crayola	52-3024	Toys > Arts & Crafts > Crayons	2492137528935	
+crayola-02	mkt	crayola-24	crayola	Crayola 24 Ct Crayons Classic Colors	Crayola		Art Supplies		
+crayola-03	mkt2	crayola-24	crayola	Crayola Crayon Set 24-Pack			School Supplies	2492137528935	
+crayola-04	ref	crayola-64	crayola	Crayola Crayons, 64 Count with Built-in Sharpener	Crayola	52-0064	Toys > Arts & Crafts > Crayons	2470809597649	
+crayola-05	mkt	crayola-64	crayola	Crayola 64 Count Crayon Box with Sharpener	Crayola		Art Supplies		
+garmin-01	ref	fr265-black	garmin	Garmin Forerunner 265 Running Smartwatch, Black/Powder Gray	Garmin	010-02810-00	Electronics > Wearables > Smartwatches	2366289088978	color=Black
+garmin-02	mkt	fr265-black	garmin	Garmin Forerunner 265 GPS Running Watch AMOLED Black	Garmin	010-02810-00	Smartwatches		
+garmin-03	ref	fr965-black	garmin	Garmin Forerunner 965 Running Smartwatch, Black/Powder Gray	Garmin	010-02809-00	Electronics > Wearables > Smartwatches	2108322851695	color=Black
+garmin-04	mkt	fr965-black	garmin	Garmin Forerunner 965 Premium GPS Running Watch Black	Garmin		Smartwatches		
+dyson-01	ref	dyson-v8	dyson	Dyson V8 Cordless Vacuum Cleaner, Nickel/Silver	Dyson	V8	Home > Appliances > Vacuums	2719876012212	color=Silver
+dyson-02	mkt	dyson-v8	dyson	Dyson V8 Cordless Stick Vacuum Silver Nickel	Dyson		Vacuums		
+dyson-03	ref	dyson-v15	dyson	Dyson V15 Detect Cordless Vacuum Cleaner, Yellow/Nickel	Dyson	V15 Detect	Home > Appliances > Vacuums	2228245846902	color=Yellow
+dyson-04	mkt	dyson-v15	dyson	Dyson V15 Detect Cordless Stick Vacuum	Dyson		Vacuums		
+ring-01	ref	ring-vd-2nd	ring	Ring Video Doorbell (2nd Generation), 1080p HD Video, Satin Nickel	Ring		Electronics > Smart Home > Doorbells	2115170743959	
+ring-02	mkt	ring-vd-2nd	ring	Ring Video Doorbell 2nd Gen 1080p Satin Nickel	Ring		Security		
+ring-03	ref	ring-vd-pro2	ring	Ring Video Doorbell Pro 2, Head-to-Toe 1536p HD Video	Ring		Electronics > Smart Home > Doorbells	2789438517004	
+ring-04	mkt	ring-vd-pro2	ring	Ring Video Doorbell Pro 2 Hardwired 1536p	Ring		Security		
+coke-01	ref	coke-12oz-12pk	coke	Coca-Cola Soda Soft Drink, 12 fl oz Cans, 12 Pack	Coca-Cola		Grocery > Beverages > Soda	2672779773102	
+coke-02	mkt	coke-12oz-12pk	coke	Coca Cola Classic 12 Pack 12oz Cans	The Coca-Cola Company		Soda		
+coke-03	ref	dietcoke-12oz-12pk	coke	Diet Coke Soda Soft Drink, 12 fl oz Cans, 12 Pack	Coca-Cola		Grocery > Beverages > Soda	2560748838948	
+coke-04	mkt	dietcoke-12oz-12pk	coke	Diet Coke 12 Pack 12 fl oz Cans	Diet Coke		Soda		
+kitchenaid-01	ref	ka-artisan-5qt-red	kitchenaid	KitchenAid Artisan Series 5 Quart Tilt-Head Stand Mixer, Empire Red	KitchenAid	KSM150PSER	Home > Kitchen > Stand Mixers	2730253366650	color=Empire Red
+kitchenaid-02	mkt	ka-artisan-5qt-red	kitchenaid	Kitchen Aid KSM150PSER Artisan 5-Qt Stand Mixer Empire Red	Kitchen Aid	KSM150PSER	Mixers		
+kitchenaid-03	ref	ka-artisan-5qt-black	kitchenaid	KitchenAid Artisan Series 5 Quart Tilt-Head Stand Mixer, Onyx Black	KitchenAid	KSM150PSOB	Home > Kitchen > Stand Mixers	2857192628370	color=Onyx Black
+kitchenaid-04	mkt	ka-artisan-5qt-black	kitchenaid	KitchenAid Artisan Stand Mixer 5 Qt Onyx Black KSM150PSOB	KitchenAid		Mixers		
+kitchenaid-05	ref	ka-classic-4.5qt-white	kitchenaid	KitchenAid Classic Series 4.5 Quart Tilt-Head Stand Mixer, White	KitchenAid	K45SSWH	Home > Kitchen > Stand Mixers	2114265216965	color=White
+lenovo-01	ref	ideapad3-15-8-512	lenovo	Lenovo IdeaPad 3 15.6" Laptop, Intel Core i5, 8GB RAM, 512GB SSD	Lenovo	82RK00EVUS	Electronics > Computers > Laptops	2250250631532	screen size=15.6 in;ram=8 GB;storage=512 GB
+lenovo-02	mkt	ideapad3-15-8-512	lenovo	Lenovo IdeaPad 3 15.6 inch Laptop i5 8GB/512GB SSD 82RK00EVUS	Lenovo	82RK00EVUS	Laptops		
+lenovo-03	ref	ideapad3-14-8-512	lenovo	Lenovo IdeaPad 3 14" Laptop, Intel Core i5, 8GB RAM, 512GB SSD	Lenovo	82RJ0007US	Electronics > Computers > Laptops	2954896066276	screen size=14 in;ram=8 GB;storage=512 GB

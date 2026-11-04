@@ -1,0 +1,1546 @@
+{
+ "GET /api/v1/sources": {
+  "items": [
+   {
+    "sourceId": 1,
+    "code": "acme-market",
+    "name": "Acme Market",
+    "role": "MARKETPLACE",
+    "enabled": true,
+    "createdAt": "2026-10-04T12:00:00Z",
+    "updatedAt": "2026-10-04T12:00:00Z"
+   },
+   {
+    "sourceId": 2,
+    "code": "northwind-supply",
+    "name": "Northwind Supply",
+    "role": "REFERENCE",
+    "enabled": true,
+    "createdAt": "2026-10-04T12:00:00Z",
+    "updatedAt": "2026-10-04T12:00:00Z"
+   },
+   {
+    "sourceId": 3,
+    "code": "contoso-wholesale",
+    "name": "Contoso Wholesale",
+    "role": "REFERENCE",
+    "enabled": true,
+    "createdAt": "2026-10-05T12:00:00Z",
+    "updatedAt": "2026-10-05T12:00:00Z"
+   }
+  ],
+  "page": {
+   "limit": 50,
+   "nextCursor": null,
+   "hasMore": false
+  }
+ },
+ "GET /api/v1/sources?role=MARKETPLACE": {
+  "items": [
+   {
+    "sourceId": 1,
+    "code": "acme-market",
+    "name": "Acme Market",
+    "role": "MARKETPLACE",
+    "enabled": true,
+    "createdAt": "2026-10-04T12:00:00Z",
+    "updatedAt": "2026-10-04T12:00:00Z"
+   }
+  ],
+  "page": {
+   "limit": 50,
+   "nextCursor": null,
+   "hasMore": false
+  }
+ },
+ "GET /api/v1/dashboard/summary": {
+  "generatedAt": "2026-11-03T12:00:00Z",
+  "sourcesByRole": {
+   "MARKETPLACE": 1,
+   "REFERENCE": 2
+  },
+  "listingsByStatus": {
+   "ACTIVE": 9831,
+   "WITHDRAWN": 235
+  },
+  "canonicalProducts": 5076,
+  "matchCandidatesByReviewStatus": {
+   "AUTO_ACCEPTED": 2210,
+   "PENDING": 148,
+   "APPROVED": 37,
+   "REJECTED": 12
+  },
+  "gapsByStatus": {
+   "OPEN": 1017,
+   "CONFIRMED": 72,
+   "DISMISSED": 176
+  },
+  "openGapsByPriority": {
+   "P1": 96,
+   "P2": 411,
+   "P3": 582
+  },
+  "eventsLast24hByOutcome": {
+   "CREATED": 10066,
+   "UPDATED": 512,
+   "UNCHANGED": 3204,
+   "WITHDRAWN": 235,
+   "STALE_IGNORED": 41,
+   "VERSION_CONFLICT": 3
+  },
+  "outboxBacklog": {
+   "PENDING": 12
+  },
+  "lastReconciliation": {
+   "jobId": 7,
+   "targetSourceCode": "acme-market",
+   "status": "SUCCEEDED",
+   "finishedAt": "2026-11-03T09:00:00Z"
+  }
+ },
+ "GET /api/v1/dashboard/coverage": {
+  "targetSourceId": 1,
+  "targetSourceCode": "acme-market",
+  "generatedAt": "2026-11-03T12:00:00Z",
+  "categories": [
+   {
+    "category": "electronics",
+    "referenceProducts": 1820,
+    "carried": 1395,
+    "openGaps": 302,
+    "confirmedGaps": 41,
+    "dismissedGaps": 52,
+    "notEvaluated": 30
+   },
+   {
+    "category": "home",
+    "referenceProducts": 1544,
+    "carried": 1182,
+    "openGaps": 276,
+    "confirmedGaps": 12,
+    "dismissedGaps": 44,
+    "notEvaluated": 30
+   },
+   {
+    "category": "tools",
+    "referenceProducts": 806,
+    "carried": 655,
+    "openGaps": 118,
+    "confirmedGaps": 9,
+    "dismissedGaps": 24,
+    "notEvaluated": 0
+   },
+   {
+    "category": "sports",
+    "referenceProducts": 788,
+    "carried": 590,
+    "openGaps": 160,
+    "confirmedGaps": 0,
+    "dismissedGaps": 38,
+    "notEvaluated": 0
+   },
+   {
+    "category": "office",
+    "referenceProducts": 412,
+    "carried": 330,
+    "openGaps": 70,
+    "confirmedGaps": 6,
+    "dismissedGaps": 6,
+    "notEvaluated": 0
+   },
+   {
+    "category": "toys",
+    "referenceProducts": 395,
+    "carried": 288,
+    "openGaps": 91,
+    "confirmedGaps": 4,
+    "dismissedGaps": 12,
+    "notEvaluated": 0
+   }
+  ],
+  "total": {
+   "referenceProducts": 5765,
+   "carried": 4440,
+   "openGaps": 1017,
+   "confirmedGaps": 72,
+   "dismissedGaps": 176,
+   "notEvaluated": 60,
+   "category": "all"
+  }
+ },
+ "GET /api/v1/metrics/processing": {
+  "generatedAt": "2026-11-03T12:00:00Z",
+  "windowMinutes": 60,
+  "throughput": [
+   {
+    "minute": "2026-11-03T11:01:00Z",
+    "outcome": "CREATED",
+    "events": 40
+   },
+   {
+    "minute": "2026-11-03T11:01:00Z",
+    "outcome": "UNCHANGED",
+    "events": 13
+   },
+   {
+    "minute": "2026-11-03T11:01:00Z",
+    "outcome": "STALE_IGNORED",
+    "events": 2
+   },
+   {
+    "minute": "2026-11-03T11:02:00Z",
+    "outcome": "CREATED",
+    "events": 47
+   },
+   {
+    "minute": "2026-11-03T11:02:00Z",
+    "outcome": "UNCHANGED",
+    "events": 15
+   },
+   {
+    "minute": "2026-11-03T11:03:00Z",
+    "outcome": "CREATED",
+    "events": 54
+   },
+   {
+    "minute": "2026-11-03T11:03:00Z",
+    "outcome": "UNCHANGED",
+    "events": 18
+   },
+   {
+    "minute": "2026-11-03T11:04:00Z",
+    "outcome": "CREATED",
+    "events": 61
+   },
+   {
+    "minute": "2026-11-03T11:04:00Z",
+    "outcome": "UNCHANGED",
+    "events": 20
+   },
+   {
+    "minute": "2026-11-03T11:05:00Z",
+    "outcome": "CREATED",
+    "events": 45
+   },
+   {
+    "minute": "2026-11-03T11:05:00Z",
+    "outcome": "UNCHANGED",
+    "events": 15
+   },
+   {
+    "minute": "2026-11-03T11:06:00Z",
+    "outcome": "CREATED",
+    "events": 52
+   },
+   {
+    "minute": "2026-11-03T11:06:00Z",
+    "outcome": "UNCHANGED",
+    "events": 17
+   },
+   {
+    "minute": "2026-11-03T11:07:00Z",
+    "outcome": "CREATED",
+    "events": 59
+   },
+   {
+    "minute": "2026-11-03T11:07:00Z",
+    "outcome": "UNCHANGED",
+    "events": 19
+   },
+   {
+    "minute": "2026-11-03T11:08:00Z",
+    "outcome": "CREATED",
+    "events": 43
+   },
+   {
+    "minute": "2026-11-03T11:08:00Z",
+    "outcome": "UNCHANGED",
+    "events": 14
+   },
+   {
+    "minute": "2026-11-03T11:09:00Z",
+    "outcome": "CREATED",
+    "events": 50
+   },
+   {
+    "minute": "2026-11-03T11:09:00Z",
+    "outcome": "UNCHANGED",
+    "events": 16
+   },
+   {
+    "minute": "2026-11-03T11:10:00Z",
+    "outcome": "CREATED",
+    "events": 57
+   },
+   {
+    "minute": "2026-11-03T11:10:00Z",
+    "outcome": "UNCHANGED",
+    "events": 19
+   },
+   {
+    "minute": "2026-11-03T11:10:00Z",
+    "outcome": "STALE_IGNORED",
+    "events": 2
+   },
+   {
+    "minute": "2026-11-03T11:11:00Z",
+    "outcome": "CREATED",
+    "events": 41
+   },
+   {
+    "minute": "2026-11-03T11:11:00Z",
+    "outcome": "UNCHANGED",
+    "events": 13
+   },
+   {
+    "minute": "2026-11-03T11:12:00Z",
+    "outcome": "CREATED",
+    "events": 48
+   },
+   {
+    "minute": "2026-11-03T11:12:00Z",
+    "outcome": "UNCHANGED",
+    "events": 16
+   },
+   {
+    "minute": "2026-11-03T11:13:00Z",
+    "outcome": "CREATED",
+    "events": 55
+   },
+   {
+    "minute": "2026-11-03T11:13:00Z",
+    "outcome": "UNCHANGED",
+    "events": 18
+   },
+   {
+    "minute": "2026-11-03T11:14:00Z",
+    "outcome": "CREATED",
+    "events": 62
+   },
+   {
+    "minute": "2026-11-03T11:14:00Z",
+    "outcome": "UNCHANGED",
+    "events": 20
+   },
+   {
+    "minute": "2026-11-03T11:15:00Z",
+    "outcome": "CREATED",
+    "events": 46
+   },
+   {
+    "minute": "2026-11-03T11:15:00Z",
+    "outcome": "UNCHANGED",
+    "events": 15
+   },
+   {
+    "minute": "2026-11-03T11:16:00Z",
+    "outcome": "CREATED",
+    "events": 53
+   },
+   {
+    "minute": "2026-11-03T11:16:00Z",
+    "outcome": "UNCHANGED",
+    "events": 17
+   },
+   {
+    "minute": "2026-11-03T11:17:00Z",
+    "outcome": "CREATED",
+    "events": 60
+   },
+   {
+    "minute": "2026-11-03T11:17:00Z",
+    "outcome": "UNCHANGED",
+    "events": 20
+   },
+   {
+    "minute": "2026-11-03T11:18:00Z",
+    "outcome": "CREATED",
+    "events": 44
+   },
+   {
+    "minute": "2026-11-03T11:18:00Z",
+    "outcome": "UNCHANGED",
+    "events": 14
+   },
+   {
+    "minute": "2026-11-03T11:19:00Z",
+    "outcome": "CREATED",
+    "events": 51
+   },
+   {
+    "minute": "2026-11-03T11:19:00Z",
+    "outcome": "UNCHANGED",
+    "events": 17
+   },
+   {
+    "minute": "2026-11-03T11:19:00Z",
+    "outcome": "STALE_IGNORED",
+    "events": 2
+   },
+   {
+    "minute": "2026-11-03T11:20:00Z",
+    "outcome": "CREATED",
+    "events": 58
+   },
+   {
+    "minute": "2026-11-03T11:20:00Z",
+    "outcome": "UNCHANGED",
+    "events": 19
+   },
+   {
+    "minute": "2026-11-03T11:21:00Z",
+    "outcome": "CREATED",
+    "events": 42
+   },
+   {
+    "minute": "2026-11-03T11:21:00Z",
+    "outcome": "UNCHANGED",
+    "events": 14
+   },
+   {
+    "minute": "2026-11-03T11:22:00Z",
+    "outcome": "CREATED",
+    "events": 49
+   },
+   {
+    "minute": "2026-11-03T11:22:00Z",
+    "outcome": "UNCHANGED",
+    "events": 16
+   },
+   {
+    "minute": "2026-11-03T11:23:00Z",
+    "outcome": "CREATED",
+    "events": 56
+   },
+   {
+    "minute": "2026-11-03T11:23:00Z",
+    "outcome": "UNCHANGED",
+    "events": 18
+   },
+   {
+    "minute": "2026-11-03T11:24:00Z",
+    "outcome": "CREATED",
+    "events": 40
+   },
+   {
+    "minute": "2026-11-03T11:24:00Z",
+    "outcome": "UNCHANGED",
+    "events": 13
+   },
+   {
+    "minute": "2026-11-03T11:25:00Z",
+    "outcome": "CREATED",
+    "events": 47
+   },
+   {
+    "minute": "2026-11-03T11:25:00Z",
+    "outcome": "UNCHANGED",
+    "events": 15
+   },
+   {
+    "minute": "2026-11-03T11:26:00Z",
+    "outcome": "CREATED",
+    "events": 54
+   },
+   {
+    "minute": "2026-11-03T11:26:00Z",
+    "outcome": "UNCHANGED",
+    "events": 18
+   },
+   {
+    "minute": "2026-11-03T11:27:00Z",
+    "outcome": "CREATED",
+    "events": 61
+   },
+   {
+    "minute": "2026-11-03T11:27:00Z",
+    "outcome": "UNCHANGED",
+    "events": 20
+   },
+   {
+    "minute": "2026-11-03T11:28:00Z",
+    "outcome": "CREATED",
+    "events": 45
+   },
+   {
+    "minute": "2026-11-03T11:28:00Z",
+    "outcome": "UNCHANGED",
+    "events": 15
+   },
+   {
+    "minute": "2026-11-03T11:28:00Z",
+    "outcome": "STALE_IGNORED",
+    "events": 2
+   },
+   {
+    "minute": "2026-11-03T11:29:00Z",
+    "outcome": "CREATED",
+    "events": 52
+   },
+   {
+    "minute": "2026-11-03T11:29:00Z",
+    "outcome": "UNCHANGED",
+    "events": 17
+   },
+   {
+    "minute": "2026-11-03T11:30:00Z",
+    "outcome": "CREATED",
+    "events": 59
+   },
+   {
+    "minute": "2026-11-03T11:30:00Z",
+    "outcome": "UNCHANGED",
+    "events": 19
+   },
+   {
+    "minute": "2026-11-03T11:31:00Z",
+    "outcome": "CREATED",
+    "events": 43
+   },
+   {
+    "minute": "2026-11-03T11:31:00Z",
+    "outcome": "UNCHANGED",
+    "events": 14
+   },
+   {
+    "minute": "2026-11-03T11:32:00Z",
+    "outcome": "CREATED",
+    "events": 50
+   },
+   {
+    "minute": "2026-11-03T11:32:00Z",
+    "outcome": "UNCHANGED",
+    "events": 16
+   },
+   {
+    "minute": "2026-11-03T11:33:00Z",
+    "outcome": "CREATED",
+    "events": 57
+   },
+   {
+    "minute": "2026-11-03T11:33:00Z",
+    "outcome": "UNCHANGED",
+    "events": 19
+   },
+   {
+    "minute": "2026-11-03T11:34:00Z",
+    "outcome": "CREATED",
+    "events": 41
+   },
+   {
+    "minute": "2026-11-03T11:34:00Z",
+    "outcome": "UNCHANGED",
+    "events": 13
+   },
+   {
+    "minute": "2026-11-03T11:35:00Z",
+    "outcome": "CREATED",
+    "events": 48
+   },
+   {
+    "minute": "2026-11-03T11:35:00Z",
+    "outcome": "UNCHANGED",
+    "events": 16
+   },
+   {
+    "minute": "2026-11-03T11:36:00Z",
+    "outcome": "CREATED",
+    "events": 55
+   },
+   {
+    "minute": "2026-11-03T11:36:00Z",
+    "outcome": "UNCHANGED",
+    "events": 18
+   },
+   {
+    "minute": "2026-11-03T11:37:00Z",
+    "outcome": "CREATED",
+    "events": 62
+   },
+   {
+    "minute": "2026-11-03T11:37:00Z",
+    "outcome": "UNCHANGED",
+    "events": 20
+   },
+   {
+    "minute": "2026-11-03T11:37:00Z",
+    "outcome": "STALE_IGNORED",
+    "events": 2
+   },
+   {
+    "minute": "2026-11-03T11:38:00Z",
+    "outcome": "CREATED",
+    "events": 46
+   },
+   {
+    "minute": "2026-11-03T11:38:00Z",
+    "outcome": "UNCHANGED",
+    "events": 15
+   },
+   {
+    "minute": "2026-11-03T11:39:00Z",
+    "outcome": "CREATED",
+    "events": 53
+   },
+   {
+    "minute": "2026-11-03T11:39:00Z",
+    "outcome": "UNCHANGED",
+    "events": 17
+   },
+   {
+    "minute": "2026-11-03T11:40:00Z",
+    "outcome": "CREATED",
+    "events": 60
+   },
+   {
+    "minute": "2026-11-03T11:40:00Z",
+    "outcome": "UNCHANGED",
+    "events": 20
+   },
+   {
+    "minute": "2026-11-03T11:41:00Z",
+    "outcome": "CREATED",
+    "events": 44
+   },
+   {
+    "minute": "2026-11-03T11:41:00Z",
+    "outcome": "UNCHANGED",
+    "events": 14
+   },
+   {
+    "minute": "2026-11-03T11:42:00Z",
+    "outcome": "CREATED",
+    "events": 51
+   },
+   {
+    "minute": "2026-11-03T11:42:00Z",
+    "outcome": "UNCHANGED",
+    "events": 17
+   },
+   {
+    "minute": "2026-11-03T11:43:00Z",
+    "outcome": "CREATED",
+    "events": 58
+   },
+   {
+    "minute": "2026-11-03T11:43:00Z",
+    "outcome": "UNCHANGED",
+    "events": 19
+   },
+   {
+    "minute": "2026-11-03T11:44:00Z",
+    "outcome": "CREATED",
+    "events": 42
+   },
+   {
+    "minute": "2026-11-03T11:44:00Z",
+    "outcome": "UNCHANGED",
+    "events": 14
+   },
+   {
+    "minute": "2026-11-03T11:45:00Z",
+    "outcome": "CREATED",
+    "events": 49
+   },
+   {
+    "minute": "2026-11-03T11:45:00Z",
+    "outcome": "UNCHANGED",
+    "events": 16
+   },
+   {
+    "minute": "2026-11-03T11:46:00Z",
+    "outcome": "CREATED",
+    "events": 56
+   },
+   {
+    "minute": "2026-11-03T11:46:00Z",
+    "outcome": "UNCHANGED",
+    "events": 18
+   },
+   {
+    "minute": "2026-11-03T11:46:00Z",
+    "outcome": "STALE_IGNORED",
+    "events": 2
+   },
+   {
+    "minute": "2026-11-03T11:47:00Z",
+    "outcome": "CREATED",
+    "events": 40
+   },
+   {
+    "minute": "2026-11-03T11:47:00Z",
+    "outcome": "UNCHANGED",
+    "events": 13
+   },
+   {
+    "minute": "2026-11-03T11:48:00Z",
+    "outcome": "CREATED",
+    "events": 47
+   },
+   {
+    "minute": "2026-11-03T11:48:00Z",
+    "outcome": "UNCHANGED",
+    "events": 15
+   },
+   {
+    "minute": "2026-11-03T11:49:00Z",
+    "outcome": "CREATED",
+    "events": 54
+   },
+   {
+    "minute": "2026-11-03T11:49:00Z",
+    "outcome": "UNCHANGED",
+    "events": 18
+   },
+   {
+    "minute": "2026-11-03T11:50:00Z",
+    "outcome": "CREATED",
+    "events": 61
+   },
+   {
+    "minute": "2026-11-03T11:50:00Z",
+    "outcome": "UNCHANGED",
+    "events": 20
+   },
+   {
+    "minute": "2026-11-03T11:51:00Z",
+    "outcome": "CREATED",
+    "events": 45
+   },
+   {
+    "minute": "2026-11-03T11:51:00Z",
+    "outcome": "UNCHANGED",
+    "events": 15
+   },
+   {
+    "minute": "2026-11-03T11:52:00Z",
+    "outcome": "CREATED",
+    "events": 52
+   },
+   {
+    "minute": "2026-11-03T11:52:00Z",
+    "outcome": "UNCHANGED",
+    "events": 17
+   },
+   {
+    "minute": "2026-11-03T11:53:00Z",
+    "outcome": "CREATED",
+    "events": 59
+   },
+   {
+    "minute": "2026-11-03T11:53:00Z",
+    "outcome": "UNCHANGED",
+    "events": 19
+   },
+   {
+    "minute": "2026-11-03T11:54:00Z",
+    "outcome": "CREATED",
+    "events": 43
+   },
+   {
+    "minute": "2026-11-03T11:54:00Z",
+    "outcome": "UNCHANGED",
+    "events": 14
+   },
+   {
+    "minute": "2026-11-03T11:55:00Z",
+    "outcome": "CREATED",
+    "events": 50
+   },
+   {
+    "minute": "2026-11-03T11:55:00Z",
+    "outcome": "UNCHANGED",
+    "events": 16
+   },
+   {
+    "minute": "2026-11-03T11:55:00Z",
+    "outcome": "STALE_IGNORED",
+    "events": 2
+   },
+   {
+    "minute": "2026-11-03T11:56:00Z",
+    "outcome": "CREATED",
+    "events": 57
+   },
+   {
+    "minute": "2026-11-03T11:56:00Z",
+    "outcome": "UNCHANGED",
+    "events": 19
+   },
+   {
+    "minute": "2026-11-03T11:57:00Z",
+    "outcome": "CREATED",
+    "events": 41
+   },
+   {
+    "minute": "2026-11-03T11:57:00Z",
+    "outcome": "UNCHANGED",
+    "events": 13
+   },
+   {
+    "minute": "2026-11-03T11:58:00Z",
+    "outcome": "CREATED",
+    "events": 48
+   },
+   {
+    "minute": "2026-11-03T11:58:00Z",
+    "outcome": "UNCHANGED",
+    "events": 16
+   },
+   {
+    "minute": "2026-11-03T11:59:00Z",
+    "outcome": "CREATED",
+    "events": 55
+   },
+   {
+    "minute": "2026-11-03T11:59:00Z",
+    "outcome": "UNCHANGED",
+    "events": 18
+   },
+   {
+    "minute": "2026-11-03T12:00:00Z",
+    "outcome": "CREATED",
+    "events": 62
+   },
+   {
+    "minute": "2026-11-03T12:00:00Z",
+    "outcome": "UNCHANGED",
+    "events": 20
+   }
+  ],
+  "latencyByPath": [
+   {
+    "ingestionPath": "ASYNC_QUEUE",
+    "events": 1840,
+    "p50Ms": 38.0,
+    "p95Ms": 210.0,
+    "p99Ms": 690.0,
+    "maxMs": 2400.0
+   },
+   {
+    "ingestionPath": "BATCH",
+    "events": 4333,
+    "p50Ms": 41000.0,
+    "p95Ms": 118000.0,
+    "p99Ms": 131000.0,
+    "maxMs": 140000.0
+   },
+   {
+    "ingestionPath": "SYNC_API",
+    "events": 12,
+    "p50Ms": 9.0,
+    "p95Ms": 21.0,
+    "p99Ms": 24.0,
+    "maxMs": 24.0
+   }
+  ],
+  "outbox": {
+   "pending": 12,
+   "failed": 0,
+   "oldestPendingSeconds": 1.4
+  },
+  "queues": {
+   "catalog-listing-events": {
+    "visible": 31,
+    "inFlight": 8,
+    "delayed": 2
+   },
+   "catalog-listing-events-dlq": {
+    "visible": 3,
+    "inFlight": 0,
+    "delayed": 0
+   },
+   "catalog-change-events": {
+    "visible": 0,
+    "inFlight": 4,
+    "delayed": 0
+   },
+   "catalog-change-events-dlq": {
+    "visible": 0,
+    "inFlight": 0,
+    "delayed": 0
+   }
+  }
+ },
+ "GET /api/v1/listings": {
+  "items": [
+   {
+    "listingId": 4211,
+    "sourceId": 2,
+    "sourceCode": "northwind-supply",
+    "sourceRole": "REFERENCE",
+    "externalProductId": "NW-00003052",
+    "status": "ACTIVE",
+    "sourceVersion": 1,
+    "title": "Brightfield Nova BR-3265E 24 oz Insulated Water Bottle, Navy",
+    "brand": "Brightfield",
+    "model": "BR-3265E",
+    "category": "Sports > Outdoor > Water Bottles",
+    "gtin": "02598873317663",
+    "attributes": {
+     "capacity": "24 oz",
+     "color": "Navy",
+     "synthetic_demand_index": "0.2129"
+    },
+    "normalizedTitle": "brightfield nova br3265e 24oz insulated water bottle navy",
+    "normalizedBrand": "brightfield",
+    "normalizedModel": "br3265e",
+    "categoryLeaf": "water bottles",
+    "extractedAttributes": {
+     "color": "blue",
+     "ounces": "24"
+    },
+    "contentHash": "3f1c000000000000000000000000000000000000000000000000000000000000",
+    "lastEventId": "0f1e2d3c-4b5a-4968-8776-655443322110",
+    "sourceUpdatedAt": "2026-11-01T12:00:00Z",
+    "withdrawnAt": null,
+    "createdAt": "2026-11-01T12:00:00Z",
+    "updatedAt": "2026-11-01T12:00:00Z",
+    "canonicalProductId": 3566,
+    "linkConfidence": 1.0,
+    "linkMethod": "NEW_IDENTITY"
+   },
+   {
+    "listingId": 9120,
+    "sourceId": 1,
+    "sourceCode": "acme-market",
+    "sourceRole": "MARKETPLACE",
+    "externalProductId": "AM-00002749",
+    "status": "ACTIVE",
+    "sourceVersion": 1,
+    "title": "BRIGHTFIELD NOVA BR-3265E 18 OZ INSULATED WATER BOTTLE, NAVY",
+    "brand": "Brightfield",
+    "model": "BR-3265E",
+    "category": "Outdoor",
+    "gtin": null,
+    "attributes": {},
+    "normalizedTitle": "brightfield nova br3265e 18oz insulated water bottle navy",
+    "normalizedBrand": "brightfield",
+    "normalizedModel": "br3265e",
+    "categoryLeaf": "outdoor",
+    "extractedAttributes": {
+     "ounces": "18"
+    },
+    "contentHash": "3f1c000000000000000000000000000000000000000000000000000000000000",
+    "lastEventId": "0f1e2d3c-4b5a-4968-8776-655443322110",
+    "sourceUpdatedAt": "2026-11-01T12:00:00Z",
+    "withdrawnAt": null,
+    "createdAt": "2026-11-01T12:00:00Z",
+    "updatedAt": "2026-11-01T12:00:00Z",
+    "canonicalProductId": 3565,
+    "linkConfidence": null,
+    "linkMethod": "NEW_IDENTITY"
+   }
+  ],
+  "page": {
+   "limit": 50,
+   "nextCursor": "c2",
+   "hasMore": true
+  }
+ },
+ "GET /api/v1/listings/4211": {
+  "listing": {
+   "listingId": 4211,
+   "sourceId": 2,
+   "sourceCode": "northwind-supply",
+   "sourceRole": "REFERENCE",
+   "externalProductId": "NW-00003052",
+   "status": "ACTIVE",
+   "sourceVersion": 1,
+   "title": "Brightfield Nova BR-3265E 24 oz Insulated Water Bottle, Navy",
+   "brand": "Brightfield",
+   "model": "BR-3265E",
+   "category": "Sports > Outdoor > Water Bottles",
+   "gtin": "02598873317663",
+   "attributes": {
+    "capacity": "24 oz",
+    "color": "Navy",
+    "synthetic_demand_index": "0.2129"
+   },
+   "normalizedTitle": "brightfield nova br3265e 24oz insulated water bottle navy",
+   "normalizedBrand": "brightfield",
+   "normalizedModel": "br3265e",
+   "categoryLeaf": "water bottles",
+   "extractedAttributes": {
+    "color": "blue",
+    "ounces": "24"
+   },
+   "contentHash": "3f1c000000000000000000000000000000000000000000000000000000000000",
+   "lastEventId": "0f1e2d3c-4b5a-4968-8776-655443322110",
+   "sourceUpdatedAt": "2026-11-01T12:00:00Z",
+   "withdrawnAt": null,
+   "createdAt": "2026-11-01T12:00:00Z",
+   "updatedAt": "2026-11-01T12:00:00Z",
+   "canonicalProductId": 3566,
+   "linkConfidence": 1.0,
+   "linkMethod": "NEW_IDENTITY"
+  },
+  "history": [
+   {
+    "eventId": "0f1e2d3c-4b5a-4968-8776-655443322110",
+    "sourceId": 2,
+    "externalProductId": "NW-00003052",
+    "listingId": 4211,
+    "eventType": "LISTING_UPSERTED",
+    "requestFingerprint": "abababababababababababababababababababababababababababababababab",
+    "requestedVersion": 1,
+    "appliedVersion": 1,
+    "outcome": "CREATED",
+    "reason": null,
+    "ingestionPath": "BATCH",
+    "ingestionJobId": 12,
+    "correlationId": "batch:northwind-supply:5baafcfb3a9a7c1b5c14f0fc",
+    "occurredAt": "2026-10-31T12:00:00Z",
+    "receivedAt": "2026-11-01T11:59:56Z",
+    "processedAt": "2026-11-01T12:00:00Z"
+   }
+  ]
+ },
+ "GET /api/v1/listings/9120": {
+  "listing": {
+   "listingId": 9120,
+   "sourceId": 1,
+   "sourceCode": "acme-market",
+   "sourceRole": "MARKETPLACE",
+   "externalProductId": "AM-00002749",
+   "status": "ACTIVE",
+   "sourceVersion": 1,
+   "title": "BRIGHTFIELD NOVA BR-3265E 18 OZ INSULATED WATER BOTTLE, NAVY",
+   "brand": "Brightfield",
+   "model": "BR-3265E",
+   "category": "Outdoor",
+   "gtin": null,
+   "attributes": {},
+   "normalizedTitle": "brightfield nova br3265e 18oz insulated water bottle navy",
+   "normalizedBrand": "brightfield",
+   "normalizedModel": "br3265e",
+   "categoryLeaf": "outdoor",
+   "extractedAttributes": {
+    "ounces": "18"
+   },
+   "contentHash": "3f1c000000000000000000000000000000000000000000000000000000000000",
+   "lastEventId": "0f1e2d3c-4b5a-4968-8776-655443322110",
+   "sourceUpdatedAt": "2026-11-01T12:00:00Z",
+   "withdrawnAt": null,
+   "createdAt": "2026-11-01T12:00:00Z",
+   "updatedAt": "2026-11-01T12:00:00Z",
+   "canonicalProductId": 3565,
+   "linkConfidence": null,
+   "linkMethod": "NEW_IDENTITY"
+  },
+  "history": []
+ },
+ "GET /api/v1/canonical-products": {
+  "items": [
+   {
+    "canonicalProductId": 3566,
+    "title": "Brightfield Nova BR-3265E 24 oz Insulated Water Bottle, Navy",
+    "brand": "Brightfield",
+    "model": "BR-3265E",
+    "category": "Sports > Outdoor > Water Bottles",
+    "gtin": "02598873317663",
+    "categoryLeaf": "water bottles",
+    "status": "ACTIVE",
+    "mergedIntoId": null,
+    "representativeListingId": 4211,
+    "activeListings": 1,
+    "marketplaceListings": 0,
+    "createdAt": "2026-11-01T12:00:00Z",
+    "updatedAt": "2026-11-01T12:00:00Z"
+   }
+  ],
+  "page": {
+   "limit": 50,
+   "nextCursor": null,
+   "hasMore": false
+  }
+ },
+ "GET /api/v1/canonical-products/3566": {
+  "product": {
+   "canonicalProductId": 3566,
+   "title": "Brightfield Nova BR-3265E 24 oz Insulated Water Bottle, Navy",
+   "brand": "Brightfield",
+   "model": "BR-3265E",
+   "category": "Sports > Outdoor > Water Bottles",
+   "gtin": "02598873317663",
+   "categoryLeaf": "water bottles",
+   "status": "ACTIVE",
+   "mergedIntoId": null,
+   "representativeListingId": 4211,
+   "activeListings": 1,
+   "marketplaceListings": 0,
+   "createdAt": "2026-11-01T12:00:00Z",
+   "updatedAt": "2026-11-01T12:00:00Z"
+  },
+  "listings": [
+   {
+    "listingId": 4211,
+    "sourceCode": "northwind-supply",
+    "sourceRole": "REFERENCE",
+    "externalProductId": "NW-00003052",
+    "title": "Brightfield Nova BR-3265E 24 oz Insulated Water Bottle, Navy",
+    "status": "ACTIVE",
+    "confidence": 1.0,
+    "matchMethod": "NEW_IDENTITY",
+    "reviewStatus": "AUTO",
+    "viaCandidateId": null
+   }
+  ]
+ },
+ "GET /api/v1/gaps": {
+  "items": [
+   {
+    "gapId": 501,
+    "canonicalProductId": 3566,
+    "targetSourceId": 1,
+    "targetSourceCode": "acme-market",
+    "status": "OPEN",
+    "reason": "VARIANT_NOT_CARRIED",
+    "confidence": 0.86,
+    "priorityScore": 74.3,
+    "priority": "P1",
+    "bestCandidateListingId": 9120,
+    "bestCandidateScore": 0.62,
+    "evidence": {
+     "assessor": "gap-v1",
+     "reason": "VARIANT_NOT_CARRIED",
+     "explanation": "acme-market carries a sibling variant (18 oz) but not the 24 oz bottle.",
+     "referenceListings": [
+      4211
+     ],
+     "referenceCoverage": {
+      "sources": 2,
+      "of": 2
+     },
+     "demand": {
+      "value": 0.71,
+      "source": "SYNTHETIC"
+     }
+    },
+    "detectionCount": 3,
+    "firstDetectedAt": "2026-11-01T12:00:00Z",
+    "lastDetectedAt": "2026-11-03T09:00:00Z",
+    "lastJobId": 7,
+    "resolvedAt": null,
+    "resolution": null,
+    "updatedAt": "2026-11-03T09:00:00Z",
+    "productTitle": "Brightfield Nova BR-3265E 24 oz Insulated Water Bottle, Navy",
+    "productBrand": "Brightfield",
+    "productCategory": "water bottles",
+    "referenceListingId": 4211,
+    "referenceTitle": "Brightfield Nova BR-3265E 24 oz Insulated Water Bottle, Navy",
+    "referenceSourceCode": "northwind-supply",
+    "referenceGtin": "02598873317663",
+    "bestCandidateTitle": "BRIGHTFIELD NOVA BR-3265E 18 OZ INSULATED WATER BOTTLE, NAVY",
+    "bestCandidateSourceCode": "acme-market"
+   },
+   {
+    "gapId": 502,
+    "canonicalProductId": 3566,
+    "targetSourceId": 1,
+    "targetSourceCode": "acme-market",
+    "status": "OPEN",
+    "reason": "NO_CANDIDATE",
+    "confidence": 0.95,
+    "priorityScore": 61.0,
+    "priority": "P2",
+    "bestCandidateListingId": null,
+    "bestCandidateScore": null,
+    "evidence": {
+     "assessor": "gap-v1",
+     "reason": "NO_CANDIDATE",
+     "explanation": "No acme-market listing resembles this product.",
+     "referenceListings": [
+      4211
+     ],
+     "referenceCoverage": {
+      "sources": 2,
+      "of": 2
+     },
+     "demand": {
+      "value": 0.33,
+      "source": "SYNTHETIC"
+     }
+    },
+    "detectionCount": 3,
+    "firstDetectedAt": "2026-11-01T12:00:00Z",
+    "lastDetectedAt": "2026-11-03T09:00:00Z",
+    "lastJobId": 7,
+    "resolvedAt": null,
+    "resolution": null,
+    "updatedAt": "2026-11-03T09:00:00Z",
+    "productTitle": "Jorvik Tools Max JTO-7468 20V Cordless Drill, Red",
+    "productBrand": "Jorvik Tools",
+    "productCategory": "drills",
+    "referenceListingId": 4211,
+    "referenceTitle": "Jorvik Tools Max JTO-7468 20V Cordless Drill, Red",
+    "referenceSourceCode": "northwind-supply",
+    "referenceGtin": "02598873317663",
+    "bestCandidateTitle": null,
+    "bestCandidateSourceCode": null
+   }
+  ],
+  "page": {
+   "limit": 50,
+   "nextCursor": null,
+   "hasMore": false
+  }
+ },
+ "GET /api/v1/gaps/501": {
+  "gap": {
+   "gapId": 501,
+   "canonicalProductId": 3566,
+   "targetSourceId": 1,
+   "targetSourceCode": "acme-market",
+   "status": "OPEN",
+   "reason": "VARIANT_NOT_CARRIED",
+   "confidence": 0.86,
+   "priorityScore": 74.3,
+   "priority": "P1",
+   "bestCandidateListingId": 9120,
+   "bestCandidateScore": 0.62,
+   "evidence": {
+    "assessor": "gap-v1",
+    "reason": "VARIANT_NOT_CARRIED",
+    "explanation": "acme-market carries a sibling variant (18 oz) but not the 24 oz bottle.",
+    "referenceListings": [
+     4211
+    ],
+    "referenceCoverage": {
+     "sources": 2,
+     "of": 2
+    },
+    "demand": {
+     "value": 0.71,
+     "source": "SYNTHETIC"
+    }
+   },
+   "detectionCount": 3,
+   "firstDetectedAt": "2026-11-01T12:00:00Z",
+   "lastDetectedAt": "2026-11-03T09:00:00Z",
+   "lastJobId": 7,
+   "resolvedAt": null,
+   "resolution": null,
+   "updatedAt": "2026-11-03T09:00:00Z",
+   "productTitle": "Brightfield Nova BR-3265E 24 oz Insulated Water Bottle, Navy",
+   "productBrand": "Brightfield",
+   "productCategory": "water bottles",
+   "referenceListingId": 4211,
+   "referenceTitle": "Brightfield Nova BR-3265E 24 oz Insulated Water Bottle, Navy",
+   "referenceSourceCode": "northwind-supply",
+   "referenceGtin": "02598873317663",
+   "bestCandidateTitle": "BRIGHTFIELD NOVA BR-3265E 18 OZ INSULATED WATER BOTTLE, NAVY",
+   "bestCandidateSourceCode": "acme-market"
+  },
+  "history": []
+ },
+ "GET /api/v1/match-candidates": {
+  "items": [
+   {
+    "candidateId": 88,
+    "score": 0.81,
+    "decision": "REVIEW",
+    "reviewStatus": "PENDING",
+    "matcherVersion": "rules-v4",
+    "retrievalMethod": "BRAND_MODEL",
+    "featureScores": {
+     "gtin": null,
+     "brand": 1.0,
+     "model": 1.0,
+     "title": 0.79,
+     "attributes": 0.5,
+     "category": 0.4
+    },
+    "evidence": [
+     {
+      "code": "BRAND_MATCH",
+      "effect": "SUPPORTS",
+      "detail": "brightfield"
+     },
+     {
+      "code": "MODEL_MATCH",
+      "effect": "SUPPORTS",
+      "detail": "br3265e"
+     },
+     {
+      "code": "GTIN_MISSING",
+      "effect": "BLOCKS_AUTO_MATCH",
+      "detail": "one side has no GTIN"
+     },
+     {
+      "code": "VARIANT_CONFLICT",
+      "effect": "FORCES_NO_MATCH",
+      "detail": "ounces 18 vs 24"
+     }
+    ],
+    "reviewedBy": null,
+    "reviewedAt": null,
+    "createdAt": "2026-11-03T07:00:00Z",
+    "updatedAt": "2026-11-03T07:00:00Z",
+    "left": {
+     "listingId": 9120,
+     "sourceCode": "acme-market",
+     "sourceRole": "MARKETPLACE",
+     "externalProductId": "AM-00002749",
+     "title": "BRIGHTFIELD NOVA BR-3265E 18 OZ INSULATED WATER BOTTLE, NAVY",
+     "brand": "Brightfield",
+     "model": "BR-3265E",
+     "gtin": null,
+     "category": "Outdoor",
+     "status": "ACTIVE",
+     "attributes": {}
+    },
+    "right": {
+     "listingId": 4211,
+     "sourceCode": "northwind-supply",
+     "sourceRole": "REFERENCE",
+     "externalProductId": "NW-00003052",
+     "title": "Brightfield Nova BR-3265E 24 oz Insulated Water Bottle, Navy",
+     "brand": "Brightfield",
+     "model": "BR-3265E",
+     "gtin": "02598873317663",
+     "category": "Sports > Outdoor > Water Bottles",
+     "status": "ACTIVE",
+     "attributes": {
+      "capacity": "24 oz",
+      "color": "Navy",
+      "synthetic_demand_index": "0.2129"
+     }
+    }
+   }
+  ],
+  "page": {
+   "limit": 50,
+   "nextCursor": null,
+   "hasMore": false
+  }
+ },
+ "GET /api/v1/match-candidates/88": {
+  "candidateId": 88,
+  "score": 0.81,
+  "decision": "REVIEW",
+  "reviewStatus": "PENDING",
+  "matcherVersion": "rules-v4",
+  "retrievalMethod": "BRAND_MODEL",
+  "featureScores": {
+   "gtin": null,
+   "brand": 1.0,
+   "model": 1.0,
+   "title": 0.79,
+   "attributes": 0.5,
+   "category": 0.4
+  },
+  "evidence": [
+   {
+    "code": "BRAND_MATCH",
+    "effect": "SUPPORTS",
+    "detail": "brightfield"
+   },
+   {
+    "code": "MODEL_MATCH",
+    "effect": "SUPPORTS",
+    "detail": "br3265e"
+   },
+   {
+    "code": "GTIN_MISSING",
+    "effect": "BLOCKS_AUTO_MATCH",
+    "detail": "one side has no GTIN"
+   },
+   {
+    "code": "VARIANT_CONFLICT",
+    "effect": "FORCES_NO_MATCH",
+    "detail": "ounces 18 vs 24"
+   }
+  ],
+  "reviewedBy": null,
+  "reviewedAt": null,
+  "createdAt": "2026-11-03T07:00:00Z",
+  "updatedAt": "2026-11-03T07:00:00Z",
+  "left": {
+   "listingId": 9120,
+   "sourceCode": "acme-market",
+   "sourceRole": "MARKETPLACE",
+   "externalProductId": "AM-00002749",
+   "title": "BRIGHTFIELD NOVA BR-3265E 18 OZ INSULATED WATER BOTTLE, NAVY",
+   "brand": "Brightfield",
+   "model": "BR-3265E",
+   "gtin": null,
+   "category": "Outdoor",
+   "status": "ACTIVE",
+   "attributes": {}
+  },
+  "right": {
+   "listingId": 4211,
+   "sourceCode": "northwind-supply",
+   "sourceRole": "REFERENCE",
+   "externalProductId": "NW-00003052",
+   "title": "Brightfield Nova BR-3265E 24 oz Insulated Water Bottle, Navy",
+   "brand": "Brightfield",
+   "model": "BR-3265E",
+   "gtin": "02598873317663",
+   "category": "Sports > Outdoor > Water Bottles",
+   "status": "ACTIVE",
+   "attributes": {
+    "capacity": "24 oz",
+    "color": "Navy",
+    "synthetic_demand_index": "0.2129"
+   }
+  }
+ },
+ "GET /api/v1/ingestion/jobs": {
+  "items": [
+   {
+    "jobId": 13,
+    "jobKey": "acme-market:77d0c1a2b3c4d5e6f7a8b9c0",
+    "sourceCode": "acme-market",
+    "status": "FAILED",
+    "attempt": 1,
+    "inputUri": "s3://catalogsentinel-batch/incoming/northwind-supply/2026-11-01",
+    "outputUri": "s3://catalogsentinel-batch/curated/listings/job=northwind-supply_5baafcfb3a9a7c1b5c14f0fc",
+    "rejectedUri": "s3://catalogsentinel-batch/rejected/job=northwind-supply_5baafcfb3a9a7c1b5c14f0fc",
+    "rowsTotal": 3922,
+    "rowsValid": null,
+    "rowsRejected": null,
+    "eventsPublished": null,
+    "createdAt": "2026-11-01T11:50:00Z",
+    "startedAt": "2026-11-03T10:58:00Z",
+    "finishedAt": "2026-11-03T11:00:00Z",
+    "updatedAt": "2026-11-01T11:53:00Z"
+   },
+   {
+    "jobId": 12,
+    "jobKey": "northwind-supply:5baafcfb3a9a7c1b5c14f0fc",
+    "sourceCode": "northwind-supply",
+    "status": "PUBLISHED",
+    "attempt": 2,
+    "inputUri": "s3://catalogsentinel-batch/incoming/northwind-supply/2026-11-01",
+    "outputUri": "s3://catalogsentinel-batch/curated/listings/job=northwind-supply_5baafcfb3a9a7c1b5c14f0fc",
+    "rejectedUri": "s3://catalogsentinel-batch/rejected/job=northwind-supply_5baafcfb3a9a7c1b5c14f0fc",
+    "rowsTotal": 4333,
+    "rowsValid": 4333,
+    "rowsRejected": 0,
+    "eventsPublished": 4333,
+    "createdAt": "2026-11-01T11:50:00Z",
+    "startedAt": "2026-11-01T11:51:00Z",
+    "finishedAt": "2026-11-01T11:53:00Z",
+    "updatedAt": "2026-11-01T11:53:00Z"
+   }
+  ],
+  "page": {
+   "limit": 50,
+   "nextCursor": null,
+   "hasMore": false
+  }
+ },
+ "GET /api/v1/ingestion/jobs/12": {
+  "job": {
+   "jobId": 12,
+   "jobKey": "northwind-supply:5baafcfb3a9a7c1b5c14f0fc",
+   "sourceCode": "northwind-supply",
+   "status": "PUBLISHED",
+   "attempt": 2,
+   "inputUri": "s3://catalogsentinel-batch/incoming/northwind-supply/2026-11-01",
+   "outputUri": "s3://catalogsentinel-batch/curated/listings/job=northwind-supply_5baafcfb3a9a7c1b5c14f0fc",
+   "rejectedUri": "s3://catalogsentinel-batch/rejected/job=northwind-supply_5baafcfb3a9a7c1b5c14f0fc",
+   "rowsTotal": 4333,
+   "rowsValid": 4333,
+   "rowsRejected": 0,
+   "eventsPublished": 4333,
+   "createdAt": "2026-11-01T11:50:00Z",
+   "startedAt": "2026-11-01T11:51:00Z",
+   "finishedAt": "2026-11-01T11:53:00Z",
+   "updatedAt": "2026-11-01T11:53:00Z"
+  },
+  "manifest": {
+   "manifestVersion": 1,
+   "sourceCode": "northwind-supply",
+   "exportId": "synthetic-7-northwind-supply-full",
+   "syntheticData": true,
+   "files": [
+    {
+     "path": "listings-00001.jsonl",
+     "records": 4333
+    }
+   ]
+  },
+  "errors": [
+   {
+    "at": "2026-11-01T11:52:00Z",
+    "message": "RuntimeException: injected failure before publishing partition 2"
+   }
+  ],
+  "progress": {
+   "processedEvents": 4101,
+   "byOutcome": {
+    "CREATED": 4101
+   },
+   "remainingEvents": 232,
+   "fullyProcessed": false,
+   "firstProcessedAt": "2026-11-01T11:53:00Z",
+   "lastProcessedAt": "2026-11-03T11:58:00Z"
+  }
+ },
+ "GET /api/v1/reconciliation/jobs": {
+  "items": [
+   {
+    "jobId": 7,
+    "targetSourceCode": "acme-market",
+    "referenceSourceCode": null,
+    "status": "SUCCEEDED",
+    "requestedBy": "dashboard",
+    "stats": {
+     "listingsMatched": 212,
+     "identitiesMerged": 4,
+     "productsEvaluated": 5765,
+     "productsCarried": 4440,
+     "gapsOpened": 31,
+     "gapsRefreshed": 986,
+     "gapsResolved": 17
+    },
+    "errorMessage": null,
+    "createdAt": "2026-11-03T08:58:00Z",
+    "startedAt": "2026-11-03T08:58:00Z",
+    "finishedAt": "2026-11-03T09:00:00Z"
+   }
+  ],
+  "page": {
+   "limit": 50,
+   "nextCursor": null,
+   "hasMore": false
+  }
+ },
+ "GET /api/v1/admin/dead-letters?queue=catalog-listing-events-dlq": {
+  "queue": "catalog-listing-events-dlq",
+  "sourceQueue": "catalog-listing-events",
+  "note": "Approximate",
+  "messages": [
+   {
+    "messageId": "6a7b8c9d-0000-4000-8000-000000000001",
+    "receiveCount": 1,
+    "sentAt": "2026-11-03T11:20:00Z",
+    "attributes": {
+     "failureReason": "UNKNOWN_SOURCE: source 'late-source' is not registered",
+     "eventId": "x"
+    },
+    "body": "{}",
+    "bodyTruncated": false
+   },
+   {
+    "messageId": "6a7b8c9d-0000-4000-8000-000000000002",
+    "receiveCount": 5,
+    "sentAt": "2026-11-03T11:48:00Z",
+    "attributes": {
+     "failureReason": "retries exhausted after 5 attempts: CannotGetJdbcConnectionException"
+    },
+    "body": "{}",
+    "bodyTruncated": false
+   }
+  ]
+ },
+ "GET /api/v1/admin/dead-letters?queue=catalog-change-events-dlq": {
+  "queue": "catalog-change-events-dlq",
+  "sourceQueue": "catalog-change-events",
+  "note": "Approximate",
+  "messages": []
+ }
+}

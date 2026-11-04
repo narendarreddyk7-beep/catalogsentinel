@@ -1,0 +1,34 @@
+# Shared normalization fixtures. Consumed by the Java domain tests (NormalizationFixtureTest) and the
+# PySpark batch tests (test_normalize_parity.py) so the two implementations cannot drift silently.
+# Columns: kind<TAB>input<TAB>expected   (kind: title | brand | model | category; "<null>" means null)
+title	Sony WH-1000XM5 Wireless Noise Canceling Headphones, Black	sony wh1000xm5 wireless noise canceling headphones black
+title	Apple iPhone 15 Pro 256 GB – Natural Titanium	apple iphone 15 pro 256gb natural titanium
+title	Samsung 55" Class QLED 4K Smart TV	samsung 55in class qled 4k smart tv
+title	SAMSUNG 55-Inch Class QLED 4K Smart TV	samsung 55in class qled 4k smart tv
+title	Echo Dot (5th Gen, 2022 release) | Charcoal	echo dot gen5 2022 release charcoal
+title	Kindle Paperwhite Second Generation	kindle paperwhite gen2
+title	Canon EOS 5D Mark IV Body	canon eos 5d mk4 body
+title	Lenovo Yoga 7i 2-in-1 Laptop 16GB RAM 1TB SSD	lenovo yoga 7i 2in1 laptop 16gb ram 1tb ssd
+title	Café Bustelo Espresso, 10 oz (Pack of 6)	cafe bustelo espresso 10oz 6pk
+title	Hydro Flask 32 fl. oz Wide Mouth Bottle	hydro flask 32floz wide mouth bottle
+title	Anker 735 Charger (Nano II 65W) GaN	anker 735 charger nano ii 65w gan
+title	Wi-Fi 6 Router, Space Grey	wifi 6 router space gray
+title	LG 27 inch UltraGear 144 Hz Monitor	lg 27in ultragear 144hz monitor
+title	Duracell AA Batteries, 24 Count	duracell aa batteries 24pk
+title	Galaxy S24+ 512GB	galaxy s24 plus 512gb
+title	   	<null>
+brand	Samsung Electronics Co., Ltd.	samsung
+brand	Hewlett-Packard	hp
+brand	The LEGO Group	lego
+brand	Sony Corporation	sony
+brand	Procter & Gamble	procter gamble
+brand	Black+Decker	black decker
+brand	Logitech International S.A.	logitech
+brand	Apple	apple
+model	WH-1000XM5	wh1000xm5
+model	SM-G991B/DS	smg991bds
+model	MQ8N3LL/A	mq8n3lla
+model	 	<null>
+category	Electronics > Headphones > Over-Ear	electronics > headphones > over ear
+category	home/kitchen | Kettles	home > kitchen > kettles
+category	Électronique	electronique

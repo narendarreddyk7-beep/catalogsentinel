@@ -1,0 +1,93 @@
+/*
+ * CatalogSentinel design tokens. Concept: a planogram. Pages are shelves (grouped by a heavy shelf-edge baseline,
+ * never by boxed cards); colour encodes state only. Chart colours are validated with the data-viz palette checker
+ * against the page surface in each mode (see apps/dashboard/DESIGN.md).
+ */
+:root {
+  color-scheme: light;
+  --font: "Archivo Variable", "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --page: #f5f7f9;
+  --raised: #ffffff;
+  --ink: #17212b;
+  --ink-2: #4b5967;
+  --muted: #66727e;
+  --hairline: #d8dee4;
+  --baseline: #b7c1cb;
+  --shelf-edge: #17212b;
+  --wash: rgba(23, 33, 43, 0.05);
+  --focus: #2a78d6;
+
+  /* Coverage states (validated: light surface, all pairs) */
+  --carried: #00866e;
+  --gap: #e3a008;
+  --review: #5146c9;
+  --dismissed: #a3adb7;
+  --unassessed: #e1e6eb;
+
+  /* Series */
+  --series-applied: #2a78d6;
+  --series-neutral: #a3adb7;
+  --series-rejected: #eb6834;
+
+  /* Status (reserved; always shipped with an icon and a label) */
+  --good: #0ca30c;
+  --warning: #fab219;
+  --serious: #ec835a;
+  --critical: #d03b3b;
+  --critical-text: #b42318;
+  --good-text: #006300;
+
+  --radius-control: 6px;
+  --rail-width: 216px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --page: #151c24;
+    --raised: #1c252f;
+    --ink: #e6ecf1;
+    --ink-2: #a9b6c2;
+    --muted: #8794a1;
+    --hairline: #26313b;
+    --baseline: #3a4651;
+    --shelf-edge: #a9b6c2;
+    --wash: rgba(230, 236, 241, 0.06);
+    --focus: #6aa7f0;
+    --carried: #13a584;
+    --gap: #c28400;
+    --review: #8077e6;
+    --dismissed: #5b6673;
+    --unassessed: #2b3641;
+    --series-applied: #3987e5;
+    --series-neutral: #4f5b67;
+    --series-rejected: #d95926;
+    --critical-text: #f07068;
+    --good-text: #3dbe3d;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #151c24;
+  --raised: #1c252f;
+  --ink: #e6ecf1;
+  --ink-2: #a9b6c2;
+  --muted: #8794a1;
+  --hairline: #26313b;
+  --baseline: #3a4651;
+  --shelf-edge: #a9b6c2;
+  --wash: rgba(230, 236, 241, 0.06);
+  --focus: #6aa7f0;
+  --carried: #13a584;
+  --gap: #c28400;
+  --review: #8077e6;
+  --dismissed: #5b6673;
+  --unassessed: #2b3641;
+  --series-applied: #3987e5;
+  --series-neutral: #4f5b67;
+  --series-rejected: #d95926;
+  --critical-text: #f07068;
+  --good-text: #3dbe3d;
+}

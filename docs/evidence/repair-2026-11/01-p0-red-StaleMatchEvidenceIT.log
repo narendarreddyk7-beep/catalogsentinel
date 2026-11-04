@@ -1,0 +1,118 @@
+# started  2026-11-03T16:44:02Z: P0 red run: StaleMatchEvidenceIT (from 5c738c7; only change: MatchingService.SYSTEM_REVIEWER, added by the fix, replaced by its literal "system:matching") against the pre-fix commit e63e4b7
+# commit e63e4b7 | javac 21.0.12.1 | PostgreSQL 16.15 | 2 vCPU
+# harness: javac + JUnit Platform Console Standalone against a real PostgreSQL (NOT a Maven build)
+# class filter: .*StaleMatchEvidenceIT$
+# output filtered for readability: ANSI colour codes removed, stack frames of logged exceptions collapsed
+== recreate catalogsentinel_test and apply db/migrations (psql, one transaction per file, like Flyway)
+== javac main (103 files)
+== javac test (35 files)
+== junit
+[main] INFO io.catalogsentinel.core.matching.MatchingService - merged canonical product 2 into 1 (2 links moved)
+.
++-- JUnit Platform Suite [OK]
++-- JUnit Jupiter [OK]
+| '-- StaleMatchEvidenceIT [OK]
+|   +-- changedListingLeavesTheSharedProductAndStaleEvidenceCannotRejoinIt() [X] [changed listing must not stay linked by old evidence] 
+|   |     Expecting:
+|   |      <1L>
+|   |     not to be equal to:
+|   |      <1L>
+|   +-- changedRepresentativeDoesNotRewriteTheProductOfUnchangedMembers() [X] 
+|   |     Expecting:
+|   |      <1L>
+|   |     to be equal to:
+|   |      <2L>
+|   |     but was not.
+|   +-- redeliveredChangeEventsAndRepeatedRunsChangeNothing() [OK]
+|   +-- productHeldTogetherOnlyByAChangedListingSplitsIntoItsIndependentParts() [X] 
+|   |     Expecting:
+|   |      <1L>
+|   |     not to be equal to:
+|   |      <1L>
+|   +-- humanApprovalIsSupersededWithAnAuditRecordWhenContentChanges() [X] 
+|   |     Expecting code to raise a throwable.
+|   '-- withdrawalSupersedesEvidenceAndReactivationRebuildsItFromCurrentContent() [X] 
+|         Expecting:
+|          <"AUTO_ACCEPTED">
+|         to be equal to:
+|          <"SUPERSEDED">
+|         but was not.
+'-- JUnit Vintage [OK]
+
+Failures (5):
+  JUnit Jupiter:StaleMatchEvidenceIT:changedListingLeavesTheSharedProductAndStaleEvidenceCannotRejoinIt()
+    MethodSource [className = 'io.catalogsentinel.core.matching.StaleMatchEvidenceIT', methodName = 'changedListingLeavesTheSharedProductAndStaleEvidenceCannotRejoinIt', methodParameterTypes = '']
+    => java.lang.AssertionError: [changed listing must not stay linked by old evidence] 
+Expecting:
+ <1L>
+not to be equal to:
+ <1L>
+
+       io.catalogsentinel.core.matching.StaleMatchEvidenceIT.changedListingLeavesTheSharedProductAndStaleEvidenceCannotRejoinIt(StaleMatchEvidenceIT.java:138)
+       java.base/java.lang.reflect.Method.invoke(Method.java:580)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+  JUnit Jupiter:StaleMatchEvidenceIT:changedRepresentativeDoesNotRewriteTheProductOfUnchangedMembers()
+    MethodSource [className = 'io.catalogsentinel.core.matching.StaleMatchEvidenceIT', methodName = 'changedRepresentativeDoesNotRewriteTheProductOfUnchangedMembers', methodParameterTypes = '']
+    => org.opentest4j.AssertionFailedError: 
+Expecting:
+ <1L>
+to be equal to:
+ <2L>
+but was not.
+       java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+       java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+       io.catalogsentinel.core.matching.StaleMatchEvidenceIT.changedRepresentativeDoesNotRewriteTheProductOfUnchangedMembers(StaleMatchEvidenceIT.java:171)
+       java.base/java.lang.reflect.Method.invoke(Method.java:580)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+  JUnit Jupiter:StaleMatchEvidenceIT:productHeldTogetherOnlyByAChangedListingSplitsIntoItsIndependentParts()
+    MethodSource [className = 'io.catalogsentinel.core.matching.StaleMatchEvidenceIT', methodName = 'productHeldTogetherOnlyByAChangedListingSplitsIntoItsIndependentParts', methodParameterTypes = '']
+    => java.lang.AssertionError: 
+Expecting:
+ <1L>
+not to be equal to:
+ <1L>
+
+       io.catalogsentinel.core.matching.StaleMatchEvidenceIT.productHeldTogetherOnlyByAChangedListingSplitsIntoItsIndependentParts(StaleMatchEvidenceIT.java:279)
+       java.base/java.lang.reflect.Method.invoke(Method.java:580)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+  JUnit Jupiter:StaleMatchEvidenceIT:humanApprovalIsSupersededWithAnAuditRecordWhenContentChanges()
+    MethodSource [className = 'io.catalogsentinel.core.matching.StaleMatchEvidenceIT', methodName = 'humanApprovalIsSupersededWithAnAuditRecordWhenContentChanges', methodParameterTypes = '']
+    => java.lang.AssertionError: 
+Expecting code to raise a throwable.
+       io.catalogsentinel.core.matching.StaleMatchEvidenceIT.humanApprovalIsSupersededWithAnAuditRecordWhenContentChanges(StaleMatchEvidenceIT.java:214)
+       java.base/java.lang.reflect.Method.invoke(Method.java:580)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+  JUnit Jupiter:StaleMatchEvidenceIT:withdrawalSupersedesEvidenceAndReactivationRebuildsItFromCurrentContent()
+    MethodSource [className = 'io.catalogsentinel.core.matching.StaleMatchEvidenceIT', methodName = 'withdrawalSupersedesEvidenceAndReactivationRebuildsItFromCurrentContent', methodParameterTypes = '']
+    => org.opentest4j.AssertionFailedError: 
+Expecting:
+ <"AUTO_ACCEPTED">
+to be equal to:
+ <"SUPERSEDED">
+but was not.
+       java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+       java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+       io.catalogsentinel.core.matching.StaleMatchEvidenceIT.withdrawalSupersedesEvidenceAndReactivationRebuildsItFromCurrentContent(StaleMatchEvidenceIT.java:187)
+       java.base/java.lang.reflect.Method.invoke(Method.java:580)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+Test run finished after 7833 ms
+[         4 containers found      ]
+[         0 containers skipped    ]
+[         4 containers started    ]
+[         0 containers aborted    ]
+[         4 containers successful ]
+[         0 containers failed     ]
+[         6 tests found           ]
+[         0 tests skipped         ]
+[         6 tests started         ]
+[         0 tests aborted         ]
+[         1 tests successful      ]
+[         5 tests failed          ]
+
+# finished 2026-11-03T16:44:21Z: harness exit status 1 (JUnit console: 0 = all passed, 1 = failures)

@@ -1,0 +1,30 @@
+%% Target AWS topology (infra/terraform/environments/demo). Rendered copy: aws-deployment.svg. Not deployed by this project.
+flowchart LR
+    user["Browser or API client"] -- "HTTPS 443, TLS 1.3 policy" --> alb
+    subgraph vpc["VPC, two availability zones"]
+        subgraph public["Public subnets"]
+            alb["Application Load Balancer<br/>HTTP → HTTPS redirect<br/>/api/v1/admin/* only from admin CIDRs<br/>/actuator/* answered with 403"]
+            nat["NAT gateway"]
+        end
+        subgraph private["Private subnets"]
+            subgraph ecs["ECS Fargate, ARM64"]
+                dash["dashboard task<br/>nginx"]
+                apit["catalog-api task<br/>+ ADOT sidecar"]
+                wrk["ingestion-worker task<br/>+ ADOT sidecar<br/>scales on queue depth"]
+            end
+            rds[("RDS PostgreSQL 16<br/>encrypted · force_ssl")]
+        end
+    end
+    alb -- "/" --> dash
+    alb -- "/api/*, /v3/api-docs, /swagger-ui" --> apit
+    apit -- "5432 from tasks SG" --> rds
+    wrk -- "5432 from tasks SG" --> rds
+    wrk -- "via NAT" --> nat
+    apit -- "via NAT" --> nat
+    nat --> sqs[["SQS + DLQs<br/>SSE · TLS-only policy"]]
+    job["catalog-batch run<br/>EMR Serverless, ECS task or CI runner<br/>with the batch IAM policy"]
+    job -- "read incoming/, write curated/ rejected/ _state/" --> s3[("S3 batch bucket<br/>SSE · versioned · lifecycle expiry<br/>public access blocked")]
+    job -- "SendMessage, listing queue only" --> sqs
+    job -- "job registration, INGEST key" --> alb
+    nat --> sm["Secrets Manager<br/>DB credentials (RDS-managed) · API key hashes"]
+    nat --> cw["CloudWatch logs, EMF metrics, alarms · X-Ray"]

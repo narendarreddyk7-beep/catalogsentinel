@@ -1,0 +1,102 @@
+# CatalogSentinel ingestion worker. Every value can be overridden with an environment variable; defaults target
+# the local docker compose stack. No production secrets belong in this file.
+spring:
+  application:
+    name: ingestion-worker
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/catalogsentinel}
+    username: ${DB_USERNAME:catalog}
+    password: ${DB_PASSWORD:catalog_local_dev}
+    hikari:
+      # listing consumers + change consumers + relay + monitor, with headroom
+      maximum-pool-size: ${DB_POOL_SIZE:16}
+      minimum-idle: 2
+      connection-timeout: 5000
+      validation-timeout: 2000
+  threads:
+    virtual:
+      enabled: true
+  lifecycle:
+    # Long poll (<= 20 s) + in-flight drain (shutdown-grace); keep below the ECS stopTimeout (60 s).
+    timeout-per-shutdown-phase: 50s
+
+server:
+  # The worker serves only actuator endpoints (health for the orchestrator, metrics for scraping).
+  port: ${PORT:8081}
+  shutdown: graceful
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+      group:
+        readiness:
+          include: readinessState,db,backlog
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  tracing:
+    sampling:
+      probability: ${TRACING_SAMPLING_PROBABILITY:0.0}
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4318/v1/traces}
+
+catalogsentinel:
+  aws:
+    region: ${AWS_REGION:us-east-1}
+    sqs-endpoint: ${SQS_ENDPOINT:}
+  queues:
+    listing-events: ${LISTING_EVENTS_QUEUE:catalog-listing-events}
+    listing-events-dlq: ${LISTING_EVENTS_DLQ:catalog-listing-events-dlq}
+    change-events: ${CHANGE_EVENTS_QUEUE:catalog-change-events}
+    change-events-dlq: ${CHANGE_EVENTS_DLQ:catalog-change-events-dlq}
+  transaction-timeout: 10s
+  backlog-refresh: 15s
+  consumers:
+    enabled: ${CONSUMERS_ENABLED:true}
+    listing-concurrency: ${LISTING_CONSUMER_CONCURRENCY:8}
+    change-concurrency: ${CHANGE_CONSUMER_CONCURRENCY:4}
+    # Must stay below the queues' redrive maxReceiveCount (6 in infra/compose/elasticmq.conf and Terraform) so
+    # retryable failures are dead-lettered explicitly, with a reason, and redrive remains a crash-only safety net.
+    max-attempts: 5
+    wait-time: 20s
+    visibility-timeout: 60s
+    backoff-base: 2s
+    backoff-cap: 5m
+    outage-threshold: 5
+    outage-pause: 15s
+    shutdown-grace: 25s
+  outbox:
+    enabled: ${OUTBOX_RELAY_ENABLED:true}
+    poll-interval: 250ms
+    batch-size: 50
+    max-batches-per-tick: 20
+    max-attempts: 10
+    backoff-base: 1s
+    backoff-cap: 5m
+    retention: 7d
+    purge-interval: 10m
+
+logging:
+  level:
+    io.catalogsentinel: INFO
+
+---
+# JSON (ECS) logs for containers and CloudWatch; correlationId/eventId/messageId come from the MDC.
+spring:
+  config:
+    activate:
+      on-profile: json-logs
+logging:
+  structured:
+    format:
+      console: ecs

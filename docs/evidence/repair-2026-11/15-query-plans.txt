@@ -1,0 +1,401 @@
+Pager usage is off.
+ listings | candidates | products | gaps | jobs 
+----------+------------+----------+------+------
+     5500 |      43894 |     3665 | 1033 |    1
+(1 row)
+
+busy listing 3307, target source 2
+
+== 1. MatchCandidateRepository.linkableFor: current, linkable candidates of one listing
+                                                                                QUERY PLAN                                                                                 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort (actual time=0.167..0.168 rows=0 loops=1)
+   Sort Key: (((m.review_status)::text = 'APPROVED'::text)) DESC, m.score DESC, m.candidate_id
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=72
+   ->  Nested Loop (actual time=0.140..0.141 rows=0 loops=1)
+         Buffers: shared hit=64
+         ->  Nested Loop (actual time=0.139..0.140 rows=0 loops=1)
+               Buffers: shared hit=64
+               ->  Bitmap Heap Scan on match_candidates m (actual time=0.139..0.140 rows=0 loops=1)
+                     Recheck Cond: ((left_listing_id = 3307) OR (right_listing_id = 3307))
+                     Filter: (((review_status)::text = 'APPROVED'::text) OR (((decision)::text = 'AUTO_MATCH'::text) AND ((review_status)::text = 'AUTO_ACCEPTED'::text)))
+                     Rows Removed by Filter: 59
+                     Heap Blocks: exact=57
+                     Buffers: shared hit=64
+                     ->  BitmapOr (actual time=0.022..0.022 rows=0 loops=1)
+                           Buffers: shared hit=7
+                           ->  Bitmap Index Scan on uq_match_candidates_pair (actual time=0.015..0.015 rows=20 loops=1)
+                                 Index Cond: (left_listing_id = 3307)
+                                 Buffers: shared hit=5
+                           ->  Bitmap Index Scan on ix_match_candidates_right (actual time=0.006..0.006 rows=39 loops=1)
+                                 Index Cond: (right_listing_id = 3307)
+                                 Buffers: shared hit=2
+               ->  Index Scan using ix_product_listings_status_id on product_listings la (never executed)
+                     Index Cond: (((status)::text = 'ACTIVE'::text) AND (listing_id = m.left_listing_id))
+                     Filter: (content_hash = m.left_content_hash)
+         ->  Index Scan using ix_product_listings_status_id on product_listings lb (never executed)
+               Index Cond: (((status)::text = 'ACTIVE'::text) AND (listing_id = m.right_listing_id))
+               Filter: (content_hash = m.right_content_hash)
+ Planning:
+   Buffers: shared hit=239
+ Planning Time: 1.259 ms
+ Execution Time: 0.257 ms
+(32 rows)
+
+
+== 2. MatchCandidateRepository.supersedeStaleFor after the busy listing changed (rolled back)
+BEGIN
+UPDATE 1
+                                                                                                             QUERY PLAN                                                                                                             
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort (actual time=2.751..2.759 rows=59 loops=1)
+   Sort Key: s.candidate_id
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=1395 dirtied=1 written=1
+   CTE stale
+     ->  LockRows (actual time=0.070..0.720 rows=59 loops=1)
+           Buffers: shared hit=474
+           ->  Nested Loop (actual time=0.063..0.663 rows=59 loops=1)
+                 Join Filter: (((la.status)::text <> 'ACTIVE'::text) OR ((lb.status)::text <> 'ACTIVE'::text) OR (la.content_hash IS DISTINCT FROM m.left_content_hash) OR (lb.content_hash IS DISTINCT FROM m.right_content_hash))
+                 Buffers: shared hit=415
+                 ->  Nested Loop (actual time=0.051..0.461 rows=59 loops=1)
+                       Buffers: shared hit=238
+                       ->  Bitmap Heap Scan on match_candidates m (actual time=0.034..0.141 rows=59 loops=1)
+                             Recheck Cond: ((left_listing_id = 3307) OR (right_listing_id = 3307))
+                             Filter: ((review_status)::text <> 'SUPERSEDED'::text)
+                             Heap Blocks: exact=57
+                             Buffers: shared hit=61
+                             ->  BitmapOr (actual time=0.021..0.022 rows=0 loops=1)
+                                   Buffers: shared hit=4
+                                   ->  Bitmap Index Scan on uq_match_candidates_pair (actual time=0.016..0.016 rows=20 loops=1)
+                                         Index Cond: (left_listing_id = 3307)
+                                         Buffers: shared hit=2
+                                   ->  Bitmap Index Scan on ix_match_candidates_right (actual time=0.005..0.005 rows=39 loops=1)
+                                         Index Cond: (right_listing_id = 3307)
+                                         Buffers: shared hit=2
+                       ->  Index Scan using product_listings_pkey on product_listings la (actual time=0.005..0.005 rows=1 loops=59)
+                             Index Cond: (listing_id = m.left_listing_id)
+                             Buffers: shared hit=177
+                 ->  Index Scan using product_listings_pkey on product_listings lb (actual time=0.003..0.003 rows=1 loops=59)
+                       Index Cond: (listing_id = m.right_listing_id)
+                       Buffers: shared hit=177
+   CTE superseded
+     ->  Update on match_candidates m_1 (actual time=0.381..2.575 rows=59 loops=1)
+           Buffers: shared hit=1383 dirtied=1 written=1
+           ->  Nested Loop (actual time=0.034..0.903 rows=59 loops=1)
+                 Buffers: shared hit=639
+                 ->  CTE Scan on stale (actual time=0.012..0.710 rows=59 loops=1)
+                       Buffers: shared hit=462
+                 ->  Index Scan using match_candidates_pkey on match_candidates m_1 (actual time=0.003..0.003 rows=1 loops=59)
+                       Index Cond: (candidate_id = stale.candidate_id)
+                       Buffers: shared hit=177
+   ->  Hash Join (actual time=2.711..2.732 rows=59 loops=1)
+         Hash Cond: (s.candidate_id = u.candidate_id)
+         Buffers: shared hit=1395 dirtied=1 written=1
+         ->  CTE Scan on stale s (actual time=0.073..0.082 rows=59 loops=1)
+               Buffers: shared hit=12
+         ->  Hash (actual time=2.617..2.617 rows=59 loops=1)
+               Buckets: 1024  Batches: 1  Memory Usage: 11kB
+               Buffers: shared hit=1383 dirtied=1 written=1
+               ->  CTE Scan on superseded u (actual time=0.382..2.596 rows=59 loops=1)
+                     Buffers: shared hit=1383 dirtied=1 written=1
+ Planning:
+   Buffers: shared hit=30
+ Planning Time: 0.566 ms
+ Trigger trg_match_candidates_touch: time=0.258 calls=59
+ Execution Time: 2.901 ms
+(56 rows)
+
+ROLLBACK
+
+== 3. CanonicalProductRepository.findMergeablePairs (merge pass before every reconciliation)
+                                                                                                                         QUERY PLAN                                                                                                                         
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit (actual time=77.301..77.306 rows=0 loops=1)
+   Buffers: shared hit=65749
+   ->  Unique (actual time=77.300..77.304 rows=0 loops=1)
+         Buffers: shared hit=65749
+         ->  Sort (actual time=77.299..77.303 rows=0 loops=1)
+               Sort Key: (LEAST(a.canonical_product_id, b.canonical_product_id)), (GREATEST(a.canonical_product_id, b.canonical_product_id))
+               Sort Method: quicksort  Memory: 25kB
+               Buffers: shared hit=65749
+               ->  Nested Loop (actual time=77.289..77.293 rows=0 loops=1)
+                     Join Filter: (a.canonical_product_id <> b.canonical_product_id)
+                     Rows Removed by Join Filter: 1934
+                     Buffers: shared hit=65749
+                     ->  Nested Loop (actual time=3.095..74.617 rows=1934 loops=1)
+                           Buffers: shared hit=59947
+                           ->  Nested Loop (actual time=3.079..71.157 rows=1934 loops=1)
+                                 Join Filter: (lb.listing_id = m.right_listing_id)
+                                 Buffers: shared hit=54145
+                                 ->  Nested Loop (actual time=3.056..66.413 rows=1934 loops=1)
+                                       Buffers: shared hit=48343
+                                       ->  Nested Loop (actual time=3.042..63.017 rows=1934 loops=1)
+                                             Join Filter: (la.listing_id = m.left_listing_id)
+                                             Buffers: shared hit=42541
+                                             ->  Hash Join (actual time=3.004..9.512 rows=5500 loops=1)
+                                                   Hash Cond: ((la.listing_id = ka.listing_id) AND (la.content_hash = ka.linked_content_hash))
+                                                   Buffers: shared hit=455
+                                                   ->  Seq Scan on product_listings la (actual time=0.010..2.097 rows=5500 loops=1)
+                                                         Filter: ((status)::text = 'ACTIVE'::text)
+                                                         Buffers: shared hit=337
+                                                   ->  Hash (actual time=2.941..2.943 rows=5500 loops=1)
+                                                         Buckets: 8192  Batches: 1  Memory Usage: 709kB
+                                                         Buffers: shared hit=118
+                                                         ->  Seq Scan on listing_product_links ka (actual time=0.006..0.946 rows=5500 loops=1)
+                                                               Buffers: shared hit=118
+                                             ->  Index Scan using uq_match_candidates_pair on match_candidates m (actual time=0.008..0.009 rows=0 loops=5500)
+                                                   Index Cond: (left_listing_id = ka.listing_id)
+                                                   Filter: ((ka.linked_content_hash = left_content_hash) AND (((review_status)::text = 'APPROVED'::text) OR (((decision)::text = 'AUTO_MATCH'::text) AND ((review_status)::text = 'AUTO_ACCEPTED'::text))))
+                                                   Rows Removed by Filter: 8
+                                                   Buffers: shared hit=42086
+                                       ->  Index Scan using listing_product_links_pkey on listing_product_links kb (actual time=0.001..0.001 rows=1 loops=1934)
+                                             Index Cond: (listing_id = m.right_listing_id)
+                                             Filter: (linked_content_hash = m.right_content_hash)
+                                             Buffers: shared hit=5802
+                                 ->  Index Scan using product_listings_pkey on product_listings lb (actual time=0.002..0.002 rows=1 loops=1934)
+                                       Index Cond: (listing_id = kb.listing_id)
+                                       Filter: (((status)::text = 'ACTIVE'::text) AND (kb.linked_content_hash = content_hash))
+                                       Buffers: shared hit=5802
+                           ->  Index Scan using canonical_products_pkey on canonical_products a (actual time=0.001..0.001 rows=1 loops=1934)
+                                 Index Cond: (canonical_product_id = ka.canonical_product_id)
+                                 Filter: ((status)::text = 'ACTIVE'::text)
+                                 Buffers: shared hit=5802
+                     ->  Index Scan using canonical_products_pkey on canonical_products b (actual time=0.001..0.001 rows=1 loops=1934)
+                           Index Cond: (canonical_product_id = kb.canonical_product_id)
+                           Filter: ((status)::text = 'ACTIVE'::text)
+                           Buffers: shared hit=5802
+ Planning:
+   Buffers: shared hit=174
+ Planning Time: 23.551 ms
+ Execution Time: 77.458 ms
+(58 rows)
+
+
+== 4. GapRepository.referenceProducts: one keyset batch of 200 with the eligibility predicate
+                                                                          QUERY PLAN                                                                           
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit (actual time=0.053..1.019 rows=200 loops=1)
+   Buffers: shared hit=1288
+   ->  GroupAggregate (actual time=0.052..1.003 rows=200 loops=1)
+         Group Key: c.canonical_product_id
+         Filter: (count(*) FILTER (WHERE (((s.role)::text = 'REFERENCE'::text) AND s.enabled AND ((l.status)::text = 'ACTIVE'::text))) > 0)
+         Buffers: shared hit=1288
+         ->  Nested Loop (actual time=0.028..0.760 rows=353 loops=1)
+               Buffers: shared hit=1288
+               ->  Nested Loop (actual time=0.021..0.633 rows=353 loops=1)
+                     Buffers: shared hit=1284
+                     ->  Merge Join (actual time=0.017..0.219 rows=353 loops=1)
+                           Merge Cond: (k.canonical_product_id = c.canonical_product_id)
+                           Buffers: shared hit=225
+                           ->  Index Only Scan using ix_listing_product_links_canonical on listing_product_links k (actual time=0.007..0.093 rows=353 loops=1)
+                                 Heap Fetches: 271
+                                 Buffers: shared hit=211
+                           ->  Index Scan using canonical_products_pkey on canonical_products c (actual time=0.008..0.065 rows=201 loops=1)
+                                 Index Cond: (canonical_product_id > 0)
+                                 Filter: ((status)::text = 'ACTIVE'::text)
+                                 Rows Removed by Filter: 3
+                                 Buffers: shared hit=14
+                     ->  Index Scan using product_listings_pkey on product_listings l (actual time=0.001..0.001 rows=1 loops=353)
+                           Index Cond: (listing_id = k.listing_id)
+                           Buffers: shared hit=1059
+               ->  Memoize (actual time=0.000..0.000 rows=1 loops=353)
+                     Cache Key: l.source_id
+                     Cache Mode: logical
+                     Hits: 351  Misses: 2  Evictions: 0  Overflows: 0  Memory Usage: 1kB
+                     Buffers: shared hit=4
+                     ->  Index Scan using catalog_sources_pkey on catalog_sources s (actual time=0.002..0.002 rows=1 loops=2)
+                           Index Cond: (source_id = l.source_id)
+                           Buffers: shared hit=4
+ Planning:
+   Buffers: shared hit=52
+ Planning Time: 0.589 ms
+ Execution Time: 1.076 ms
+(36 rows)
+
+
+== 5. GapRepository.bestCandidate: closest current candidate in the target for one product
+reference listings {10}
+                                                                        QUERY PLAN                                                                        
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit (actual time=0.108..0.110 rows=1 loops=1)
+   Buffers: shared hit=107
+   ->  Sort (actual time=0.108..0.109 rows=1 loops=1)
+         Sort Key: m.score DESC, m.candidate_id
+         Sort Method: top-N heapsort  Memory: 25kB
+         Buffers: shared hit=107
+         ->  Nested Loop (actual time=0.048..0.099 rows=5 loops=1)
+               Buffers: shared hit=107
+               ->  Nested Loop (actual time=0.022..0.085 rows=11 loops=1)
+                     Buffers: shared hit=74
+                     ->  Nested Loop (actual time=0.018..0.049 rows=11 loops=1)
+                           Buffers: shared hit=41
+                           ->  Bitmap Heap Scan on match_candidates m (actual time=0.013..0.023 rows=11 loops=1)
+                                 Recheck Cond: ((left_listing_id = ANY ('{10}'::bigint[])) OR (right_listing_id = ANY ('{10}'::bigint[])))
+                                 Filter: ((review_status)::text <> 'SUPERSEDED'::text)
+                                 Heap Blocks: exact=4
+                                 Buffers: shared hit=8
+                                 ->  BitmapOr (actual time=0.008..0.008 rows=0 loops=1)
+                                       Buffers: shared hit=4
+                                       ->  Bitmap Index Scan on uq_match_candidates_pair (actual time=0.006..0.006 rows=11 loops=1)
+                                             Index Cond: (left_listing_id = ANY ('{10}'::bigint[]))
+                                             Buffers: shared hit=2
+                                       ->  Bitmap Index Scan on ix_match_candidates_right (actual time=0.001..0.001 rows=0 loops=1)
+                                             Index Cond: (right_listing_id = ANY ('{10}'::bigint[]))
+                                             Buffers: shared hit=2
+                           ->  Index Scan using product_listings_pkey on product_listings la (actual time=0.002..0.002 rows=1 loops=11)
+                                 Index Cond: (listing_id = m.left_listing_id)
+                                 Filter: (((status)::text = 'ACTIVE'::text) AND (content_hash = m.left_content_hash))
+                                 Buffers: shared hit=33
+                     ->  Index Scan using product_listings_pkey on product_listings lb (actual time=0.003..0.003 rows=1 loops=11)
+                           Index Cond: (listing_id = m.right_listing_id)
+                           Filter: (((status)::text = 'ACTIVE'::text) AND (content_hash = m.right_content_hash))
+                           Buffers: shared hit=33
+               ->  Index Scan using product_listings_pkey on product_listings t (actual time=0.001..0.001 rows=0 loops=11)
+                     Index Cond: (listing_id = CASE WHEN (m.left_listing_id = ANY ('{10}'::bigint[])) THEN m.right_listing_id ELSE m.left_listing_id END)
+                     Filter: ((source_id = 2) AND ((status)::text = 'ACTIVE'::text))
+                     Rows Removed by Filter: 1
+                     Buffers: shared hit=33
+ Planning:
+   Buffers: shared hit=29
+ Planning Time: 0.647 ms
+ Execution Time: 0.146 ms
+(42 rows)
+
+
+== 6. GapRepository.invalidatedGaps: live gaps whose product no longer qualifies
+                                                                                                                                              QUERY PLAN                                                                                                                                               
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Sort (actual time=5.568..5.570 rows=0 loops=1)
+   Sort Key: g.gap_id
+   Sort Method: quicksort  Memory: 25kB
+   Buffers: shared hit=10743
+   ->  Nested Loop (actual time=5.565..5.566 rows=0 loops=1)
+         Join Filter: (CASE WHEN ((c.status)::text = 'MERGED'::text) THEN 'MERGED_PRODUCT'::text WHEN (NOT (COALESCE(bool_or(true), false))) THEN 'REFERENCE_WITHDRAWN'::text WHEN (NOT (COALESCE(bool_or(s.enabled), false))) THEN 'REFERENCE_SOURCE_DISABLED'::text ELSE NULL::text END IS NOT NULL)
+         Rows Removed by Join Filter: 1033
+         Buffers: shared hit=10743
+         ->  Nested Loop (actual time=0.013..1.625 rows=1033 loops=1)
+               Buffers: shared hit=3238
+               ->  Index Scan using uq_selection_gaps_active on selection_gaps g (actual time=0.008..0.421 rows=1033 loops=1)
+                     Index Cond: (target_source_id = 2)
+                     Filter: ((status)::text = ANY ('{OPEN,CONFIRMED}'::text[]))
+                     Buffers: shared hit=139
+               ->  Index Scan using canonical_products_pkey on canonical_products c (actual time=0.001..0.001 rows=1 loops=1033)
+                     Index Cond: (canonical_product_id = g.canonical_product_id)
+                     Buffers: shared hit=3099
+         ->  Aggregate (actual time=0.004..0.004 rows=1 loops=1033)
+               Buffers: shared hit=7505
+               ->  Nested Loop (actual time=0.003..0.003 rows=1 loops=1033)
+                     Buffers: shared hit=7505
+                     ->  Nested Loop (actual time=0.002..0.002 rows=1 loops=1033)
+                           Buffers: shared hit=5439
+                           ->  Index Only Scan using ix_listing_product_links_canonical on listing_product_links k (actual time=0.001..0.001 rows=1 loops=1033)
+                                 Index Cond: (canonical_product_id = g.canonical_product_id)
+                                 Heap Fetches: 273
+                                 Buffers: shared hit=2340
+                           ->  Index Scan using ix_product_listings_status_id on product_listings l (actual time=0.001..0.001 rows=1 loops=1033)
+                                 Index Cond: (((status)::text = 'ACTIVE'::text) AND (listing_id = k.listing_id))
+                                 Buffers: shared hit=3099
+                     ->  Index Scan using catalog_sources_pkey on catalog_sources s (actual time=0.000..0.000 rows=1 loops=1033)
+                           Index Cond: (source_id = l.source_id)
+                           Filter: ((role)::text = 'REFERENCE'::text)
+                           Buffers: shared hit=2066
+ Planning:
+   Buffers: shared hit=69
+ Planning Time: 0.541 ms
+ Execution Time: 5.604 ms
+(38 rows)
+
+
+== 7. GapRepository.liveGapsOnMergedProducts with 500 products merged away (rolled back)
+BEGIN
+UPDATE 500
+                                                               QUERY PLAN                                                               
+----------------------------------------------------------------------------------------------------------------------------------------
+ Sort (actual time=2.585..2.608 rows=500 loops=1)
+   Sort Key: (((last.status)::text <> 'OPEN'::text)) DESC, last.updated_at DESC, last.gap_id
+   Sort Method: quicksort  Memory: 60kB
+   Buffers: shared hit=3740
+   CTE chain
+     ->  Recursive Union (actual time=0.018..1.954 rows=500 loops=1)
+           Buffers: shared hit=3734
+           ->  Nested Loop (actual time=0.016..1.650 rows=500 loops=1)
+                 Buffers: shared hit=3731
+                 ->  Index Scan using uq_selection_gaps_active on selection_gaps g (actual time=0.008..0.291 rows=1033 loops=1)
+                       Index Cond: (target_source_id = 2)
+                       Buffers: shared hit=139
+                 ->  Index Scan using canonical_products_pkey on canonical_products c (actual time=0.001..0.001 rows=0 loops=1033)
+                       Index Cond: (canonical_product_id = g.canonical_product_id)
+                       Filter: ((merged_into_id IS NOT NULL) AND ((status)::text = 'MERGED'::text))
+                       Rows Removed by Filter: 1
+                       Buffers: shared hit=3592
+           ->  Nested Loop (actual time=0.144..0.144 rows=0 loops=1)
+                 Buffers: shared hit=3
+                 ->  WorkTable Scan on chain ch (actual time=0.003..0.037 rows=500 loops=1)
+                       Filter: (depth < 64)
+                 ->  Memoize (actual time=0.000..0.000 rows=0 loops=500)
+                       Cache Key: ch.product
+                       Cache Mode: logical
+                       Hits: 499  Misses: 1  Evictions: 0  Overflows: 0  Memory Usage: 1kB
+                       Buffers: shared hit=3
+                       ->  Index Scan using canonical_products_pkey on canonical_products c_1 (actual time=0.003..0.003 rows=0 loops=1)
+                             Index Cond: (canonical_product_id = ch.product)
+                             Filter: ((merged_into_id IS NOT NULL) AND ((status)::text = 'MERGED'::text))
+                             Rows Removed by Filter: 1
+                             Buffers: shared hit=3
+   ->  Subquery Scan on last (actual time=2.154..2.313 rows=500 loops=1)
+         Buffers: shared hit=3737
+         ->  Unique (actual time=2.153..2.254 rows=500 loops=1)
+               Buffers: shared hit=3737
+               ->  Sort (actual time=2.152..2.181 rows=500 loops=1)
+                     Sort Key: chain.gap_id, chain.depth DESC
+                     Sort Method: quicksort  Memory: 60kB
+                     Buffers: shared hit=3737
+                     ->  CTE Scan on chain (actual time=0.019..2.097 rows=500 loops=1)
+                           Buffers: shared hit=3734
+ Planning:
+   Buffers: shared hit=23
+ Planning Time: 0.355 ms
+ Execution Time: 2.695 ms
+(45 rows)
+
+ROLLBACK
+
+== 8. ReconciliationJobRepository.claim among 20,000 finished jobs and 1 due job (rolled back)
+BEGIN
+INSERT 0 20000
+INSERT 0 1
+ANALYZE
+                                                                                                   QUERY PLAN                                                                                                    
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Update on reconciliation_jobs j (actual time=0.221..0.224 rows=1 loops=1)
+   Buffers: shared hit=25
+   CTE next
+     ->  Limit (actual time=0.019..0.020 rows=1 loops=1)
+           Buffers: shared hit=3
+           ->  LockRows (actual time=0.019..0.019 rows=1 loops=1)
+                 Buffers: shared hit=3
+                 ->  Sort (actual time=0.013..0.014 rows=1 loops=1)
+                       Sort Key: reconciliation_jobs.job_id
+                       Sort Method: quicksort  Memory: 25kB
+                       Buffers: shared hit=2
+                       ->  Index Scan using uq_reconciliation_jobs_active_target on reconciliation_jobs (actual time=0.007..0.008 rows=1 loops=1)
+                             Filter: ((attempt < max_attempts) AND ((((status)::text = 'PENDING'::text) AND (next_attempt_at <= now())) OR (((status)::text = 'RUNNING'::text) AND (lease_expires_at < now()))))
+                             Buffers: shared hit=2
+   ->  Nested Loop (actual time=0.035..0.036 rows=1 loops=1)
+         Buffers: shared hit=6
+         ->  CTE Scan on next (actual time=0.026..0.027 rows=1 loops=1)
+               Buffers: shared hit=3
+         ->  Index Scan using reconciliation_jobs_pkey on reconciliation_jobs j (actual time=0.006..0.006 rows=1 loops=1)
+               Index Cond: (job_id = next.job_id)
+               Buffers: shared hit=3
+ Planning:
+   Buffers: shared hit=79
+ Planning Time: 0.361 ms
+ Trigger for constraint reconciliation_jobs_target_source_id_fkey: time=0.022 calls=1
+ Trigger trg_reconciliation_jobs_touch: time=0.094 calls=1
+ Execution Time: 0.320 ms
+(27 rows)
+
+ROLLBACK

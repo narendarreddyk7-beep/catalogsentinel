@@ -1,0 +1,101 @@
+# started  2026-11-03T16:44:21Z: P1 eligibility red run: ReferenceSourceEligibilityIT (from 5c738c7, unchanged) against 5481644 (P0 fixed, eligibility not yet)
+# commit 5481644 | javac 21.0.12.1 | PostgreSQL 16.15 | 2 vCPU
+# harness: javac + JUnit Platform Console Standalone against a real PostgreSQL (NOT a Maven build)
+# class filter: .*ReferenceSourceEligibilityIT$
+# output filtered for readability: ANSI colour codes removed, stack frames of logged exceptions collapsed
+== recreate catalogsentinel_test and apply db/migrations (psql, one transaction per file, like Flyway)
+== javac main (103 files)
+== javac test (36 files)
+== junit
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-market succeeded: {listingsMatched=0, identitiesMerged=0, productsEvaluated=3, gapsOpened=3}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-market succeeded: {listingsMatched=0, identitiesMerged=0, productsEvaluated=3, gapsOpened=3}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-market succeeded: {listingsMatched=0, identitiesMerged=0, productsEvaluated=2, gapsRefreshed=2}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-market succeeded: {listingsMatched=0, identitiesMerged=0, productsEvaluated=3, gapsOpened=3}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-market succeeded: {listingsMatched=0, identitiesMerged=0, productsEvaluated=3, gapsRefreshed=3}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-market succeeded: {listingsMatched=0, identitiesMerged=0, productsEvaluated=3, gapsOpened=3}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-market succeeded: {listingsMatched=0, identitiesMerged=0, productsEvaluated=2, gapsRefreshed=2}
+.
++-- JUnit Platform Suite [OK]
++-- JUnit Jupiter [OK]
+| '-- ReferenceSourceEligibilityIT [OK]
+|   +-- allEnabledSourcesCountForCoverageAndDemand() [OK]
+|   +-- aRunWhoseSelectedSourceWasDisabledMeanwhileFailsVisiblyWithoutTouchingGaps() [X] 
+|   |     Expecting:
+|   |      <"SUCCEEDED">
+|   |     to be equal to:
+|   |      <"FAILED">
+|   |     but was not.
+|   +-- disablingASourceRemovesItsExclusiveGapsAndItsEvidenceUntilItIsEnabledAgain() [X] [a product only a disabled source lists is not an active gap] 
+|   |     Expecting an empty Optional but was containing value: <GapView[gapId=3, canonicalProductId=3, targetSourceId=3, targetSourceCode=mkt-market, status=OPEN, reason=NO_CANDIDATE, confidence=0.9500, priorityScore=82.50, priority=P1, bestCandidateListingId=null, bestCandidateScore=null, evidenceJson={"demand": {"value": 0.5, "source": "SYNTHETIC"}, "reason": "NO_CANDIDATE", "assessor": "gap-v1", "explanation": ["No similar listing was retrieved from the marketplace (GTIN, brand+model and title search).", "Synthetic demand index 0.50 (generated test signal, not real demand).", "Carried by 1 of 1 reference sources."], "referenceCoverage": {"of": 1, "sources": 1}, "referenceListings": [4]}, detectionCount=2, firstDetectedAt=2026-11-03T16:44:39.592700Z, lastDetectedAt=2026-11-03T16:44:40.083454Z, lastJobId=2, resolvedAt=null, resolution=null, updatedAt=2026-11-03T16:44:40.083454Z, productTitle=Brightfield Nova BR-3265E 24 oz Insulated Water Bottle, Navy, productBrand=Brightfield, productCategory=audio, referenceListingId=4, referenceTitle=Brightfield Nova BR-3265E 24 oz Insulated Water Bottle, Navy, referenceSourceCode=ref-beta, referenceGtin=02000000000039, bestCandidateTitle=null, bestCandidateSourceCode=null]>.
+|   +-- aSelectedReferenceSourceScopesEligibilityCoverageAndDemand() [X] 
+|   |     Expecting:
+|   |      <{"of"=2, "sources"=2}>
+|   |     to contain:
+|   |      <[MapEntry[key="sources", value=1]]>
+|   |     but could not find:
+|   |      <[MapEntry[key="sources", value=1]]>
+|   '-- aDisabledReferenceSourceCannotBeSelected() [X] 
+|         Expecting code to raise a throwable.
+'-- JUnit Vintage [OK]
+
+Failures (4):
+  JUnit Jupiter:ReferenceSourceEligibilityIT:aRunWhoseSelectedSourceWasDisabledMeanwhileFailsVisiblyWithoutTouchingGaps()
+    MethodSource [className = 'io.catalogsentinel.core.gaps.ReferenceSourceEligibilityIT', methodName = 'aRunWhoseSelectedSourceWasDisabledMeanwhileFailsVisiblyWithoutTouchingGaps', methodParameterTypes = '']
+    => org.opentest4j.AssertionFailedError: 
+Expecting:
+ <"SUCCEEDED">
+to be equal to:
+ <"FAILED">
+but was not.
+       java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+       java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+       io.catalogsentinel.core.gaps.ReferenceSourceEligibilityIT.aRunWhoseSelectedSourceWasDisabledMeanwhileFailsVisiblyWithoutTouchingGaps(ReferenceSourceEligibilityIT.java:176)
+       java.base/java.lang.reflect.Method.invoke(Method.java:580)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+  JUnit Jupiter:ReferenceSourceEligibilityIT:disablingASourceRemovesItsExclusiveGapsAndItsEvidenceUntilItIsEnabledAgain()
+    MethodSource [className = 'io.catalogsentinel.core.gaps.ReferenceSourceEligibilityIT', methodName = 'disablingASourceRemovesItsExclusiveGapsAndItsEvidenceUntilItIsEnabledAgain', methodParameterTypes = '']
+    => java.lang.AssertionError: [a product only a disabled source lists is not an active gap] 
+Expecting an empty Optional but was containing value: <GapView[gapId=3, canonicalProductId=3, targetSourceId=3, targetSourceCode=mkt-market, status=OPEN, reason=NO_CANDIDATE, confidence=0.9500, priorityScore=82.50, priority=P1, bestCandidateListingId=null, bestCandidateScore=null, evidenceJson={"demand": {"value": 0.5, "source": "SYNTHETIC"}, "reason": "NO_CANDIDATE", "assessor": "gap-v1", "explanation": ["No similar listing was retrieved from the marketplace (GTIN, brand+model and title search).", "Synthetic demand index 0.50 (generated test signal, not real demand).", "Carried by 1 of 1 reference sources."], "referenceCoverage": {"of": 1, "sources": 1}, "referenceListings": [4]}, detectionCount=2, firstDetectedAt=2026-11-03T16:44:39.592700Z, lastDetectedAt=2026-11-03T16:44:40.083454Z, lastJobId=2, resolvedAt=null, resolution=null, updatedAt=2026-11-03T16:44:40.083454Z, productTitle=Brightfield Nova BR-3265E 24 oz Insulated Water Bottle, Navy, productBrand=Brightfield, productCategory=audio, referenceListingId=4, referenceTitle=Brightfield Nova BR-3265E 24 oz Insulated Water Bottle, Navy, referenceSourceCode=ref-beta, referenceGtin=02000000000039, bestCandidateTitle=null, bestCandidateSourceCode=null]>.
+       io.catalogsentinel.core.gaps.ReferenceSourceEligibilityIT.disablingASourceRemovesItsExclusiveGapsAndItsEvidenceUntilItIsEnabledAgain(ReferenceSourceEligibilityIT.java:124)
+       java.base/java.lang.reflect.Method.invoke(Method.java:580)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+  JUnit Jupiter:ReferenceSourceEligibilityIT:aSelectedReferenceSourceScopesEligibilityCoverageAndDemand()
+    MethodSource [className = 'io.catalogsentinel.core.gaps.ReferenceSourceEligibilityIT', methodName = 'aSelectedReferenceSourceScopesEligibilityCoverageAndDemand', methodParameterTypes = '']
+    => java.lang.AssertionError: 
+Expecting:
+ <{"of"=2, "sources"=2}>
+to contain:
+ <[MapEntry[key="sources", value=1]]>
+but could not find:
+ <[MapEntry[key="sources", value=1]]>
+
+       io.catalogsentinel.core.gaps.ReferenceSourceEligibilityIT.aSelectedReferenceSourceScopesEligibilityCoverageAndDemand(ReferenceSourceEligibilityIT.java:153)
+       java.base/java.lang.reflect.Method.invoke(Method.java:580)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+  JUnit Jupiter:ReferenceSourceEligibilityIT:aDisabledReferenceSourceCannotBeSelected()
+    MethodSource [className = 'io.catalogsentinel.core.gaps.ReferenceSourceEligibilityIT', methodName = 'aDisabledReferenceSourceCannotBeSelected', methodParameterTypes = '']
+    => java.lang.AssertionError: 
+Expecting code to raise a throwable.
+       io.catalogsentinel.core.gaps.ReferenceSourceEligibilityIT.aDisabledReferenceSourceCannotBeSelected(ReferenceSourceEligibilityIT.java:162)
+       java.base/java.lang.reflect.Method.invoke(Method.java:580)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+Test run finished after 9102 ms
+[         4 containers found      ]
+[         0 containers skipped    ]
+[         4 containers started    ]
+[         0 containers aborted    ]
+[         4 containers successful ]
+[         0 containers failed     ]
+[         5 tests found           ]
+[         0 tests skipped         ]
+[         5 tests started         ]
+[         0 tests aborted         ]
+[         1 tests successful      ]
+[         4 tests failed          ]
+
+# finished 2026-11-03T16:44:42Z: harness exit status 1 (JUnit console: 0 = all passed, 1 = failures)

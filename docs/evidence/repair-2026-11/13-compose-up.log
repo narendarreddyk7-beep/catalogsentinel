@@ -1,0 +1,24 @@
+# started  2026-11-03T20:22:20Z: docker compose up -d --build --wait (the real stack)
+$ docker version --format 'client {{.Client.Version}} server {{.Server.Version}}'
+client 29.9.2 server 29.9.2
+$ docker compose up -d --build --wait
+ Image motoserver/moto:5.2.5 Pulling 
+ Image postgres:16-alpine Pulling 
+ Image softwaremill/elasticmq-native:1.6.16 Pulling 
+ Image motoserver/moto:5.2.5 Error failed to resolve reference "docker.io/motoserver/moto:5.2.5": failed to do request: Head "https://registry-1.docker.io/v2/motoserver/moto/manifests/5.2.5": Forbidden
+ Image softwaremill/elasticmq-native:1.6.16 Interrupted 
+ Image postgres:16-alpine Interrupted 
+Error response from daemon: failed to resolve reference "docker.io/motoserver/moto:5.2.5": failed to do request: Head "https://registry-1.docker.io/v2/motoserver/moto/manifests/5.2.5": Forbidden
+Error response from daemon: No such image: softwaremill/elasticmq-native:1.6.16
+Error response from daemon: No such image: postgres:16-alpine
+exit 1
+$ docker pull postgres:16-alpine
+Error response from daemon: failed to resolve reference "docker.io/library/postgres:16-alpine": failed to do request: Head "https://registry-1.docker.io/v2/library/postgres/manifests/16-alpine": Forbidden
+exit 1
+$ curl -sS -o /dev/null -w '%{http_code}' https://registry-1.docker.io/v2/
+curl: (56) CONNECT tunnel failed, response 403
+000
+$ docker compose ps
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS
+$ docker compose down
+# finished 2026-11-03T20:22:22Z

@@ -1,0 +1,113 @@
+{
+  "description": "Fixtures and expected outcomes of scripts/smoke.sh. SmokeScenarioIT (libs/catalog-core) runs the same scenario in-process against PostgreSQL, so these expectations are checked against the real matching and gap code by the Java build. All data is synthetic. Placeholders: {token} is the run token (lowercase letters), {Brand} and {BRAND} the token as a brand name, {root} the category root 'smoke {token}', {gtin:NAME} a valid GTIN-13 derived from the token and NAME (scripts/e2e/smoke.py gtin_for, SmokeScenario.gtinFor).",
+  "occurredAt": "2026-05-01T00:00:00Z",
+  "categoryRoot": "smoke {token}",
+  "sources": {
+    "reference": {"code": "smk-{token}-ref", "name": "Smoke {token} reference (synthetic)", "role": "REFERENCE"},
+    "market": {"code": "smk-{token}-mkt", "name": "Smoke {token} marketplace (synthetic)", "role": "MARKETPLACE"},
+    "batch": {"code": "smk-{token}-bat", "name": "Smoke {token} batch feed (synthetic)", "role": "MARKETPLACE"}
+  },
+  "listings": {
+    "refKettle": {
+      "source": "reference", "path": "sync", "externalProductId": "REF-KETTLE", "sourceVersion": 1,
+      "title": "{Brand} Brew VB-17 1.7 L Electric Kettle, Silver", "brand": "{Brand}", "model": "VB-17",
+      "category": "{root} > Kitchen > Kettles", "gtin": "{gtin:kettle}",
+      "attributes": {"color": "Silver", "capacity": "1.7 L", "synthetic_demand_index": "0.6200"}
+    },
+    "refLantern": {
+      "source": "reference", "path": "sync", "externalProductId": "REF-LANTERN", "sourceVersion": 1,
+      "title": "{Brand} Trail KT-200 LED Camping Lantern, Green", "brand": "{Brand}", "model": "KT-200",
+      "category": "{root} > Outdoor > Lanterns", "gtin": "{gtin:lantern}",
+      "attributes": {"color": "Green", "synthetic_demand_index": "0.9000"}
+    },
+    "refDrive": {
+      "source": "reference", "path": "sync", "externalProductId": "REF-DRIVE", "sourceVersion": 1,
+      "title": "{Brand} Pro AL-4520X 64GB USB Flash Drive, Black", "brand": "{Brand}", "model": "AL-4520X",
+      "category": "{root} > Electronics > Flash Drives", "gtin": "{gtin:drive}",
+      "attributes": {"color": "Black", "capacity": "64 GB", "synthetic_demand_index": "0.4000"}
+    },
+    "mktKettle": {
+      "source": "market", "path": "async", "redeliver": true, "externalProductId": "MKT-KETTLE", "sourceVersion": 1,
+      "title": "{BRAND} VB17 1.7 L Electric Kettle Silver", "brand": "{Brand}", "model": "VB17",
+      "category": "{root} > Kitchen > Kettles", "gtin": "{gtin:kettle}",
+      "attributes": {"color": "Silver"}
+    },
+    "mktDrive": {
+      "source": "market", "path": "async", "externalProductId": "MKT-DRIVE", "sourceVersion": 1,
+      "title": "{Brand} Pro USB Flash Drive 64GB Black", "brand": "{Brand}", "model": null,
+      "category": "{root} > Electronics > Flash Drives", "gtin": null,
+      "attributes": {"color": "Black"}
+    },
+    "mktBottle": {
+      "source": "market", "path": "lifecycle", "externalProductId": "MKT-BOTTLE", "sourceVersion": 2,
+      "title": "{Brand} Nova BR-3265E 24 oz Insulated Water Bottle, Navy", "brand": "{Brand}", "model": "BR-3265E",
+      "category": "{root} > Outdoor > Bottles", "gtin": "{gtin:bottle}",
+      "attributes": {"color": "Navy"}
+    }
+  },
+  "lifecycle": {
+    "listing": "mktBottle",
+    "steps": [
+      {"name": "create", "version": 2,
+       "expect": {"status": 201, "outcome": "CREATED", "appliedVersion": 2, "duplicate": false}},
+      {"name": "exact replay", "replayOf": "create",
+       "expect": {"status": 200, "outcome": "CREATED", "duplicate": true, "replayHeader": true}},
+      {"name": "event id reused with other data", "reuseEventIdOf": "create", "titleSuffix": " (edited)",
+       "expect": {"status": 409, "code": "EVENT_ID_REUSED"}},
+      {"name": "older version", "version": 1,
+       "expect": {"status": 200, "outcome": "STALE_IGNORED", "appliedVersion": null}},
+      {"name": "same version, other content", "version": 2, "titleSuffix": " (conflicting edit)",
+       "expect": {"status": 409, "code": "VERSION_CONFLICT"}},
+      {"name": "withdraw", "version": 3, "eventType": "LISTING_WITHDRAWN",
+       "expect": {"status": 200, "outcome": "WITHDRAWN", "appliedVersion": 3}},
+      {"name": "stale upsert after withdrawal", "version": 2, "titleSuffix": " (resurrection attempt)",
+       "expect": {"status": 200, "outcome": "STALE_IGNORED", "appliedVersion": null}},
+      {"name": "reactivate", "version": 4,
+       "expect": {"status": 200, "outcome": "REACTIVATED", "appliedVersion": 4}}
+    ],
+    "finalState": {"status": "ACTIVE", "sourceVersion": 4},
+    "ledgerOutcomes": ["CREATED", "REACTIVATED", "STALE_IGNORED", "STALE_IGNORED", "VERSION_CONFLICT", "WITHDRAWN"]
+  },
+  "expect": {
+    "sameProduct": [["refKettle", "mktKettle"]],
+    "reviewCandidate": {"between": ["refDrive", "mktDrive"], "decision": "REVIEW", "reviewStatus": "PENDING"},
+    "firstReconciliation": {
+      "gaps": [
+        {"reference": "refLantern", "status": "OPEN", "reason": "NO_CANDIDATE"},
+        {"reference": "refDrive", "status": "OPEN", "reason": "UNCONFIRMED_CANDIDATE", "bestCandidate": "mktDrive"}
+      ],
+      "carried": ["refKettle"],
+      "coverage": {"referenceProducts": 3, "carried": 1, "openGaps": 2, "confirmedGaps": 0, "dismissedGaps": 0, "notEvaluated": 0}
+    },
+    "decisions": {"confirmGapOf": "refLantern", "approveCandidate": ["refDrive", "mktDrive"]},
+    "secondReconciliation": {
+      "gaps": [
+        {"reference": "refLantern", "status": "CONFIRMED", "reason": "NO_CANDIDATE"},
+        {"reference": "refDrive", "status": "RESOLVED", "resolution": "AUTO_MATCH_FOUND"}
+      ],
+      "carried": ["refKettle", "refDrive"],
+      "coverage": {"referenceProducts": 3, "carried": 2, "openGaps": 0, "confirmedGaps": 1, "dismissedGaps": 0, "notEvaluated": 0}
+    }
+  },
+  "batch": {
+    "source": "batch",
+    "exportId": "smoke-{token}",
+    "exportedAt": "2026-05-01T00:00:00Z",
+    "records": [
+      {"externalProductId": "BAT-LAMP", "sourceVersion": 1, "updatedAt": "2026-05-01T00:00:00Z",
+       "title": "{Brand} Glow LT-50 LED Desk Lamp, White", "brand": "{Brand}", "model": "LT-50",
+       "category": "{root} > Home > Lamps", "gtin": "{gtin:lamp}", "attributes": {"color": "White"}},
+      {"externalProductId": "BAT-FAN", "sourceVersion": 1, "updatedAt": "2026-05-01T00:00:00Z",
+       "title": "{Brand} Aero FN-12 Desk Fan, Black", "brand": "{Brand}", "model": "FN-12",
+       "category": "{root} > Home > Fans", "gtin": "{gtin:fan}", "attributes": {"color": "Black"}},
+      {"externalProductId": "BAT-CABLE", "sourceVersion": 1, "updatedAt": "2026-05-01T00:00:00Z",
+       "title": "{Brand} Dash CB-3 USB-C Cable 2 m, Gray", "brand": "{Brand}", "model": "CB-3",
+       "category": "{root} > Electronics > Cables", "gtin": "{gtin:cable}", "attributes": {"color": "Gray"}},
+      {"externalProductId": "BAT-INVALID", "sourceVersion": 1, "updatedAt": "2026-05-01T00:00:00Z",
+       "title": "{Brand} Rejected GTIN Example", "brand": "{Brand}", "model": "RJ-1",
+       "category": "{root} > Home > Lamps", "gtin": "12345", "attributes": {}}
+    ],
+    "expect": {"rowsTotal": 4, "rowsValid": 3, "rowsRejected": 1, "eventsPublished": 3,
+               "processedByOutcome": {"CREATED": 3}, "activeListings": 3}
+  }
+}

@@ -1,0 +1,151 @@
+id	source	truth_key	family	title	brand	model	category	gtin	attributes
+sony-wh1000x-01	ref	sony-wh1000xm5-black	sony-wh1000x	Sony WH-1000XM5 Wireless Noise Canceling Headphones, Black	Sony	WH-1000XM5	Electronics > Audio > Headphones	2613885775352	color=Black
+sony-wh1000x-02	mkt	sony-wh1000xm5-black	sony-wh1000x	SONY WH1000XM5 Wireless Industry Leading Noise Cancelling Over-Ear Headphones - Black		WH1000XM5/B	Headphones		
+sony-wh1000x-03	mkt2	sony-wh1000xm5-black	sony-wh1000x	Sony WH-1000XM5 Noise Cancelling Wireles Headphones Black	Sony Corporation		Audio	2613885775352	Colour=Black
+sony-wh1000x-04	ref	sony-wh1000xm5-silver	sony-wh1000x	Sony WH-1000XM5 Wireless Noise Canceling Headphones, Silver	Sony	WH-1000XM5	Electronics > Audio > Headphones	2493184095746	color=Silver
+sony-wh1000x-05	mkt	sony-wh1000xm5-silver	sony-wh1000x	Sony WH-1000XM5 Headphones (Silver)	Sony	WH1000XM5/S	Headphones		
+sony-wh1000x-06	ref	sony-wh1000xm4-black	sony-wh1000x	Sony WH-1000XM4 Wireless Noise Canceling Headphones, Black	Sony	WH-1000XM4	Electronics > Audio > Headphones	2815670833791	color=Black
+sony-wh1000x-07	mkt	sony-wh1000xm4-black	sony-wh1000x	Sony WH1000XM4 Noise Cancelling Headphones Black	Sony		Headphones		
+iphone-15-01	ref	iphone15pro-128-natural	iphone-15	Apple iPhone 15 Pro 128GB Natural Titanium	Apple		Electronics > Phones > Smartphones	2181514145239	storage=128 GB;color=Natural Titanium
+iphone-15-02	mkt	iphone15pro-128-natural	iphone-15	iPhone 15 Pro, 128 GB, Natural Titanium - Unlocked	Apple Inc.		Cell Phones		
+iphone-15-03	ref	iphone15pro-256-natural	iphone-15	Apple iPhone 15 Pro 256GB Natural Titanium	Apple		Electronics > Phones > Smartphones	2411800605391	storage=256 GB;color=Natural Titanium
+iphone-15-04	mkt	iphone15pro-256-natural	iphone-15	Apple iPhone 15 Pro (256 GB) - Natural Titanium	Apple		Cell Phones	2411800605391	
+iphone-15-05	ref	iphone15pro-128-blue	iphone-15	Apple iPhone 15 Pro 128GB Blue Titanium	Apple		Electronics > Phones > Smartphones	2469845744094	storage=128 GB;color=Blue Titanium
+iphone-15-06	ref	iphone15-128-black	iphone-15	Apple iPhone 15 128GB Black	Apple		Electronics > Phones > Smartphones	2104900501662	storage=128 GB;color=Black
+iphone-15-07	mkt	iphone15-128-black	iphone-15	iPhone 15 128GB Black Unlocked Smartphone	Apple		Cell Phones		
+iphone-15-08	ref	iphone15promax-256-natural	iphone-15	Apple iPhone 15 Pro Max 256GB Natural Titanium	Apple		Electronics > Phones > Smartphones	2413188220142	storage=256 GB;color=Natural Titanium
+samsung-q80c-01	ref	samsung-qn55q80c	samsung-q80c	Samsung 55" Class Q80C QLED 4K Smart TV (2023)	Samsung	QN55Q80CAFXZA	Electronics > TV & Video > Televisions	2305268037002	screen size=55 in
+samsung-q80c-02	mkt	samsung-qn55q80c	samsung-q80c	SAMSUNG 55-Inch Class QLED 4K Q80C Series Quantum HDR+ Smart TV	Samsung Electronics	QN55Q80C	Televisions		
+samsung-q80c-03	mkt2	samsung-qn55q80c	samsung-q80c	Samsung QN55Q80CAFXZA 55 inch QLED TV		QN55Q80CAFXZA	TVs	2305268037002	
+samsung-q80c-04	ref	samsung-qn65q80c	samsung-q80c	Samsung 65" Class Q80C QLED 4K Smart TV (2023)	Samsung	QN65Q80CAFXZA	Electronics > TV & Video > Televisions	2110383347338	screen size=65 in
+samsung-q80c-05	mkt	samsung-qn65q80c	samsung-q80c	SAMSUNG 65-Inch Class QLED 4K Q80C Series Smart TV	Samsung	QN65Q80C	Televisions		
+airpods-01	ref	airpods-pro-2-usbc	airpods	Apple AirPods Pro (2nd Generation) with MagSafe Case (USB-C)	Apple	MTJV3AM/A	Electronics > Audio > Earbuds	2293565199830	
+airpods-02	mkt	airpods-pro-2-usbc	airpods	Apple AirPods Pro 2nd Gen Wireless Earbuds USB-C	Apple	MTJV3AM/A	Earbuds		
+airpods-03	mkt2	airpods-pro-2-usbc	airpods	AirPods Pro (2nd generation) USB C charging case		MTJV3	Headphones		
+airpods-04	ref	airpods-3	airpods	Apple AirPods (3rd Generation) with Lightning Charging Case	Apple	MPNY3AM/A	Electronics > Audio > Earbuds	2896295334283	
+airpods-05	mkt	airpods-3	airpods	Apple AirPods 3rd Gen Lightning Case	Apple		Earbuds		
+kindle-01	ref	kindle-pw-16	kindle	Kindle Paperwhite (16 GB) - 6.8" display, 11th generation, Black	Amazon		Electronics > E-Readers	2814899117521	storage=16 GB;color=Black
+kindle-02	mkt	kindle-pw-16	kindle	Amazon Kindle Paperwhite 16GB 6.8 inch 11th Gen Black	Amazon		eReaders		
+kindle-03	ref	kindle-pw-sig-32	kindle	Kindle Paperwhite Signature Edition (32 GB) - 6.8" display, 11th generation	Amazon		Electronics > E-Readers	2845095826856	storage=32 GB
+kindle-04	mkt	kindle-pw-sig-32	kindle	Kindle Paperwhite Signature Edition 32GB 11th Generation	Amazon		eReaders		
+echo-dot-01	ref	echo-dot-5-charcoal	echo-dot	Echo Dot (5th Gen, 2022 release) Smart speaker with Alexa, Charcoal	Amazon		Electronics > Smart Home > Speakers	2461369437490	color=Charcoal
+echo-dot-02	mkt	echo-dot-5-charcoal	echo-dot	Amazon Echo Dot 5th Generation Smart Speaker - Charcoal	Amazon		Smart Speakers		
+echo-dot-03	mkt2	echo-dot-5-charcoal	echo-dot	Echo Dot 5th Gen Alexa Speaker Charcoal Grey	Amazon		Speakers	2461369437490	
+echo-dot-04	ref	echo-dot-5-white	echo-dot	Echo Dot (5th Gen, 2022 release) Smart speaker with Alexa, Glacier White	Amazon		Electronics > Smart Home > Speakers	2845971012984	color=Glacier White
+echo-dot-05	ref	echo-dot-4-charcoal	echo-dot	Echo Dot (4th Gen, 2020 release) Smart speaker with Alexa, Charcoal	Amazon		Electronics > Smart Home > Speakers	2893742000968	color=Charcoal
+echo-dot-06	mkt	echo-dot-4-charcoal	echo-dot	Amazon Echo Dot 4th Generation Charcoal	Amazon		Smart Speakers		
+lego-icons-01	ref	lego-10318	lego-icons	LEGO Icons Concorde 10318 Building Set for Adults	LEGO	10318	Toys > Building Sets	2101705354653	
+lego-icons-02	mkt	lego-10318	lego-icons	LEGO 10318 Icons Concorde Airplane Model Kit (2083 Pieces)	The LEGO Group	10318	Toys		
+lego-icons-03	mkt2	lego-10318	lego-icons	Lego Concorde Icons Set 10318			Building Toys		
+lego-icons-04	ref	lego-10497	lego-icons	LEGO Icons Galaxy Explorer 10497 Building Set	LEGO	10497	Toys > Building Sets	2262620835167	
+lego-icons-05	mkt	lego-10497	lego-icons	LEGO 10497 Galaxy Explorer Spaceship Model (1254 Pieces)	LEGO	10497	Toys		
+dewalt-drill-01	ref	dewalt-dcd771c2	dewalt-drill	DEWALT 20V MAX Cordless Drill/Driver Kit, Compact, 1/2-Inch (DCD771C2)	DEWALT	DCD771C2	Tools > Power Tools > Drills	2140732190353	
+dewalt-drill-02	mkt	dewalt-dcd771c2	dewalt-drill	Dewalt DCD771C2 20V Max Compact Drill Driver Kit with 2 Batteries	DeWalt	DCD771C2	Power Tools		
+dewalt-drill-03	mkt2	dewalt-dcd771c2	dewalt-drill	DEWALT 20-Volt MAX Lithium-Ion Cordless 1/2 in. Drill/Driver Kit DCD771C2	Dewalt Tools		Drills		
+dewalt-drill-04	ref	dewalt-dcd777c2	dewalt-drill	DEWALT 20V MAX Brushless Cordless Drill/Driver Kit, 1/2-Inch (DCD777C2)	DEWALT	DCD777C2	Tools > Power Tools > Drills	2904716496400	
+dewalt-drill-05	mkt	dewalt-dcd777c2	dewalt-drill	DeWalt DCD777C2 Brushless Compact Drill Driver Kit	DEWALT	DCD777C2	Power Tools		
+instant-pot-01	ref	instantpot-duo-6qt	instant-pot	Instant Pot Duo 7-in-1 Electric Pressure Cooker, 6 Quart	Instant Pot	DUO60	Home > Kitchen > Pressure Cookers	2889185200164	capacity=6 qt
+instant-pot-02	mkt	instantpot-duo-6qt	instant-pot	Instant Pot DUO60 6 Qt 7-in-1 Multi-Use Programmable Pressure Cooker	Instant Brands	DUO60	Kitchen		
+instant-pot-03	ref	instantpot-duo-8qt	instant-pot	Instant Pot Duo 7-in-1 Electric Pressure Cooker, 8 Quart	Instant Pot	DUO80	Home > Kitchen > Pressure Cookers	2300457100482	capacity=8 qt
+instant-pot-04	mkt	instantpot-duo-8qt	instant-pot	Instant Pot DUO80 8 Qt 7-in-1 Pressure Cooker	Instant Pot	DUO80	Kitchen		
+starbucks-01	ref	sbux-pike-12oz	starbucks	Starbucks Ground Coffee, Pike Place Roast, Medium Roast, 12 oz Bag	Starbucks		Grocery > Coffee > Ground Coffee	2828582474747	
+starbucks-02	mkt	sbux-pike-12oz	starbucks	Starbucks Pike Place Medium Roast Ground Coffee 12 Ounce	Starbucks		Coffee		
+starbucks-03	ref	sbux-pike-28oz	starbucks	Starbucks Ground Coffee, Pike Place Roast, Medium Roast, 28 oz Bag	Starbucks		Grocery > Coffee > Ground Coffee	2713413569191	
+starbucks-04	ref	sbux-veranda-12oz	starbucks	Starbucks Ground Coffee, Veranda Blend, Blonde Roast, 12 oz Bag	Starbucks		Grocery > Coffee > Ground Coffee	2111679163120	
+starbucks-05	mkt	sbux-veranda-12oz	starbucks	Starbucks Veranda Blend Blonde Roast Ground Coffee 12oz	Starbucks		Coffee		
+lacroix-01	ref	lacroix-lime-12pk	lacroix	LaCroix Sparkling Water, Lime, 12 fl oz cans (Pack of 12)	LaCroix		Grocery > Beverages > Sparkling Water	2493719004960	
+lacroix-02	mkt	lacroix-lime-12pk	lacroix	La Croix Lime Sparkling Water 12 Pack 12 Fl Oz Cans	LaCroix		Beverages		
+lacroix-03	ref	lacroix-lime-8pk	lacroix	LaCroix Sparkling Water, Lime, 12 fl oz cans (Pack of 8)	LaCroix		Grocery > Beverages > Sparkling Water	2276797058526	
+lacroix-04	ref	lacroix-pamp-12pk	lacroix	LaCroix Sparkling Water, Pamplemousse, 12 fl oz cans (Pack of 12)	LaCroix		Grocery > Beverages > Sparkling Water	2187741714033	
+lacroix-05	mkt	lacroix-pamp-12pk	lacroix	LaCroix Pamplemousse (Grapefruit) Sparkling Water, 12 Count, 12 oz cans	LaCroix		Beverages		
+duracell-01	ref	duracell-aa-24	duracell	Duracell Coppertop AA Batteries, 24 Count Pack	Duracell	MN1500	Household > Batteries	2107564721582	
+duracell-02	mkt	duracell-aa-24	duracell	Duracell AA Alkaline Batteries 24-Pack Coppertop	Duracell		Batteries		
+duracell-03	mkt2	duracell-aa-24	duracell	Duracell Coppertop Double A Batteries - 24 Count			Household	2107564721582	
+duracell-04	ref	duracell-aa-48	duracell	Duracell Coppertop AA Batteries, 48 Count Pack	Duracell	MN1500	Household > Batteries	2339237050303	
+duracell-05	ref	duracell-aaa-24	duracell	Duracell Coppertop AAA Batteries, 24 Count Pack	Duracell	MN2400	Household > Batteries	2959454979043	
+duracell-06	mkt	duracell-aaa-24	duracell	Duracell AAA Coppertop Alkaline 24 Pack	Duracell		Batteries		
+samsung-t7-01	ref	samsung-t7-1tb-gray	samsung-t7	SAMSUNG T7 Portable SSD 1TB USB 3.2 Gen 2, Titan Gray	Samsung	MU-PC1T0T/AM	Electronics > Storage > External SSD	2620500445590	storage=1 TB;color=Titan Gray
+samsung-t7-02	mkt	samsung-t7-1tb-gray	samsung-t7	Samsung T7 1TB Portable SSD Titan Grey MU-PC1T0T	Samsung	MU-PC1T0T	Storage		
+samsung-t7-03	ref	samsung-t7-2tb-gray	samsung-t7	SAMSUNG T7 Portable SSD 2TB USB 3.2 Gen 2, Titan Gray	Samsung	MU-PC2T0T/AM	Electronics > Storage > External SSD	2230431569359	storage=2 TB;color=Titan Gray
+samsung-t7-04	mkt	samsung-t7-2tb-gray	samsung-t7	Samsung T7 Portable SSD 2 TB - Titan Gray	Samsung		Storage		
+samsung-t7-05	ref	samsung-t7shield-1tb	samsung-t7	SAMSUNG T7 Shield Portable SSD 1TB, Black	Samsung	MU-PE1T0S/AM	Electronics > Storage > External SSD	2232096318631	storage=1 TB;color=Black
+sandisk-microsd-01	ref	sandisk-ext-128	sandisk-microsd	SanDisk 128GB Extreme microSDXC UHS-I Memory Card with Adapter	SanDisk	SDSQXAA-128G-GN6MA	Electronics > Storage > Memory Cards	2151235123670	storage=128 GB
+sandisk-microsd-02	mkt	sandisk-ext-128	sandisk-microsd	SanDisk Extreme 128 GB microSD Card A2 U3 V30	Sandisk	SDSQXAA-128G	Memory Cards		
+sandisk-microsd-03	ref	sandisk-ext-256	sandisk-microsd	SanDisk 256GB Extreme microSDXC UHS-I Memory Card with Adapter	SanDisk	SDSQXAV-256G-GN6MA	Electronics > Storage > Memory Cards	2309271019727	storage=256 GB
+sandisk-microsd-04	mkt	sandisk-ext-256	sandisk-microsd	SanDisk Extreme 256GB microSDXC Card	SanDisk		Memory Cards		
+logitech-mx-01	ref	logi-mx-master-3s-graphite	logitech-mx	Logitech MX Master 3S Performance Wireless Mouse, Graphite	Logitech	910-006556	Electronics > Computer Accessories > Mice	2102800377493	color=Graphite
+logitech-mx-02	mkt	logi-mx-master-3s-graphite	logitech-mx	Logitech MX Master 3S Wireless Mouse - Graphite	Logitech International	910-006556	Mice		
+logitech-mx-03	mkt2	logi-mx-master-3s-graphite	logitech-mx	MX Master 3S Logitech Ergonomic Mouse Graphite 8K DPI			Computer Mice		
+logitech-mx-04	ref	logi-mx-master-3-graphite	logitech-mx	Logitech MX Master 3 Advanced Wireless Mouse, Graphite	Logitech	910-005647	Electronics > Computer Accessories > Mice	2884508561991	color=Graphite
+logitech-mx-05	ref	logi-mx-master-3s-pale	logitech-mx	Logitech MX Master 3S Performance Wireless Mouse, Pale Gray	Logitech	910-006558	Electronics > Computer Accessories > Mice	2899308991756	color=Pale Gray
+nike-pegasus-01	ref	pegasus40-m-10-black	nike-pegasus	Nike Air Zoom Pegasus 40 Men's Road Running Shoes, Black/White, Size 10	Nike	DV3853-001	Apparel > Shoes > Running	2378606555261	size=10;color=Black
+nike-pegasus-02	mkt	pegasus40-m-10-black	nike-pegasus	Nike Pegasus 40 Mens Running Shoe Black White Size 10	Nike		Shoes		
+nike-pegasus-03	ref	pegasus40-m-11-black	nike-pegasus	Nike Air Zoom Pegasus 40 Men's Road Running Shoes, Black/White, Size 11	Nike	DV3853-001	Apparel > Shoes > Running	2776223272767	size=11;color=Black
+nike-pegasus-04	ref	pegasus41-m-10-black	nike-pegasus	Nike Pegasus 41 Men's Road Running Shoes, Black/White, Size 10	Nike	FD2722-002	Apparel > Shoes > Running	2900580960948	size=10;color=Black
+nike-pegasus-05	mkt	pegasus41-m-10-black	nike-pegasus	Nike Air Zoom Pegasus 41 Running Shoes Men Size 10 Black	Nike		Shoes		
+cerave-01	ref	cerave-cream-16oz	cerave	CeraVe Moisturizing Cream, Body and Face Moisturizer, 16 oz	CeraVe		Beauty > Skin Care > Moisturizers	2100704481933	
+cerave-02	mkt	cerave-cream-16oz	cerave	CeraVe Moisturizing Cream 16 Ounce Daily Face and Body Moisturizer	Cerave		Skin Care		
+cerave-03	ref	cerave-cream-19oz	cerave	CeraVe Moisturizing Cream, Body and Face Moisturizer, 19 oz	CeraVe		Beauty > Skin Care > Moisturizers	2196431983239	
+cerave-04	ref	cerave-lotion-19oz	cerave	CeraVe Daily Moisturizing Lotion for Dry Skin, 19 oz	CeraVe		Beauty > Skin Care > Moisturizers	2970177365166	
+cerave-05	mkt	cerave-lotion-19oz	cerave	CeraVe Daily Moisturizing Lotion 19 Ounce	CeraVe		Skin Care		
+fitbit-01	ref	fitbit-charge6-black	fitbit	Fitbit Charge 6 Fitness Tracker with Google apps, Obsidian/Black	Fitbit	GA05183-US	Electronics > Wearables > Fitness Trackers	2819485327605	color=Black
+fitbit-02	mkt	fitbit-charge6-black	fitbit	Google Fitbit Charge 6 Activity Tracker Obsidian Black Band	Fitbit		Wearables		
+fitbit-03	ref	fitbit-charge5-black	fitbit	Fitbit Charge 5 Advanced Fitness & Health Tracker, Black/Graphite	Fitbit	FB421BKBK-US	Electronics > Wearables > Fitness Trackers	2444415816616	color=Black
+fitbit-04	mkt	fitbit-charge5-black	fitbit	Fitbit Charge 5 Fitness Tracker Black Graphite	Fitbit	FB421BKBK	Wearables		
+canon-r6-01	ref	canon-r6ii-body	canon-r6	Canon EOS R6 Mark II Mirrorless Camera (Body Only)	Canon	EOS R6 Mark II	Electronics > Cameras > Mirrorless	2117314067815	
+canon-r6-02	mkt	canon-r6ii-body	canon-r6	Canon EOS R6 MKII Full Frame Mirrorless Camera Body	Canon	5666C002	Cameras		
+canon-r6-03	mkt2	canon-r6ii-body	canon-r6	Canon R6 Mark II Body Only Mirrorless	Canon Inc		Digital Cameras		
+canon-r6-04	ref	canon-r6-body	canon-r6	Canon EOS R6 Full-Frame Mirrorless Camera (Body Only)	Canon	EOS R6	Electronics > Cameras > Mirrorless	2627704065401	
+canon-r6-05	mkt	canon-r6-body	canon-r6	Canon EOS R6 Mirrorless Camera Body 20MP	Canon	4082C002	Cameras		
+dell-monitor-01	ref	dell-u2723qe	dell-monitor	Dell UltraSharp 27 4K USB-C Hub Monitor - U2723QE	Dell	U2723QE	Electronics > Monitors	2681410559944	screen size=27 in
+dell-monitor-02	mkt	dell-u2723qe	dell-monitor	Dell U2723QE UltraSharp 27" 4K IPS Black USB-C Monitor	Dell	U2723QE	Monitors		
+dell-monitor-03	ref	dell-u2720q	dell-monitor	Dell UltraSharp 27 4K USB-C Monitor - U2720Q	Dell	U2720Q	Electronics > Monitors	2456031746529	screen size=27 in
+dell-monitor-04	mkt	dell-u2720q	dell-monitor	Dell U2720Q 27 Inch 4K UHD Monitor	Dell Technologies	U2720Q	Monitors		
+tplink-01	ref	tplink-ax55	tplink	TP-Link Archer AX55 AX3000 Dual Band Gigabit Wi-Fi 6 Router	TP-Link	Archer AX55	Electronics > Networking > Routers	2107226132978	
+tplink-02	mkt	tplink-ax55	tplink	TP Link AX3000 WiFi 6 Router Archer AX55	TP-LINK	AX55	Routers		
+tplink-03	ref	tplink-ax73	tplink	TP-Link Archer AX73 AX5400 Dual Band Gigabit Wi-Fi 6 Router	TP-Link	Archer AX73	Electronics > Networking > Routers	2883092385266	
+tplink-04	mkt	tplink-ax73	tplink	TP-Link AX5400 WiFi 6 Router (Archer AX73)	TP-Link		Routers		
+jbl-flip-01	ref	jbl-flip6-blue	jbl-flip	JBL Flip 6 Portable Waterproof Bluetooth Speaker, Blue	JBL	JBLFLIP6BLUAM	Electronics > Audio > Portable Speakers	2755018628491	color=Blue
+jbl-flip-02	mkt	jbl-flip6-blue	jbl-flip	JBL FLIP 6 Bluetooth Speaker Waterproof Blue	JBL		Speakers		
+jbl-flip-03	ref	jbl-flip6-black	jbl-flip	JBL Flip 6 Portable Waterproof Bluetooth Speaker, Black	JBL	JBLFLIP6BLKAM	Electronics > Audio > Portable Speakers	2221460685202	color=Black
+jbl-flip-04	mkt	jbl-flip6-black	jbl-flip	JBL Flip6 Portable Speaker - Black	JBL	JBLFLIP6BLK	Speakers		
+jbl-flip-05	ref	jbl-flip5-blue	jbl-flip	JBL Flip 5 Waterproof Portable Bluetooth Speaker, Blue	JBL	JBLFLIP5BLUAM	Electronics > Audio > Portable Speakers	2659546735037	color=Blue
+controllers-01	ref	xbox-ctrl-carbon	controllers	Xbox Core Wireless Controller - Carbon Black	Microsoft	QAT-00001	Electronics > Gaming > Controllers	2789523521190	color=Carbon Black
+controllers-02	mkt	xbox-ctrl-carbon	controllers	Microsoft Xbox Wireless Controller Carbon Black	Microsoft	QAT-00001	Video Games		
+controllers-03	ref	xbox-ctrl-robotwhite	controllers	Xbox Core Wireless Controller - Robot White	Microsoft	QAS-00001	Electronics > Gaming > Controllers	2102302858070	color=Robot White
+controllers-04	ref	ps5-dualsense-white	controllers	PlayStation DualSense Wireless Controller - White	Sony	CFI-ZCT1W	Electronics > Gaming > Controllers	2228423275296	color=White
+controllers-05	mkt	ps5-dualsense-white	controllers	Sony PS5 DualSense Controller White	Sony Interactive Entertainment		Video Games		
+purina-01	ref	purina-proplan-chicken-18lb	purina	Purina Pro Plan Adult Dry Dog Food, Shredded Blend Chicken & Rice, 18 lb Bag	Purina Pro Plan		Pet Supplies > Dog Food	2299098132450	
+purina-02	mkt	purina-proplan-chicken-18lb	purina	Purina Pro Plan Shredded Blend Chicken and Rice Adult Dog Food 18 Pound	Purina		Dog Food		
+purina-03	ref	purina-proplan-chicken-35lb	purina	Purina Pro Plan Adult Dry Dog Food, Shredded Blend Chicken & Rice, 35 lb Bag	Purina Pro Plan		Pet Supplies > Dog Food	2782656810889	
+purina-04	mkt	purina-proplan-chicken-35lb	purina	Purina Pro Plan Chicken & Rice Shredded Blend 35 lbs	Purina Pro Plan		Dog Food		
+tide-01	ref	tide-pods-42	tide	Tide PODS Laundry Detergent Pacs, Original Scent, 42 Count	Tide		Household > Laundry > Detergent	2778000639237	
+tide-02	mkt	tide-pods-42	tide	Tide Pods Original 42 ct Laundry Detergent	Procter & Gamble		Laundry		
+tide-03	ref	tide-pods-81	tide	Tide PODS Laundry Detergent Pacs, Original Scent, 81 Count	Tide		Household > Laundry > Detergent	2259540101571	
+tide-04	mkt	tide-pods-81	tide	Tide PODS Original Scent 81 Count	Tide		Laundry	2259540101571	
+anker-01	ref	anker-735	anker	Anker 735 Charger (Nano II 65W) 3-Port GaN Fast Charger	Anker	A2667	Electronics > Chargers	2105507005621	wattage=65 W
+anker-02	mkt	anker-735	anker	Anker Nano II 65W 735 USB C Charger 3 Port	Anker	A2667	Chargers		
+anker-03	ref	anker-737	anker	Anker 737 Charger (GaNPrime 120W) 3-Port Fast Charger	Anker	A2148	Electronics > Chargers	2110801685547	wattage=120 W
+anker-04	mkt	anker-737	anker	Anker 737 GaNPrime 120W USB-C Charger	Anker		Chargers		
+hydroflask-01	ref	hf-32-black	hydroflask	Hydro Flask 32 oz Wide Mouth Water Bottle with Flex Cap, Black	Hydro Flask	W32BTS001	Home > Kitchen > Water Bottles	2381624876324	color=Black
+hydroflask-02	mkt	hf-32-black	hydroflask	Hydro Flask Wide Mouth Bottle 32 fl. oz. Black Flex Cap	Hydro Flask	W32BTS001	Drinkware		
+hydroflask-03	ref	hf-40-black	hydroflask	Hydro Flask 40 oz Wide Mouth Water Bottle with Flex Cap, Black	Hydro Flask	W40BTS001	Home > Kitchen > Water Bottles	2440818356056	color=Black
+hydroflask-04	ref	hf-32-pacific	hydroflask	Hydro Flask 32 oz Wide Mouth Water Bottle with Flex Cap, Pacific	Hydro Flask	W32BTS415	Home > Kitchen > Water Bottles	2939103998137	color=Pacific
+galaxy-s24-01	ref	galaxy-s24-256-black	galaxy-s24	Samsung Galaxy S24 256GB Onyx Black	Samsung	SM-S921U	Electronics > Phones > Smartphones	2112558853576	storage=256 GB;color=Onyx Black
+galaxy-s24-02	mkt	galaxy-s24-256-black	galaxy-s24	SAMSUNG Galaxy S24 Cell Phone 256 GB Onyx Black Unlocked	Samsung	SM-S921U1	Cell Phones		
+galaxy-s24-03	ref	galaxy-s24plus-256-black	galaxy-s24	Samsung Galaxy S24+ 256GB Onyx Black	Samsung	SM-S926U	Electronics > Phones > Smartphones	2262490398908	storage=256 GB;color=Onyx Black
+galaxy-s24-04	mkt	galaxy-s24plus-256-black	galaxy-s24	Samsung Galaxy S24 Plus 256GB Onyx Black Unlocked	Samsung		Cell Phones		
+nespresso-01	ref	vertuo-next-black	nespresso	Nespresso Vertuo Next Coffee and Espresso Machine by Breville, Matte Black	Nespresso	BNV550MTB	Home > Kitchen > Coffee Makers	2714620156266	color=Matte Black
+nespresso-02	mkt	vertuo-next-black	nespresso	Breville Nespresso Vertuo Next Espresso Machine Black BNV550	Breville	BNV550MTB1BUC1	Coffee Makers		
+nespresso-03	ref	vertuo-next-gray	nespresso	Nespresso Vertuo Next Coffee and Espresso Machine by Breville, Light Grey	Nespresso	BNV550GRY	Home > Kitchen > Coffee Makers	2781861279337	color=Light Gray
+ninja-blender-01	ref	ninja-bl610	ninja-blender	Ninja BL610 Professional 72 Oz Countertop Blender, 1000 Watt	Ninja	BL610	Home > Kitchen > Blenders	2101489813582	wattage=1000 W
+ninja-blender-02	mkt	ninja-bl610	ninja-blender	Ninja Professional Blender 1000W BL610 72oz Pitcher	SharkNinja	BL610	Blenders		
+ninja-blender-03	ref	ninja-bn701	ninja-blender	Ninja BN701 Professional Plus Blender, 1400 Peak Watts, 72 Oz	Ninja	BN701	Home > Kitchen > Blenders	2111620340051	wattage=1400 W
+levis-01	ref	levis-501-32x32-rinse	levis	Levi's Men's 501 Original Fit Jeans, Rinse, 32W x 32L	Levi's	00501-0115	Apparel > Men > Jeans	2283915004747	size=32x32;color=Rinse
+levis-02	mkt	levis-501-32x32-rinse	levis	Levis 501 Original Fit Mens Jeans Rinse Wash 32x32	Levi Strauss		Jeans		
+levis-03	ref	levis-501-34x32-rinse	levis	Levi's Men's 501 Original Fit Jeans, Rinse, 34W x 32L	Levi's	00501-0115	Apparel > Men > Jeans	2492278164511	size=34x32;color=Rinse
+levis-04	ref	levis-505-32x32-rinse	levis	Levi's Men's 505 Regular Fit Jeans, Rinse, 32W x 32L	Levi's	00505-1524	Apparel > Men > Jeans	2395770694862	size=32x32;color=Rinse
+edge-cases-01	ref	bose-qc-ultra-black	edge-cases	Bose QuietComfort Ultra Wireless Noise Cancelling Headphones, Black	Bose	880066-0100	Electronics > Audio > Headphones	2950418975439	color=Black
+edge-cases-02	mkt	bose-qc-ultra-black	edge-cases	Bose QuietComfort Ultra Headphones Black (EU import)	Bose	880066-0100	Headphones	2105418714339	
+edge-cases-03	ref	bose-qc-ultra-white	edge-cases	Bose QuietComfort Ultra Wireless Noise Cancelling Headphones, White Smoke	Bose	880066-0200	Electronics > Audio > Headphones	2197420784783	color=White Smoke
+edge-cases-04	mkt	bose-qc-ultra-white	edge-cases	Bose QC Ultra Headphones White Smoke	Bose		Headphones	2950418975439	

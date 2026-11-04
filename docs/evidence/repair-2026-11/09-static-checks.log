@@ -1,0 +1,29 @@
+# started  2026-11-03T20:16:51Z: static checks of compose, workflows and scripts
+$ docker compose version
+Docker Compose version v5.6.1
+$ docker compose config --quiet
+exit 0
+$ docker compose --profile batch --profile observability config --quiet
+exit 0
+$ docker compose --profile batch --profile observability config | grep -E 'host_ip|published' (every published port bound to 127.0.0.1)
+      1         host_ip: 127.0.0.1	        published: "16686"
+      1         host_ip: 127.0.0.1	        published: "3000"
+      1         host_ip: 127.0.0.1	        published: "4318"
+      1         host_ip: 127.0.0.1	        published: "5000"
+      1         host_ip: 127.0.0.1	        published: "5432"
+      1         host_ip: 127.0.0.1	        published: "8080"
+      1         host_ip: 127.0.0.1	        published: "8081"
+      1         host_ip: 127.0.0.1	        published: "9090"
+      1         host_ip: 127.0.0.1	        published: "9324"
+      1         host_ip: 127.0.0.1	        published: "9325"
+$ BIND_ADDRESS=0.0.0.0 docker compose config | grep -c 'host_ip: 0.0.0.0'   (override works)
+7
+$ actionlint .github/workflows/*.yml   (includes shellcheck of every run step)
+1.7.12
+exit 0
+$ shellcheck scripts/*.sh
+version: 0.9.0
+exit 0
+$ pyflakes scripts/e2e/*.py scripts/generate-synthetic-data.py jobs/catalog-batch/tests/test_smoke_export.py
+exit 0
+# finished 2026-11-03T20:16:53Z

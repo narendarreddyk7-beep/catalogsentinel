@@ -1,0 +1,31 @@
+# Same intent as the CloudWatch alarms in infra/terraform/modules/observability.
+groups:
+  - name: catalogsentinel
+    rules:
+      - alert: DeadLetteredMessages
+        expr: max by (queue) (catalog_queue_depth{state="visible", queue=~".*-dlq"}) > 0
+        for: 1m
+        labels: { severity: page }
+        annotations:
+          summary: "{{ $labels.queue }} has dead-lettered messages"
+          runbook: docs/runbook.md#dead-lettered-messages
+      - alert: ListingBacklogGrowing
+        expr: max(catalog_queue_depth{state="visible", queue="catalog-listing-events"}) > 5000
+        for: 10m
+        labels: { severity: ticket }
+        annotations:
+          summary: Listing events are queuing faster than workers consume them
+          runbook: docs/runbook.md#queue-backlog
+      - alert: OutboxStuck
+        expr: max(catalog_outbox_oldest_pending_age_seconds) > 300 or max(catalog_outbox_failed) > 0
+        for: 5m
+        labels: { severity: page }
+        annotations:
+          summary: Change events are not being published
+          runbook: docs/runbook.md#outbox-not-draining
+      - alert: ConsumerPaused
+        expr: increase(catalog_consumer_pauses_total[10m]) > 0
+        labels: { severity: ticket }
+        annotations:
+          summary: A consumer paused after consecutive dependency failures
+          runbook: docs/runbook.md#consumer-paused

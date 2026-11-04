@@ -1,0 +1,13 @@
+# started  2026-11-03T20:52:18Z: final Python tooling tests and linters
+$ python -m pytest -q scripts/e2e
+.................................                                        [100%]
+33 passed in 9.64s
+$ shellcheck scripts/*.sh
+exit 0
+$ actionlint .github/workflows/*.yml
+exit 0
+$ pyflakes scripts/e2e/*.py scripts/generate-synthetic-data.py jobs/catalog-batch/tests/test_smoke_export.py
+exit 0
+$ docker compose --profile batch --profile observability config --quiet
+exit 0
+# finished 2026-11-03T20:52:29Z

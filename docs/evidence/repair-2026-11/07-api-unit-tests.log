@@ -1,0 +1,26 @@
+# started  2026-11-03T20:15:48Z: catalog-api unit tests that need no Spring context (HealthDetailsPolicyTest: pure Java; ApiKeyAuthenticationFilterTest: against Spring Security API stubs)
+.
++-- JUnit Platform Suite [OK]
++-- JUnit Jupiter [OK]
+| +-- HealthDetailsPolicyTest [OK]
+| | '-- publicHealthDetailsAreRefusedOnlyWhenSecurityIsEnabled() [OK]
+| '-- ApiKeyAuthenticationFilterTest [OK]
+|   +-- parsesHashedKeysWithPipeSeparatedRoles() [OK]
+|   '-- rejectsPlaintextKeysInConfiguration() [OK]
+'-- JUnit Vintage [OK]
+
+Test run finished after 248 ms
+[         5 containers found      ]
+[         0 containers skipped    ]
+[         5 containers started    ]
+[         0 containers aborted    ]
+[         5 containers successful ]
+[         0 containers failed     ]
+[         3 tests found           ]
+[         0 tests skipped         ]
+[         3 tests started         ]
+[         0 tests aborted         ]
+[         3 tests successful      ]
+[         0 tests failed          ]
+
+# finished 2026-11-03T20:15:49Z: exit 0

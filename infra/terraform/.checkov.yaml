@@ -1,0 +1,30 @@
+# Checks skipped on purpose, each with the reason. Everything else must pass. Every entry here fails when the
+# skip is removed (re-checked 2026-11-03); docs/security.md lists them as accepted risks.
+skip-check:
+  # Customer-managed KMS keys: AWS-managed encryption (SSE-SQS, SSE-S3, RDS default key, aws/sns) is used to
+  # keep the demo free of per-key charges; switch to CMKs for production data.
+  - CKV_AWS_158 # CloudWatch log groups encrypted with KMS
+  - CKV_AWS_136 # ECR repositories encrypted with KMS
+  - CKV_AWS_145 # S3 bucket encrypted with KMS
+  - CKV_AWS_149 # Secrets Manager secret encrypted with a CMK
+  # Single-region demo: no S3 cross-region replication, event notifications or access logging bucket.
+  - CKV_AWS_144
+  - CKV2_AWS_62
+  - CKV_AWS_18
+  # Secrets rotation: the database secret is RDS-managed (rotated by RDS); API keys are rotated by operators.
+  - CKV2_AWS_57
+  # WAF on the load balancer is recommended for public exposure but billable; deployment guide covers it.
+  - CKV2_AWS_28
+  # The dashboard's nginx writes rendered config at start-up, so its root filesystem stays writable.
+  - CKV_AWS_336
+  # Multi-AZ is the multi_az parameter, off in the demo for cost. Enhanced monitoring (an extra IAM role, billed
+  # as CloudWatch Logs) is off; Performance Insights is on instead.
+  - CKV_AWS_157
+  - CKV_AWS_118
+  - CKV_AWS_354 # Performance Insights with a CMK: same AWS-managed-key decision as above
+  # Log retention is a variable (30 days in the demo to bound cost); set 365+ where policy requires it.
+  - CKV_AWS_338
+  # The first two AZ names are taken in order; AWS appends new zones, so the slice does not silently change.
+  - CKV_AWS_394
+  # TLS terminates at the load balancer; targets are private tasks reachable only from the ALB security group.
+  - CKV_AWS_378

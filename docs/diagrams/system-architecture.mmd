@@ -1,0 +1,35 @@
+%% High-level architecture. Rendered copy: system-architecture.svg (mmdc -i system-architecture.mmd -o system-architecture.svg)
+flowchart LR
+    subgraph clients["Clients"]
+        ui["dashboard<br/>React + TypeScript"]
+        feeds["source feeds<br/>and scripts"]
+        batch["catalog-batch<br/>PySpark"]
+    end
+
+    subgraph services["Services · Java 21 · Spring Boot"]
+        api["catalog-api<br/>REST, reviews,<br/>reconciliation"]
+        worker["ingestion-worker<br/>consumers,<br/>outbox relay, matching"]
+    end
+
+    subgraph queues["Amazon SQS · ElasticMQ locally"]
+        lq[["listing-events"]]
+        cq[["change-events"]]
+        dlq[["dead-letter queues"]]
+    end
+
+    pg[("PostgreSQL 16")]
+    s3[("Amazon S3 · moto locally")]
+
+    ui -- "REST, same origin" --> api
+    feeds -- "REST, sync or async" --> api
+    batch -- "job lifecycle" --> api
+    batch -- "listing events" --> lq
+    batch -- "raw, curated, rejected" --> s3
+    api -- "async events" --> lq
+    lq --> worker
+    worker -- "relay" --> cq
+    cq --> worker
+    worker -. "after retries" .-> dlq
+    api -. "replay" .-> dlq
+    api --> pg
+    worker --> pg

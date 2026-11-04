@@ -1,0 +1,23 @@
+# started  2026-11-03T20:16:09Z: Terraform checks
+$ command -v terraform
+(not installed)
+$ curl -sS -o /dev/null -w '%{http_code}' https://releases.hashicorp.com/terraform/
+000
+$ curl -sS -o /dev/null -w '%{http_code}' https://registry.terraform.io/v1/providers/hashicorp/aws/versions
+000
+=> terraform fmt / init -backend=false / validate: NOT RUN (no terraform binary; the release host and provider registry are not reachable through this sandbox's egress policy)
+
+$ python-hcl2 parse of every .tf file
+22 files parsed
+
+$ checkov --directory infra/terraform --config-file infra/terraform/.checkov.yaml --compact --quiet --skip-download
+  (--skip-download: the scan is local; checkov's optional download of guideline links from api0.prismacloud.io is refused by this sandbox's egress proxy with 403, so it is not attempted)
+3.4.3
+terraform scan results:
+
+Passed checks: 247, Failed checks: 0, Skipped checks: 0
+
+
+$ grep -c 'CKV' infra/terraform/.checkov.yaml   # justified skips listed in the config (docs/security.md, accepted risks)
+16
+# finished 2026-11-03T20:16:43Z

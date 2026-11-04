@@ -1,0 +1,47 @@
+%% Event processing under at-least-once delivery. Rendered copy: event-processing-sequence.svg
+sequenceDiagram
+    autonumber
+    participant P as Producer
+    participant A as catalog-api
+    participant LQ as SQS listing-events
+    participant W as Listing consumer (worker)
+    participant DB as PostgreSQL
+    participant R as Outbox relay (worker)
+    participant CQ as SQS change-events
+    participant M as Matching consumer (worker)
+    participant D as Dead-letter queue
+
+    P->>A: POST /api/v1/ingestion/events (1–500 events)
+    A->>A: validate every event (rules shared with the sync path)
+    A->>LQ: SendMessageBatch
+    A-->>P: 202 Accepted {accepted, eventIds}
+
+    W->>LQ: ReceiveMessage (long poll 20 s, visibility 60 s, at most free permits)
+    LQ-->>W: message, receiveCount = n
+    W->>DB: BEGIN (READ COMMITTED)
+    W->>DB: find event id in processed_events
+    alt exact replay of a processed event
+        DB-->>W: stored outcome, nothing written
+    else same event id, different content
+        W->>D: dead-letter EVENT_ID_REUSED
+    else new event
+        W->>DB: lock listing (FOR UPDATE) or INSERT … ON CONFLICT DO NOTHING
+        W->>W: decide: newer version, stale, same-version conflict, tombstone
+        W->>DB: write listing, INSERT processed_events, INSERT outbox_events
+        W->>DB: COMMIT
+    end
+    W->>LQ: DeleteMessage
+
+    Note over W,LQ: Transient failure: ChangeMessageVisibility with full-jitter backoff (2 s … 5 min).<br/>After 5 receives: explicit DLQ with failureReason. Queue redrive at 6 receives covers a crashed worker.<br/>Permanent failure (malformed JSON, invalid event, unknown source): DLQ at once.
+
+    loop every 250 ms
+        R->>DB: claim due rows FOR UPDATE SKIP LOCKED
+        R->>CQ: SendMessageBatch (ListingChangedV1)
+        R->>DB: mark PUBLISHED in the claiming transaction
+    end
+
+    CQ-->>M: ListingChangedV1
+    M->>DB: retrieve candidates (GTIN, brand + model, title trigram)
+    M->>M: score features, apply explicit rules
+    M->>DB: upsert match_candidates, link canonical product
+    M->>CQ: DeleteMessage

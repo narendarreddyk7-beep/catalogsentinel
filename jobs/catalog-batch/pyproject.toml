@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "catalogsentinel-batch"
+version = "0.1.0"
+description = "CatalogSentinel batch ingestion: manifest-driven PySpark validation, normalization (norm-v1) and idempotent event publishing"
+requires-python = ">=3.11"
+dependencies = [
+    "pyspark==4.2.1",
+    "boto3>=1.40,<2",
+    "jsonschema==4.26.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest==9.2.0",
+    "moto[server,s3,sqs]==5.2.5",
+]
+
+[project.scripts]
+catalog-batch = "catalog_batch.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["catalog_batch*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "tests"]
+addopts = "-p no:cacheprovider"
+filterwarnings = ["ignore::DeprecationWarning"]

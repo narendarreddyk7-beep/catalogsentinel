@@ -1,0 +1,22 @@
+# started  2026-11-03T20:37:43Z: matching A/B, before the repair (e63e4b7, worktree build) vs after (HEAD 1cfa8cb), alternating
+# each run: IngestionBenchmark ingests 10,000 northwind-supply + 10,000 acme-market events (100k synthetic export, seed 7) on 8 threads into an emptied database, then matchPending over 3,000 listings
+# 2 vCPU sandbox, PostgreSQL 16.15 default settings, javac-harness builds (not Maven)
+NOTICE:  database "catalogsentinel_bench_old" does not exist, skipping
+NOTICE:  database "catalogsentinel_bench_new" does not exist, skipping
+## before (e63e4b7) run 1 2026-11-03T20:37:44Z load 0.81 2.16 1.46
+| ingest | 20000 events | 8 threads | 24.8 s | 806 events/s | p50 8.54 ms | p95 20.69 ms | p99 30.48 ms |
+| check | listings=20000 processed_events=20000 outbox=20000 |
+| match | 3000 listings | 137.6 s | 22 listings/s | candidates=54797 canonical=2996 |
+## after (HEAD) run 1 2026-11-03T20:40:29Z load 1.48 2.23 1.63
+| ingest | 20000 events | 8 threads | 37.2 s | 538 events/s | p50 13.38 ms | p95 28.86 ms | p99 39.46 ms |
+| check | listings=20000 processed_events=20000 outbox=20000 |
+| match | 3000 listings | 146.9 s | 20 listings/s | candidates=54797 canonical=2996 |
+## before (e63e4b7) run 2 2026-11-03T20:43:35Z load 1.40 2.31 1.81
+| ingest | 20000 events | 8 threads | 23.8 s | 840 events/s | p50 8.30 ms | p95 18.87 ms | p99 29.32 ms |
+| check | listings=20000 processed_events=20000 outbox=20000 |
+| match | 3000 listings | 147.1 s | 20 listings/s | candidates=54796 canonical=2996 |
+## after (HEAD) run 2 2026-11-03T20:46:29Z load 1.37 2.26 1.91
+| ingest | 20000 events | 8 threads | 25.8 s | 776 events/s | p50 9.16 ms | p95 19.95 ms | p99 32.29 ms |
+| check | listings=20000 processed_events=20000 outbox=20000 |
+| match | 3000 listings | 117.6 s | 26 listings/s | candidates=54838 canonical=2996 |
+# finished 2026-11-03T20:48:54Z

@@ -1,0 +1,53 @@
+# started  2026-11-03T20:23:37Z: stack scripts against this sandbox, where the stack cannot start (13-compose-up.log)
+# Purpose: record that they were attempted and that they fail fast, with a clear message, deadline and exit code.
+# They do NOT verify anything about the stack here.
+
+$ SMOKE_WAIT_SECONDS=5 ./scripts/smoke.sh --batch skip --token evidencerun
+Smoke test against http://localhost:8080: run token evidencerun (all data synthetic)
+== preflight (http://localhost:8080, run token evidencerun)
+  FAIL timed out after 5 s waiting for API readiness
+       details: {"lastObserved": "GET /actuator/health/readiness: connection failed ([Errno 111] Connection refused)"}
+       diagnostics: {"queuesAndOutbox": "unavailable: GET /api/v1/metrics/processing?windowMinutes=60: connection failed ([Errno 111] Connection refused)"}
+Smoke test FAILED after 5 s (0 checks passed before the failure)
+exit 1 after 6 s
+
+$ SEED_READY_SECONDS=5 ./scripts/seed-demo.sh 10k
+Seeding the SYNTHETIC demo catalog (10k) into http://localhost:8080; limit 1800 s
+seed-demo FAILED: timed out after 5 s waiting for API readiness (start the stack with: docker compose up -d --build --wait)
+   details: {"lastObserved": "GET /actuator/health/readiness: connection failed ([Errno 111] Connection refused)"}
+   diagnostics: {"failedStep": "preflight", "queues": "unavailable: GET /api/v1/metrics/processing?windowMinutes=60: connection failed ([Errno 111] Connection refused)", "outbox": "unavailable: GET /api/v1/admin/outbox: connection failed ([Errno 111] Connection refused)", "ingestionJobs": "unavailable: GET /api/v1/ingestion/jobs?limit=5: connection failed ([Errno 111] Connection refused)", "compos
+   The seed is idempotent: fix the cause and run it again.
+exit 1 after 5 s
+
+$ DRILL_READY_SECONDS=5 ./scripts/inject-failure.sh worker-crash
+Failure drill worker-crash (DRILL-worker-crash-1793737428) against http://localhost:8080; limit 900 s
+  FAIL timed out after 5 s waiting for API readiness (start the stack with: docker compose up -d --build --wait)
+       details: {"lastObserved": "GET /actuator/health/readiness: connection failed ([Errno 111] Connection refused)"}
+       diagnostics: {"runId": "DRILL-worker-crash-1793737428", "queuesAndOutbox": "unavailable: GET /api/v1/metrics/processing?windowMinutes=60: connection failed ([Errno 111] Connection refused)", "deadLetters": "unavailable: GET /api/v1/admin/dead-letters?queue=catalog-listing-events-dlq&max=10: c
+exit 1 after 5 s
+
+$ DRILL_READY_SECONDS=5 ./scripts/inject-failure.sh poison-message
+Failure drill poison-message (DRILL-poison-message-1793737433) against http://localhost:8080; limit 900 s
+  FAIL timed out after 5 s waiting for API readiness (start the stack with: docker compose up -d --build --wait)
+       details: {"lastObserved": "GET /actuator/health/readiness: connection failed ([Errno 111] Connection refused)"}
+       diagnostics: {"runId": "DRILL-poison-message-1793737433", "queuesAndOutbox": "unavailable: GET /api/v1/metrics/processing?windowMinutes=60: connection failed ([Errno 111] Connection refused)", "deadLetters": "unavailable: GET /api/v1/admin/dead-letters?queue=catalog-listing-events-dlq&max=10:
+exit 1 after 6 s
+
+$ DRILL_READY_SECONDS=5 ./scripts/inject-failure.sh db-outage
+Failure drill db-outage (DRILL-db-outage-1793737439) against http://localhost:8080; limit 900 s
+  FAIL timed out after 5 s waiting for API readiness (start the stack with: docker compose up -d --build --wait)
+       details: {"lastObserved": "GET /actuator/health/readiness: connection failed ([Errno 111] Connection refused)"}
+       diagnostics: {"runId": "DRILL-db-outage-1793737439", "queuesAndOutbox": "unavailable: GET /api/v1/metrics/processing?windowMinutes=60: connection failed ([Errno 111] Connection refused)", "deadLetters": "unavailable: GET /api/v1/admin/dead-letters?queue=catalog-listing-events-dlq&max=10: conn
+exit 1 after 5 s
+
+$ DRILL_READY_SECONDS=5 ./scripts/inject-failure.sh batch-crash
+Failure drill batch-crash (DRILL-batch-crash-1793737444) against http://localhost:8080; limit 900 s
+  FAIL timed out after 5 s waiting for API readiness (start the stack with: docker compose up -d --build --wait)
+       details: {"lastObserved": "GET /actuator/health/readiness: connection failed ([Errno 111] Connection refused)"}
+       diagnostics: {"runId": "DRILL-batch-crash-1793737444", "queuesAndOutbox": "unavailable: GET /api/v1/metrics/processing?windowMinutes=60: connection failed ([Errno 111] Connection refused)", "deadLetters": "unavailable: GET /api/v1/admin/dead-letters?queue=catalog-listing-events-dlq&max=10: co
+exit 1 after 5 s
+
+$ ./scripts/smoke.sh --token NO   (usage error)
+smoke: --token must be 4-24 lowercase letters, got 'NO'
+exit 2
+# finished 2026-11-03T20:24:10Z

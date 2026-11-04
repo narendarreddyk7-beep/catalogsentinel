@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://catalogsentinel.io/schemas/listing-changed.v1.json",
+  "title": "ListingChangedV1",
+  "description": "Published through the transactional outbox when a listing's catalog-relevant state changes. At-least-once, unordered delivery: consumers must be idempotent.",
+  "type": "object",
+  "required": ["eventId", "schemaVersion", "listingId", "sourceCode", "externalProductId", "version", "status", "changeType", "occurredAt"],
+  "properties": {
+    "eventId": { "type": "string", "format": "uuid" },
+    "schemaVersion": { "const": 1 },
+    "listingId": { "type": "integer", "minimum": 1 },
+    "sourceCode": { "type": "string" },
+    "externalProductId": { "type": "string" },
+    "version": { "type": "integer", "minimum": 0 },
+    "status": { "enum": ["ACTIVE", "WITHDRAWN"] },
+    "changeType": { "enum": ["CREATED", "UPDATED", "WITHDRAWN", "REACTIVATED"] },
+    "contentHash": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "causationEventId": { "type": "string", "format": "uuid", "description": "The listing event that caused this change." },
+    "correlationId": { "type": ["string", "null"] }
+  }
+}

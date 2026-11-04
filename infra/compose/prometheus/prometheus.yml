@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 15s
+scrape_configs:
+  - job_name: catalog-api
+    metrics_path: /actuator/prometheus
+    static_configs: [{ targets: ["catalog-api:8080"] }]
+  - job_name: ingestion-worker
+    metrics_path: /actuator/prometheus
+    static_configs: [{ targets: ["ingestion-worker:8081"] }]
+rule_files: ["/etc/prometheus/alerts.yml"]

@@ -1,0 +1,93 @@
+# original output of the full harness after the P0 fix (step 4), copied from the session scratchpad; file modification time 2026-11-03T16:19:12Z
+# output filtered for readability: ANSI colour codes removed, stack frames of logged exceptions collapsed
+== recreate catalogsentinel_test and apply db/migrations (psql, one transaction per file, like Flyway)
+== javac main (103 files)
+== javac test (35 files)
+== junit
+[main] INFO io.catalogsentinel.core.ingestion.ListingIngestionService - listing event rejected code=EVENT_ID_REUSED eventId=ce41bd5e-c464-4f3b-9fe7-87a262602b5c
+[main] INFO io.catalogsentinel.core.ingestion.ListingIngestionService - listing event rejected outcome=VERSION_CONFLICT eventId=822c173f-8b93-43e1-bda1-27a16c3a0295 source=acme-market externalId=SKU-1 reason="different content was already stored at version 3"
+[main] INFO io.catalogsentinel.core.ingestion.ListingIngestionService - listing event rejected outcome=VERSION_CONFLICT eventId=b35260f2-ec1f-4202-9b75-fb240de10fe4 source=acme-market externalId=SKU-1 reason="listing is withdrawn at version 2; reactivation requires a newer version"
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+DB-MATCHING listings=150 candidatePairs=284 positives=79 sqlRetrievalRecall=1.0000 canonicalClusters: TP=36 FP=0 FN=43 TN=11096 P=1.0000 R=0.4557 F1=0.6261
+CONCURRENT-DELIVERY rounds=10 deliveriesPerRound=8 resolvedByPrimaryKeyArbiter=27
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=1 delayMs=2000 reason="db busy"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=2 delayMs=4000 reason="db busy"
+[main] ERROR io.catalogsentinel.core.messaging.QueueConsumer - could not dead-letter message msg-1: {msg-1=injected failure}
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - dead-lettered message queue=events messageId=msg-1 reason="DomainValidationException: validation failed: title is required"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=1 delayMs=2000 reason="CannotGetJdbcConnectionException: connection refused; nested exception is java.sql.SQLException: refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=1 delayMs=2000 reason="still failing"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=2 delayMs=4000 reason="still failing"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - dead-lettered message queue=events messageId=msg-1 reason="retries exhausted after 3 attempts: still failing"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - dead-lettered message queue=events messageId=msg-1 reason="MALFORMED_JSON: unexpected token"
+[main] INFO io.catalogsentinel.core.messaging.QueueConsumer - consumer started queue=events concurrency=1 maxAttempts=3
+[main] INFO io.catalogsentinel.core.messaging.QueueConsumer - consumer stopped queue=events drained=true stillInFlight=0
+[main] INFO io.catalogsentinel.core.messaging.QueueConsumer - consumer started queue=events concurrency=4 maxAttempts=3
+[main] INFO io.catalogsentinel.core.messaging.QueueConsumer - consumer stopped queue=events drained=true stillInFlight=0
+[main] INFO io.catalogsentinel.core.messaging.QueueConsumer - consumer started queue=events concurrency=1 maxAttempts=50
+[] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=1 delayMs=2000 reason="CannotGetJdbcConnectionException: connection refused; nested exception is java.sql.SQLException: refused"
+[] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=1 delayMs=2000 reason="CannotGetJdbcConnectionException: connection refused; nested exception is java.sql.SQLException: refused"
+[] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=1 delayMs=2000 reason="CannotGetJdbcConnectionException: connection refused; nested exception is java.sql.SQLException: refused"
+[poller-events] WARN io.catalogsentinel.core.messaging.QueueConsumer - pausing consumption of events for PT0.1S after 3 consecutive dependency failures
+[] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=1 delayMs=2000 reason="CannotGetJdbcConnectionException: connection refused; nested exception is java.sql.SQLException: refused"
+[poller-events] WARN io.catalogsentinel.core.messaging.QueueConsumer - pausing consumption of events for PT0.1S after 4 consecutive dependency failures
+[poller-events] WARN io.catalogsentinel.core.messaging.QueueConsumer - pausing consumption of events for PT0.1S after 4 consecutive dependency failures
+[poller-events] WARN io.catalogsentinel.core.messaging.QueueConsumer - pausing consumption of events for PT0.1S after 4 consecutive dependency failures
+[main] INFO io.catalogsentinel.core.messaging.QueueConsumer - consumer stopped queue=events drained=true stillInFlight=0
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - dead-lettered message queue=catalog-listing-events messageId=msg-1 reason="MALFORMED_JSON: parse"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - dead-lettered message queue=catalog-listing-events messageId=msg-2 reason="UNKNOWN_SOURCE: source 'late-source' is not registered"
+[main] INFO io.catalogsentinel.core.messaging.DeadLetterService - replayed 2 message(s) from catalog-listing-events-dlq to catalog-listing-events (0 failed)
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - dead-lettered message queue=catalog-listing-events messageId=msg-5 reason="MALFORMED_JSON: parse"
+[main] WARN io.catalogsentinel.core.outbox.OutboxRelay - outbox relay: published=0 failed=1
+[main] WARN io.catalogsentinel.core.outbox.OutboxRelay - outbox relay: published=0 failed=1
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=1 delayMs=984 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=1 delayMs=324 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=1 delayMs=895 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=1 delayMs=539 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=1 delayMs=219 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=2 delayMs=1352 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=2 delayMs=434 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=2 delayMs=1378 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=2 delayMs=1411 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=2 delayMs=1034 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-market succeeded: {listingsMatched=0, identitiesMerged=0, productsEvaluated=1, gapsOpened=1}
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 2 joins canonical products 1 and 2; merged into 1
+[main] INFO io.catalogsentinel.core.matching.MatchingService - canonical product 1 split: listings [3] lost their evidence and form product 4
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 1 joins canonical products 1 and 2; merged into 1
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-market succeeded: {listingsMatched=0, identitiesMerged=0, productsEvaluated=1, gapsOpened=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-market succeeded: {listingsMatched=0, identitiesMerged=0, productsEvaluated=1, productsCarried=1, gapsResolved=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 389 joins canonical products 71 and 72; merged into 71
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for acme-market succeeded: {listingsMatched=0, identitiesMerged=0, productsEvaluated=80, productsCarried=27, gapsRefreshed=53, gapsResolved=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+GAP-EVAL referenceProducts=80 trueGaps=19 openGaps=54 precisionAll=0.3519 recallAll=1.0000 confidentGaps=18 precisionConfident=0.7778 recallConfident=0.7368 stats={"gapsOpened": 54, "listingsMatched": 150, "productsCarried": 26, "identitiesMerged": 0, "productsEvaluated": 80}
+GAP-FALSE-CONFIDENT bose-qc-ultra-white reason=VARIANT_NOT_CARRIED confidence=0.9000 best=Bose QuietComfort Ultra Headphones Black (EU import) score=0.4500
+GAP-FALSE-CONFIDENT pegasus40-m-10-black reason=ONLY_NON_MATCHING_CANDIDATES confidence=0.6368 best=Nike Air Zoom Pegasus 41 Running Shoes Men Size 10 Black score=0.6264
+GAP-FALSE-CONFIDENT canon-r6-body reason=ONLY_NON_MATCHING_CANDIDATES confidence=0.6332 best=Canon EOS R6 MKII Full Frame Mirrorless Camera Body score=0.6336
+GAP-FALSE-CONFIDENT pegasus41-m-10-black reason=ONLY_NON_MATCHING_CANDIDATES confidence=0.6293 best=Nike Pegasus 40 Mens Running Shoe Black White Size 10 score=0.6414
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for acme-market succeeded: {listingsMatched=0, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsRefreshed=54}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for acme-market succeeded: {listingsMatched=0, identitiesMerged=0, productsEvaluated=79, productsCarried=26, gapsRefreshed=53, gapsResolved=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+Nov 03, 2026 4:18:38 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFO: Loading XML bean definitions from class path resource [org/springframework/jdbc/support/sql-error-codes.xml]
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for acme-market succeeded: {listingsMatched=1, identitiesMerged=0, productsEvaluated=80, productsCarried=27, gapsRefreshed=52, gapsResolved=1, gapsSuppressedByDismissal=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+[main] WARN io.catalogsentinel.core.gaps.ReconciliationService - marked 1 abandoned reconciliation job(s) for target acme-market as FAILED
+
+Test run finished after 145479 ms
+[        38 containers found      ]
+[         0 containers skipped    ]
+[        38 containers started    ]
+[         0 containers aborted    ]
+[        38 containers successful ]
+[         0 containers failed     ]
+[       220 tests found           ]
+[         0 tests skipped         ]
+[       220 tests started         ]
+[         0 tests aborted         ]
+[       220 tests successful      ]
+[         0 tests failed          ]
+

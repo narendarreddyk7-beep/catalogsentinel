@@ -1,0 +1,119 @@
+# Local stack: everything runs without an AWS account. SQS is emulated by ElasticMQ, S3 by moto.
+#   docker compose up -d --build            core services + dashboard (http://localhost:3000)
+#   docker compose --profile observability up -d   adds Prometheus (:9090) and Jaeger (:16686)
+#   docker compose --profile batch run --rm batch run --manifest s3://... (see scripts/seed-demo.sh)
+# Credentials below are local-only placeholders for emulators and a throwaway database.
+#
+# LOCAL MODE HAS NO AUTHENTICATION: the API runs with CATALOGSENTINEL_SECURITY_ENABLED=false (every request is
+# allowed, health details are shown) and the database, queues and S3 emulator use fixed development credentials.
+# Every published port is therefore bound to 127.0.0.1, so only this machine can reach them. Set BIND_ADDRESS to
+# publish them elsewhere only on a trusted network; to try API-key security locally set
+# CATALOGSENTINEL_SECURITY_ENABLED=true, CATALOGSENTINEL_API_KEYS and HEALTH_SHOW_DETAILS=when-authorized
+# (docs/security.md).
+name: catalogsentinel
+
+x-aws-local: &aws-local
+  AWS_REGION: us-east-1
+  AWS_ACCESS_KEY_ID: local
+  AWS_SECRET_ACCESS_KEY: local
+  SQS_ENDPOINT: http://elasticmq:9324
+
+x-db: &db
+  DB_URL: jdbc:postgresql://postgres:5432/catalogsentinel
+  DB_USERNAME: catalog
+  DB_PASSWORD: ${DB_PASSWORD:-catalog_local_dev}
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    # The working set fits in memory, so random reads cost what sequential reads do. With the default of 4,
+    # queries planned with literal titles abandon the trigram GIN index for broad titles
+    # (docs/benchmarking.md#planner-cost-setting).
+    command: ["postgres", "-c", "random_page_cost=1.1"]
+    environment:
+      POSTGRES_DB: catalogsentinel
+      POSTGRES_USER: catalog
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-catalog_local_dev}
+    ports: ["${BIND_ADDRESS:-127.0.0.1}:5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U catalog -d catalogsentinel"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  elasticmq:
+    image: softwaremill/elasticmq-native:1.6.16
+    ports: ["${BIND_ADDRESS:-127.0.0.1}:9324:9324", "${BIND_ADDRESS:-127.0.0.1}:9325:9325"]
+    volumes: ["./elasticmq.conf:/opt/elasticmq.conf:ro"]
+
+  moto:
+    image: motoserver/moto:5.2.5
+    ports: ["${BIND_ADDRESS:-127.0.0.1}:5000:5000"]
+
+  catalog-api:
+    build:
+      context: ../..
+      dockerfile: apps/Dockerfile.spring
+      args: { APP: catalog-api, PORT: "8080" }
+    environment:
+      <<: [*aws-local, *db]
+      CATALOGSENTINEL_SECURITY_ENABLED: ${CATALOGSENTINEL_SECURITY_ENABLED:-false}
+      CATALOGSENTINEL_API_KEYS: ${CATALOGSENTINEL_API_KEYS:-}
+      # Local mode only; refused at start-up when security is enabled (set when-authorized then).
+      HEALTH_SHOW_DETAILS: ${HEALTH_SHOW_DETAILS:-always}
+      TRACING_SAMPLING_PROBABILITY: ${TRACING_SAMPLING_PROBABILITY:-0.0}
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4318/v1/traces
+    ports: ["${BIND_ADDRESS:-127.0.0.1}:8080:8080"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      elasticmq: { condition: service_started }
+
+  ingestion-worker:
+    build:
+      context: ../..
+      dockerfile: apps/Dockerfile.spring
+      args: { APP: ingestion-worker, PORT: "8081" }
+    environment:
+      <<: [*aws-local, *db]
+      TRACING_SAMPLING_PROBABILITY: ${TRACING_SAMPLING_PROBABILITY:-0.0}
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://jaeger:4318/v1/traces
+    ports: ["${BIND_ADDRESS:-127.0.0.1}:8081:8081"]
+    depends_on:
+      # The API owns the schema (Flyway); the worker starts once migrations have run.
+      catalog-api: { condition: service_healthy }
+
+  dashboard:
+    build: { context: ../../apps/dashboard }
+    environment:
+      API_UPSTREAM: http://catalog-api:8080
+    ports: ["${BIND_ADDRESS:-127.0.0.1}:3000:8080"]
+    depends_on: [catalog-api]
+
+  batch:
+    profiles: ["batch"]
+    build: { context: ../../jobs/catalog-batch }
+    environment:
+      <<: *aws-local
+      S3_ENDPOINT: http://moto:5000
+      CATALOGSENTINEL_API_URL: http://catalog-api:8080
+      CATALOGSENTINEL_API_KEY: ${CATALOGSENTINEL_API_KEY:-}
+    depends_on: [moto, elasticmq, catalog-api]
+
+  prometheus:
+    profiles: ["observability"]
+    image: prom/prometheus:v3.1.0
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
+    ports: ["${BIND_ADDRESS:-127.0.0.1}:9090:9090"]
+
+  jaeger:
+    profiles: ["observability"]
+    image: jaegertracing/all-in-one:1.62.0
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports: ["${BIND_ADDRESS:-127.0.0.1}:16686:16686", "${BIND_ADDRESS:-127.0.0.1}:4318:4318"]
+
+volumes:
+  pgdata:

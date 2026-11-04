@@ -1,0 +1,60 @@
+# Build output
+target/
+build/
+out/
+*.class
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# Environment and secrets — never commit real credentials
+.env
+*.pem
+*.key
+*.tfvars
+!*.tfvars.example
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl.bak
+
+# Node / dashboard
+node_modules/
+apps/dashboard/dist/
+apps/dashboard/coverage/
+
+# Python / batch
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+spark-warehouse/
+metastore_db/
+derby.log
+
+# Generated data (regenerate with scripts/generate-synthetic-data.py)
+data/generated/
+jobs/catalog-batch/work/
+benchmarks/runs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+.venv/
+venv/
+spark-warehouse/
+metastore_db/
+derby.log

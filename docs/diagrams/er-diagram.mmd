@@ -1,0 +1,112 @@
+%% Entity-relationship diagram of db/migrations V1–V4. Rendered copy: er-diagram.svg
+erDiagram
+    catalog_sources ||--o{ product_listings : "lists"
+    catalog_sources ||--o{ processed_events : "sent"
+    catalog_sources ||--o{ ingestion_jobs : "imports"
+    catalog_sources ||--o{ reconciliation_jobs : "target"
+    catalog_sources |o--o{ reconciliation_jobs : "reference"
+    catalog_sources ||--o{ selection_gaps : "target"
+    product_listings ||--o{ processed_events : "history"
+    product_listings ||--o| listing_product_links : "linked by"
+    product_listings ||--o{ match_candidates : "left"
+    product_listings ||--o{ match_candidates : "right"
+    product_listings ||--o{ selection_gaps : "reference listing"
+    product_listings |o--o{ selection_gaps : "best candidate"
+    canonical_products ||--o{ listing_product_links : "groups"
+    canonical_products |o--o{ canonical_products : "merged into"
+    canonical_products ||--o{ selection_gaps : "missing product"
+    match_candidates |o--o{ listing_product_links : "via"
+    match_candidates |o--o{ review_decisions : "audited"
+    selection_gaps |o--o{ review_decisions : "audited"
+    reconciliation_jobs |o--o{ selection_gaps : "last detected by"
+    ingestion_jobs |o--o{ processed_events : "progress"
+
+    catalog_sources {
+        bigint source_id PK
+        varchar code UK
+        varchar role "MARKETPLACE or REFERENCE"
+        boolean enabled
+    }
+    product_listings {
+        bigint listing_id PK
+        bigint source_id FK
+        varchar external_product_id "UK with source_id"
+        varchar status "ACTIVE or WITHDRAWN"
+        bigint source_version
+        varchar normalized_title "GIN trigram index"
+        char gtin
+        char content_hash
+        uuid last_event_id
+    }
+    processed_events {
+        uuid event_id PK "idempotency ledger"
+        bigint listing_id FK
+        char request_fingerprint
+        bigint requested_version
+        bigint applied_version
+        varchar outcome
+        bigint ingestion_job_id FK
+    }
+    outbox_events {
+        bigint outbox_id PK
+        uuid event_id UK
+        varchar status "PENDING PUBLISHED FAILED"
+        int attempts
+        timestamptz next_attempt_at
+    }
+    canonical_products {
+        bigint canonical_product_id PK
+        varchar title
+        char gtin
+        varchar status "ACTIVE or MERGED"
+        bigint merged_into_id FK
+    }
+    listing_product_links {
+        bigint listing_id PK, FK
+        bigint canonical_product_id FK
+        numeric confidence
+        varchar match_method
+        varchar review_status
+    }
+    match_candidates {
+        bigint candidate_id PK
+        bigint left_listing_id FK "left < right"
+        bigint right_listing_id FK
+        numeric score
+        varchar decision
+        jsonb feature_scores
+        jsonb evidence
+        varchar matcher_version
+        varchar review_status
+    }
+    selection_gaps {
+        bigint gap_id PK
+        bigint canonical_product_id FK
+        bigint target_source_id FK
+        varchar status "OPEN CONFIRMED DISMISSED RESOLVED"
+        varchar reason
+        numeric confidence
+        numeric priority_score
+        jsonb evidence
+    }
+    review_decisions {
+        bigint decision_id PK "append-only"
+        bigint match_candidate_id FK
+        bigint gap_id FK
+        varchar decision
+        varchar reviewer
+    }
+    reconciliation_jobs {
+        bigint job_id PK
+        bigint target_source_id FK
+        varchar status
+        jsonb stats
+    }
+    ingestion_jobs {
+        bigint ingestion_job_id PK
+        varchar job_key UK "derived from the manifest"
+        bigint source_id FK
+        varchar status
+        jsonb manifest
+        int attempt
+    }

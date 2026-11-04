@@ -1,0 +1,89 @@
+# Manual, approval-gated deployment to AWS. Never runs on push. Uses GitHub OIDC to assume a deploy role, so no
+# long-lived AWS keys are stored in the repository or in GitHub secrets.
+name: deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment
+        type: choice
+        options: [demo]
+        default: demo
+      apply:
+        description: Build and push the images and apply the plan. Unchecked = plan only (read-only, no images pushed)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  plan-and-apply:
+    runs-on: ubuntu-24.04
+    environment: ${{ inputs.environment }} # environment protection rules require a reviewer before this job runs
+    # Everything environment-specific comes from the GitHub environment's variables (none of it is secret):
+    # AWS_REGION, DEPLOY_ROLE_ARN, TF_STATE_BUCKET, TF_LOCK_TABLE, CERTIFICATE_ARN, BATCH_BUCKET_NAME, and the
+    # JSON lists ALLOWED_INGRESS_CIDRS, ADMIN_CIDRS and ALARM_EMAILS (for example ["203.0.113.0/24"]).
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      TF_DIR: infra/terraform/environments/${{ inputs.environment }}
+      TF_IN_AUTOMATION: "true"
+      TF_VAR_region: ${{ vars.AWS_REGION }}
+      TF_VAR_environment: ${{ inputs.environment }}
+      TF_VAR_certificate_arn: ${{ vars.CERTIFICATE_ARN }}
+      TF_VAR_batch_bucket_name: ${{ vars.BATCH_BUCKET_NAME }}
+      TF_VAR_allowed_ingress_cidrs: ${{ vars.ALLOWED_INGRESS_CIDRS }}
+      TF_VAR_admin_cidrs: ${{ vars.ADMIN_CIDRS }}
+      TF_VAR_alarm_emails: ${{ vars.ALARM_EMAILS || '[]' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.DEPLOY_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+      # The image tag is the commit; a plan-only run plans with the tag an apply run of this commit would push.
+      - name: Image tag
+        run: echo "TF_VAR_image_tag=${GITHUB_SHA::12}" >> "$GITHUB_ENV"
+      # Publishing images is part of applying, never of planning: a plan-only run writes nothing to ECR or AWS.
+      - if: ${{ inputs.apply }}
+        uses: aws-actions/amazon-ecr-login@v2
+        id: ecr
+      - if: ${{ inputs.apply }}
+        name: Check that the ECR repositories exist (created by Terraform; see docs/deployment.md, first deployment)
+        run: aws ecr describe-repositories --repository-names catalogsentinel/catalog-api catalogsentinel/ingestion-worker catalogsentinel/dashboard > /dev/null
+      # Fargate runs the tasks on ARM64 (cheaper per vCPU). QEMU only executes the short runtime-stage steps; the
+      # Maven and npm builds run natively (--platform=$BUILDPLATFORM in the Dockerfiles).
+      - if: ${{ inputs.apply }}
+        uses: docker/setup-qemu-action@v3
+      - if: ${{ inputs.apply }}
+        uses: docker/setup-buildx-action@v3
+      - if: ${{ inputs.apply }}
+        name: Build and push images (linux/arm64)
+        run: |
+          registry="${{ steps.ecr.outputs.registry }}"
+          for app in catalog-api:8080 ingestion-worker:8081; do
+            name="${app%%:*}"; port="${app##*:}"
+            docker buildx build --platform linux/arm64 --push -f apps/Dockerfile.spring \
+              --build-arg "APP=$name" --build-arg "PORT=$port" -t "$registry/catalogsentinel/$name:$TF_VAR_image_tag" .
+          done
+          docker buildx build --platform linux/arm64 --push -t "$registry/catalogsentinel/dashboard:$TF_VAR_image_tag" apps/dashboard
+      - uses: hashicorp/setup-terraform@v3
+        with: { terraform_version: "1.9.8" }
+      - name: terraform init (remote state in S3, locking in DynamoDB)
+        run: |
+          terraform -chdir="$TF_DIR" init -input=false \
+            -backend-config="bucket=${{ vars.TF_STATE_BUCKET }}" \
+            -backend-config="key=catalogsentinel/${{ inputs.environment }}.tfstate" \
+            -backend-config="region=${{ vars.AWS_REGION }}" \
+            -backend-config="dynamodb_table=${{ vars.TF_LOCK_TABLE }}" \
+            -backend-config="encrypt=true"
+      - run: terraform -chdir="$TF_DIR" plan -input=false -out=tfplan
+      - if: ${{ !inputs.apply }}
+        name: Plan only
+        run: |
+          echo "Plan only: no images were built or pushed and nothing was applied. The plan references image tag" \
+               "$TF_VAR_image_tag, which an apply run of this commit pushes first." | tee -a "$GITHUB_STEP_SUMMARY"
+      - if: ${{ inputs.apply }}
+        run: terraform -chdir="$TF_DIR" apply -input=false tfplan

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://catalogsentinel.io/schemas/listing-event.v1.json",
+  "title": "ListingEventV1",
+  "description": "A listing upsert or withdrawal emitted by a catalog source. Ordering is defined by sourceVersion, never by timestamps. Unknown properties are ignored by consumers.",
+  "type": "object",
+  "required": ["eventId", "eventType", "schemaVersion", "sourceCode", "externalProductId", "sourceVersion", "occurredAt"],
+  "properties": {
+    "eventId": { "type": "string", "format": "uuid", "description": "Idempotency key. Reusing it with different data is rejected." },
+    "eventType": { "enum": ["LISTING_UPSERTED", "LISTING_WITHDRAWN"] },
+    "schemaVersion": { "const": 1 },
+    "sourceCode": { "type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{1,63}$" },
+    "externalProductId": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "sourceVersion": { "type": "integer", "minimum": 0 },
+    "occurredAt": { "type": "string", "format": "date-time" },
+    "payload": { "$ref": "#/$defs/payload" },
+    "metadata": { "$ref": "#/$defs/metadata" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "eventType": { "const": "LISTING_UPSERTED" } } },
+      "then": { "required": ["payload"] }
+    },
+    {
+      "if": { "properties": { "eventType": { "const": "LISTING_WITHDRAWN" } } },
+      "then": { "not": { "required": ["payload"] } }
+    }
+  ],
+  "$defs": {
+    "payload": {
+      "type": "object",
+      "required": ["title"],
+      "properties": {
+        "title": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "brand": { "type": ["string", "null"], "maxLength": 200 },
+        "model": { "type": ["string", "null"], "maxLength": 200 },
+        "category": { "type": ["string", "null"], "maxLength": 200 },
+        "gtin": { "type": ["string", "null"], "description": "GTIN-8/12/13/14; spaces and hyphens allowed; check digit validated." },
+        "attributes": {
+          "type": ["object", "null"],
+          "maxProperties": 64,
+          "propertyNames": { "maxLength": 64 },
+          "additionalProperties": { "type": "string", "maxLength": 500 }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "correlationId": { "type": "string", "maxLength": 100 },
+        "producer": { "type": "string", "maxLength": 100 },
+        "ingestionJobId": { "type": "integer", "minimum": 1 },
+        "acceptedAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

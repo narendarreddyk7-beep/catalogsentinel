@@ -1,0 +1,106 @@
+# CatalogSentinel API configuration. Every value can be overridden with an environment variable; defaults
+# target the local docker compose stack. No production secrets belong in this file.
+spring:
+  application:
+    name: catalog-api
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/catalogsentinel}
+    username: ${DB_USERNAME:catalog}
+    password: ${DB_PASSWORD:catalog_local_dev}
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:20}
+      minimum-idle: 2
+      connection-timeout: 5000
+      validation-timeout: 2000
+  flyway:
+    enabled: ${FLYWAY_ENABLED:true}
+    locations: classpath:db/migration
+  threads:
+    virtual:
+      enabled: true
+  mvc:
+    problemdetails:
+      enabled: true
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+
+server:
+  port: ${PORT:8080}
+  shutdown: graceful
+  forward-headers-strategy: framework
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      # Secure by default: anonymous and non-admin callers get only the status (the probes need nothing more);
+      # component details (database, disk) only for ADMIN keys. The local compose stack, which runs without
+      # authentication, opts back in with HEALTH_SHOW_DETAILS=always; with security enabled that value is refused
+      # at start-up (HealthDetailsPolicy, docs/security.md#health-endpoint).
+      show-details: ${HEALTH_SHOW_DETAILS:when-authorized}
+      roles: ADMIN
+  metrics:
+    tags:
+      application: ${spring.application.name}
+  tracing:
+    sampling:
+      probability: ${TRACING_SAMPLING_PROBABILITY:0.0}
+  opentelemetry:
+    tracing:
+      export:
+        otlp:
+          endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4318/v1/traces}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+catalogsentinel:
+  aws:
+    region: ${AWS_REGION:us-east-1}
+    sqs-endpoint: ${SQS_ENDPOINT:}
+  queues:
+    listing-events: ${LISTING_EVENTS_QUEUE:catalog-listing-events}
+    listing-events-dlq: ${LISTING_EVENTS_DLQ:catalog-listing-events-dlq}
+    change-events: ${CHANGE_EVENTS_QUEUE:catalog-change-events}
+    change-events-dlq: ${CHANGE_EVENTS_DLQ:catalog-change-events-dlq}
+  ingestion:
+    transaction-timeout: 10s
+  security:
+    enabled: ${CATALOGSENTINEL_SECURITY_ENABLED:false}
+    keys: ${CATALOGSENTINEL_API_KEYS:}
+  reconciliation:
+    worker-threads: ${RECONCILIATION_WORKER_THREADS:2}
+    poll-interval: ${RECONCILIATION_POLL_INTERVAL:5s}
+    poller-enabled: ${RECONCILIATION_POLLER_ENABLED:true}
+
+logging:
+  level:
+    io.catalogsentinel: INFO
+
+---
+# JSON (ECS) logs for containers and CloudWatch; correlationId/traceId/spanId come from the MDC.
+spring:
+  config:
+    activate:
+      on-profile: json-logs
+logging:
+  structured:
+    format:
+      console: ecs
+
+---
+spring:
+  config:
+    activate:
+      on-profile: aws
+catalogsentinel:
+  security:
+    enabled: true

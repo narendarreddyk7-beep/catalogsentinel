@@ -1,0 +1,7 @@
+# started  2026-11-03T20:52:11Z: final type-check of platform-adapters, catalog-api, ingestion-worker (main + tests) against API stubs
+# commit 1cfa8cb + uncommitted changes | NOT a build against the real libraries
+== type-check main (32 files)
+== type-check tests: 1 file(s)
+== type-check catalog-api tests: 4 file(s)
+== OK
+# finished 2026-11-03T20:52:18Z: exit 0

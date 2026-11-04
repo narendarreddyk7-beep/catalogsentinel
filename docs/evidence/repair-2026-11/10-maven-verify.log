@@ -1,0 +1,29 @@
+# started  2026-11-03T20:21:30Z: mvn -B -ntp verify (the real build)
+$ mvn -v
+(Picked up JAVA_TOOL_OPTIONS: sandbox proxy and trust-store settings, omitted)
+Apache Maven 3.9.11 (3e54c93a704957b63ee3494413a2b544fd3d825b)
+Maven home: /opt/maven
+$ mvn -B -ntp verify
+(Picked up JAVA_TOOL_OPTIONS: sandbox proxy and trust-store settings, omitted)
+[INFO] Scanning for projects...
+[ERROR] [ERROR] Some problems were encountered while processing the POMs:
+[FATAL] Non-resolvable parent POM for io.catalogsentinel:catalogsentinel-parent:0.1.0-SNAPSHOT: The following artifacts could not be resolved: org.springframework.boot:spring-boot-starter-parent:pom:4.1.2 (absent): Could not transfer artifact org.springframework.boot:spring-boot-starter-parent:pom:4.1.2 from/to central (https://repo.maven.apache.org/maven2): repo.maven.apache.org: Name or service not known and 'parent.relativePath' points at no local POM @ line 12, column 13
+ @ 
+[ERROR] The build could not read 1 project -> [Help 1]
+[ERROR]   
+[ERROR]   The project io.catalogsentinel:catalogsentinel-parent:0.1.0-SNAPSHOT (/home/claude/catalogsentinel/pom.xml) has 1 error
+[ERROR]     Non-resolvable parent POM for io.catalogsentinel:catalogsentinel-parent:0.1.0-SNAPSHOT: The following artifacts could not be resolved: org.springframework.boot:spring-boot-starter-parent:pom:4.1.2 (absent): Could not transfer artifact org.springframework.boot:spring-boot-starter-parent:pom:4.1.2 from/to central (https://repo.maven.apache.org/maven2): repo.maven.apache.org: Name or service not known and 'parent.relativePath' points at no local POM @ line 12, column 13: Unknown host repo.maven.apache.org: Name or service not known -> [Help 2]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/ProjectBuildingException
+[ERROR] [Help 2] http://cwiki.apache.org/confluence/display/MAVEN/UnresolvableModelException
+exit 1
+$ curl -sS -o /dev/null -w '%{http_code}' https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-parent/4.1.2/spring-boot-starter-parent-4.1.2.pom
+curl: (56) CONNECT tunnel failed, response 403
+000
+$ curl -sS "$HTTPS_PROXY/__agentproxy/status" (egress proxy view of the host)
+repo.maven.apache.org:443
+# finished 2026-11-03T20:21:33Z

@@ -1,0 +1,482 @@
+# started  2026-11-03T17:02:45Z: Full Java suite after ADR 0014 (gaps follow merges) + SmokeScenarioIT + GapsFollowProductMergesIT (uncommitted at run time)
+# commit 5c738c7 + uncommitted changes | javac 21.0.12.1 | PostgreSQL 16.15 | 2 vCPU
+# harness: javac + JUnit Platform Console Standalone against a real PostgreSQL (NOT a Maven build)
+# class filter: .*(Test|IT)$ (all)
+# output filtered for readability: ANSI colour codes removed, stack frames of logged exceptions collapsed
+== recreate catalogsentinel_test and apply db/migrations (psql, one transaction per file, like Flyway)
+== javac main (104 files)
+== javac test (40 files)
+== junit
+[main] INFO io.catalogsentinel.core.ingestion.ListingIngestionService - listing event rejected code=EVENT_ID_REUSED eventId=179ee225-35a0-4944-9579-803bdb3adf00
+[main] INFO io.catalogsentinel.core.ingestion.ListingIngestionService - listing event rejected outcome=VERSION_CONFLICT eventId=56380c33-bdd5-4e57-93c3-5261ccccbdb2 source=acme-market externalId=SKU-1 reason="different content was already stored at version 3"
+[main] INFO io.catalogsentinel.core.ingestion.ListingIngestionService - listing event rejected outcome=VERSION_CONFLICT eventId=af8716e0-00b6-495d-baea-f0f123ff2a7b source=acme-market externalId=SKU-1 reason="listing is withdrawn at version 2; reactivation requires a newer version"
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=1, gapsOpened=1}
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 1 joins canonical products 1 and 2; merged into 1
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - gap 1 (OPEN) follows product 2 into product 1
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, gapsFollowedMerge=1, productsEvaluated=1, productsCarried=1, gapsResolved=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=1, gapsOpened=1}
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 1 joins canonical products 1 and 2; merged into 1
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - gap 1 (CONFIRMED) follows product 2 into product 1
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, gapsFollowedMerge=1, productsEvaluated=1, gapsRefreshed=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 1 joins canonical products 1 and 2; merged into 1
+[main] WARN io.catalogsentinel.core.gaps.ReconciliationService - gap 2 (CONFIRMED) resolved: product 2 was merged into product 1, which already has gap 1 for this marketplace; this gap's review decisions were not carried over
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, mergedGapConflicts=1, gapsResolved=1, productsEvaluated=1, gapsRefreshed=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 1 joins canonical products 1 and 2; merged into 1
+[main] WARN io.catalogsentinel.core.gaps.ReconciliationService - gap 2 (DISMISSED) resolved: product 2 was merged into product 1, which already has gap 1 for this marketplace; this gap's review decisions were not carried over
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, mergedGapConflicts=1, gapsResolved=1, productsEvaluated=1, gapsRefreshed=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=1, gapsOpened=1}
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 1 joins canonical products 1 and 2; merged into 1
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - gap 1 (DISMISSED) follows product 2 into product 1
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, gapsFollowedMerge=1, productsEvaluated=1, gapsSuppressedByDismissal=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded on attempt 1: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 1 for mkt-0 claimed by api-2 (attempt 1 of 3)
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-0 succeeded on attempt 1: {listingsMatched=2, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-0 succeeded on attempt 2: {listingsMatched=2, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+[main] WARN io.catalogsentinel.core.gaps.ReconciliationService - failed 1 reconciliation job(s) whose runner died on its last attempt
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 1 for mkt-0 claimed by p (attempt 1 of 3)
+[main] WARN io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 attempt 1 of 3 failed, retrying in 30s: TransientDataAccessResourceException: injected: connection reset during matching
+org.springframework.dao.TransientDataAccessResourceException: injected: connection reset during matching
+	... 89 stack frames omitted
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 1 for mkt-0 claimed by p (attempt 2 of 3)
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-0 succeeded on attempt 2: {listingsMatched=2, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+Nov 03, 2026 5:03:26 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions
+INFO: Loading XML bean definitions from class path resource [org/springframework/jdbc/support/sql-error-codes.xml]
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 1 for mkt-0 claimed by survivor (attempt 2 of 3)
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-0 succeeded on attempt 2: {listingsMatched=2, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation poller instance-a started: 2 worker(s), polling every 50 ms
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation poller instance-b started: 2 worker(s), polling every 50 ms
+[reconciliation-runner-1] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 1 for mkt-1 claimed by instance-b (attempt 1 of 3)
+[reconciliation-runner-1] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 2 for mkt-2 claimed by instance-a (attempt 1 of 3)
+[reconciliation-runner-2] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 3 for mkt-3 claimed by instance-b (attempt 1 of 3)
+[reconciliation-runner-2] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 4 for mkt-4 claimed by instance-a (attempt 1 of 3)
+[reconciliation-runner-1] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-2 succeeded on attempt 1: {listingsMatched=2, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+[reconciliation-runner-2] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 3 for mkt-3 succeeded on attempt 1: {listingsMatched=1, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+[reconciliation-runner-2] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 4 for mkt-4 succeeded on attempt 1: {listingsMatched=1, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+[reconciliation-runner-1] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 5 for mkt-5 claimed by instance-a (attempt 1 of 3)
+[reconciliation-runner-2] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 6 for mkt-6 claimed by instance-b (attempt 1 of 3)
+[reconciliation-runner-1] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-1 succeeded on attempt 1: {listingsMatched=2, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+[reconciliation-runner-2] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 6 for mkt-6 succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+[reconciliation-runner-1] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 5 for mkt-5 succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation poller instance-a stopped (all jobs finished: true)
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation poller instance-b stopped (all jobs finished: true)
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 1 for mkt-0 claimed by p (attempt 1 of 3)
+[main] WARN io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 attempt 1 of 3 failed, retrying in 30s: TransientDataAccessResourceException: injected: connection reset during matching
+org.springframework.dao.TransientDataAccessResourceException: injected: connection reset during matching
+	... 89 stack frames omitted
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 1 for mkt-0 claimed by p (attempt 2 of 3)
+[main] WARN io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 attempt 2 of 3 failed, retrying in 60s: TransientDataAccessResourceException: injected: connection reset during matching
+org.springframework.dao.TransientDataAccessResourceException: injected: connection reset during matching
+	... 89 stack frames omitted
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 1 for mkt-0 claimed by p (attempt 3 of 3)
+[main] ERROR io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 failed on attempt 3 of 3 (no attempts left): TransientDataAccessResourceException: injected: connection reset during matching
+org.springframework.dao.TransientDataAccessResourceException: injected: connection reset during matching
+	... 89 stack frames omitted
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation poller single started: 1 worker(s), polling every 100 ms
+[reconciliation-runner-1] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 1 for mkt-1 claimed by single (attempt 1 of 3)
+[reconciliation-runner-1] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-1 succeeded on attempt 1: {listingsMatched=2, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+[reconciliation-runner-1] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 2 for mkt-2 claimed by single (attempt 1 of 3)
+[reconciliation-runner-1] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-2 succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+[reconciliation-runner-1] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 3 for mkt-3 claimed by single (attempt 1 of 3)
+[reconciliation-runner-1] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 3 for mkt-3 succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+[reconciliation-runner-1] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation job 4 for mkt-4 claimed by single (attempt 1 of 3)
+[reconciliation-runner-1] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 4 for mkt-4 succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationJobPoller - reconciliation poller single stopped (all jobs finished: true)
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=1 delayMs=2000 reason="db busy"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=2 delayMs=4000 reason="db busy"
+[main] ERROR io.catalogsentinel.core.messaging.QueueConsumer - could not dead-letter message msg-1: {msg-1=injected failure}
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - dead-lettered message queue=events messageId=msg-1 reason="DomainValidationException: validation failed: title is required"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=1 delayMs=2000 reason="CannotGetJdbcConnectionException: connection refused; nested exception is java.sql.SQLException: refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=1 delayMs=2000 reason="still failing"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=2 delayMs=4000 reason="still failing"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - dead-lettered message queue=events messageId=msg-1 reason="retries exhausted after 3 attempts: still failing"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - dead-lettered message queue=events messageId=msg-1 reason="MALFORMED_JSON: unexpected token"
+[main] INFO io.catalogsentinel.core.messaging.QueueConsumer - consumer started queue=events concurrency=1 maxAttempts=3
+[main] INFO io.catalogsentinel.core.messaging.QueueConsumer - consumer stopped queue=events drained=true stillInFlight=0
+[main] INFO io.catalogsentinel.core.messaging.QueueConsumer - consumer started queue=events concurrency=4 maxAttempts=3
+[main] INFO io.catalogsentinel.core.messaging.QueueConsumer - consumer stopped queue=events drained=true stillInFlight=0
+[main] INFO io.catalogsentinel.core.messaging.QueueConsumer - consumer started queue=events concurrency=1 maxAttempts=50
+[] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=1 delayMs=2000 reason="CannotGetJdbcConnectionException: connection refused; nested exception is java.sql.SQLException: refused"
+[] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=1 delayMs=2000 reason="CannotGetJdbcConnectionException: connection refused; nested exception is java.sql.SQLException: refused"
+[] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=events attempt=1 delayMs=2000 reason="CannotGetJdbcConnectionException: connection refused; nested exception is java.sql.SQLException: refused"
+[poller-events] WARN io.catalogsentinel.core.messaging.QueueConsumer - pausing consumption of events for PT0.1S after 3 consecutive dependency failures
+[poller-events] WARN io.catalogsentinel.core.messaging.QueueConsumer - pausing consumption of events for PT0.1S after 3 consecutive dependency failures
+[poller-events] WARN io.catalogsentinel.core.messaging.QueueConsumer - pausing consumption of events for PT0.1S after 3 consecutive dependency failures
+[poller-events] WARN io.catalogsentinel.core.messaging.QueueConsumer - pausing consumption of events for PT0.1S after 3 consecutive dependency failures
+[main] INFO io.catalogsentinel.core.messaging.QueueConsumer - consumer stopped queue=events drained=true stillInFlight=0
+[main] INFO io.catalogsentinel.core.ingestion.ListingIngestionService - listing event rejected code=EVENT_ID_REUSED eventId=e42d6fdc-d7e9-43ef-96aa-23dbd12a827e
+[main] INFO io.catalogsentinel.core.ingestion.ListingIngestionService - listing event rejected outcome=VERSION_CONFLICT eventId=3acb96b7-6b58-4d86-949c-269533d00e91 source=smk-qorvandel-mkt externalId=MKT-BOTTLE reason="different content was already stored at version 2"
+SMOKE-SCENARIO review candidate [refDrive, mktDrive] score=0.8999
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for smk-qorvandel-mkt succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=3, productsCarried=1, gapsOpened=2}
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 2 joins canonical products 3 and 4; merged into 3
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for smk-qorvandel-mkt succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=3, productsCarried=2, gapsRefreshed=1, gapsResolved=1}
+[main] INFO io.catalogsentinel.core.ingestion.ListingIngestionService - listing event rejected code=EVENT_ID_REUSED eventId=b12381e3-2ba8-4ef4-905f-fd705bccc12e
+[main] INFO io.catalogsentinel.core.ingestion.ListingIngestionService - listing event rejected outcome=VERSION_CONFLICT eventId=3ea7e757-6918-48b2-8250-6030ffb61374 source=smk-zymbrastik-mkt externalId=MKT-BOTTLE reason="different content was already stored at version 2"
+SMOKE-SCENARIO review candidate [refDrive, mktDrive] score=0.8999
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for smk-zymbrastik-mkt succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=3, productsCarried=1, gapsOpened=2}
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 1 joins canonical products 4 and 2; merged into 2
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - gap 1 (OPEN) follows product 4 into product 2
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for smk-zymbrastik-mkt succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, gapsFollowedMerge=1, productsEvaluated=3, productsCarried=2, gapsResolved=1, gapsRefreshed=1}
+[main] INFO io.catalogsentinel.core.ingestion.ListingIngestionService - listing event rejected code=EVENT_ID_REUSED eventId=0c823f32-9856-47f0-aa17-4cfca23271d4
+[main] INFO io.catalogsentinel.core.ingestion.ListingIngestionService - listing event rejected outcome=VERSION_CONFLICT eventId=32d5218c-af51-404d-9185-7b3eccede5e1 source=smk-plenturix-mkt externalId=MKT-BOTTLE reason="different content was already stored at version 2"
+SMOKE-SCENARIO review candidate [refDrive, mktDrive] score=0.8999
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for smk-plenturix-mkt succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=3, productsCarried=1, gapsOpened=2}
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 2 joins canonical products 3 and 4; merged into 3
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for smk-plenturix-mkt succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=3, productsCarried=2, gapsRefreshed=1, gapsResolved=1}
+DB-MATCHING listings=150 candidatePairs=284 positives=79 sqlRetrievalRecall=1.0000 canonicalClusters: TP=36 FP=0 FN=43 TN=11096 P=1.0000 R=0.4557 F1=0.6261
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-market succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=3, gapsOpened=3}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-market succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=3, gapsOpened=3}
+[main] ERROR io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 failed on attempt 1 of 3 (not retryable): REFERENCE_SOURCE_DISABLED: reference source ref-beta was disabled after the run was requested
+io.catalogsentinel.core.gaps.ReconciliationService$PermanentJobFailure: REFERENCE_SOURCE_DISABLED: reference source ref-beta was disabled after the run was requested
+	... 89 stack frames omitted
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-market succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=3, gapsOpened=3}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-market succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=2, gapsRefreshed=2, gapsResolved=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 3 for mkt-market succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=3, gapsRefreshed=2, gapsOpened=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-market succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=3, gapsOpened=3}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-market succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=2, gapsRefreshed=2}
+CONCURRENT-DELIVERY rounds=10 deliveriesPerRound=8 resolvedByPrimaryKeyArbiter=19
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - dead-lettered message queue=catalog-listing-events messageId=msg-1 reason="MALFORMED_JSON: parse"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - dead-lettered message queue=catalog-listing-events messageId=msg-2 reason="UNKNOWN_SOURCE: source 'late-source' is not registered"
+[main] INFO io.catalogsentinel.core.messaging.DeadLetterService - replayed 2 message(s) from catalog-listing-events-dlq to catalog-listing-events (0 failed)
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - dead-lettered message queue=catalog-listing-events messageId=msg-5 reason="MALFORMED_JSON: parse"
+[main] WARN io.catalogsentinel.core.outbox.OutboxRelay - outbox relay: published=0 failed=1
+[main] WARN io.catalogsentinel.core.outbox.OutboxRelay - outbox relay: published=0 failed=1
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=1 delayMs=734 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=1 delayMs=807 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=1 delayMs=942 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=1 delayMs=863 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=1 delayMs=520 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=2 delayMs=165 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=2 delayMs=86 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=2 delayMs=984 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=2 delayMs=1646 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] WARN io.catalogsentinel.core.messaging.QueueConsumer - retrying message queue=catalog-listing-events attempt=2 delayMs=1547 reason="CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLTransientConnectionException: simulated outage: connection refused"
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-market succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=1, gapsOpened=1}
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 2 joins canonical products 1 and 2; merged into 1
+[main] INFO io.catalogsentinel.core.matching.MatchingService - canonical product 1 split: listings [3] lost their evidence and form product 4
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 1 joins canonical products 1 and 2; merged into 1
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-market succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=1, gapsOpened=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-market succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=1, productsCarried=1, gapsResolved=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded on attempt 1: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 389 joins canonical products 71 and 72; merged into 71
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for acme-market succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=80, productsCarried=27, gapsRefreshed=53, gapsResolved=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded on attempt 1: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+GAP-EVAL referenceProducts=80 trueGaps=19 openGaps=54 precisionAll=0.3519 recallAll=1.0000 confidentGaps=18 precisionConfident=0.7778 recallConfident=0.7368 stats={"gapsOpened": 54, "listingsMatched": 150, "productsCarried": 26, "identitiesMerged": 0, "productsEvaluated": 80}
+GAP-FALSE-CONFIDENT bose-qc-ultra-white reason=VARIANT_NOT_CARRIED confidence=0.9000 best=Bose QuietComfort Ultra Headphones Black (EU import) score=0.4500
+GAP-FALSE-CONFIDENT pegasus40-m-10-black reason=ONLY_NON_MATCHING_CANDIDATES confidence=0.6368 best=Nike Air Zoom Pegasus 41 Running Shoes Men Size 10 Black score=0.6264
+GAP-FALSE-CONFIDENT canon-r6-body reason=ONLY_NON_MATCHING_CANDIDATES confidence=0.6332 best=Canon EOS R6 MKII Full Frame Mirrorless Camera Body score=0.6336
+GAP-FALSE-CONFIDENT pegasus41-m-10-black reason=ONLY_NON_MATCHING_CANDIDATES confidence=0.6293 best=Nike Pegasus 40 Mens Running Shoe Black White Size 10 score=0.6414
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for acme-market succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsRefreshed=54}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded on attempt 1: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for acme-market succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=79, productsCarried=26, gapsRefreshed=53, gapsResolved=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded on attempt 1: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded on attempt 1: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded on attempt 1: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for acme-market succeeded on attempt 1: {listingsMatched=1, identitiesMerged=0, productsEvaluated=80, productsCarried=27, gapsRefreshed=52, gapsResolved=1, gapsSuppressedByDismissal=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded on attempt 1: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded on attempt 1: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for acme-market succeeded on attempt 2: {listingsMatched=150, identitiesMerged=0, productsEvaluated=80, productsCarried=26, gapsOpened=54}
+.
++-- JUnit Platform Suite [OK]
++-- JUnit Jupiter [OK]
+| +-- ListingIngestionServiceIT [OK]
+| | +-- replayStillSucceedsAfterSourceIsDisabled() [OK]
+| | +-- reusingEventIdWithDifferentDataIsRejected() [OK]
+| | +-- exactReplayIsIdempotentAndReturnsStoredOutcome() [OK]
+| | +-- unknownIngestionJobIsAValidationError() [OK]
+| | +-- sameVersionConflictingContentIsRejectedAndRecorded() [OK]
+| | +-- outOfOrderDeliveryConvergesToLatestSourceState() [OK]
+| | +-- newerVersionUpdatesAndOlderVersionIsIgnored() [OK]
+| | +-- unknownAndDisabledSourcesAreUnprocessableAndLeaveNoTrace() [OK]
+| | +-- createsListingWithNormalizedFieldsAndOutboxEvent() [OK]
+| | +-- withdrawalCreatesTombstoneThatStaleEventsCannotResurrect() [OK]
+| | +-- historyListsEveryProcessedEventNewestFirst() [OK]
+| | '-- newerVersionWithIdenticalContentAdvancesVersionWithoutDownstreamEvent() [OK]
+| +-- GapsFollowProductMergesIT [OK]
+| | +-- aGapWhoseProductIsMergedIntoACarriedProductIsResolvedAsCarried() [OK]
+| | +-- aConfirmedGapStaysConfirmedAfterItsProductIsMerged() [OK]
+| | +-- whenTheSurvivorAlreadyHasAGapItIsKeptAndTheMergedProductsGapIsResolvedWithTheCon... [OK]
+| | | +-- merged product's gap decision: CONFIRM [OK]
+| | | '-- merged product's gap decision: DISMISS [OK]
+| | '-- aDismissedGapKeepsSuppressingDetectionAfterItsProductIsMerged() [OK]
+| +-- GoldenSetEvaluationTest [OK]
+| | '-- qualityFloors(String) [OK]
+| |   +-- [1] file=tests/golden-matching/golden-listings.tsv [OK]
+| |   '-- [2] file=tests/golden-matching/golden-holdout.tsv [OK]
+| +-- NormalizationTest [OK]
+| | +-- variantSuffixRecognizesRegionalCodesButNotTiers() [OK]
+| | +-- structuredAttributesWinOverTitle() [OK]
+| | +-- extractsVariantAttributesFromTitle() [OK]
+| | +-- productNormalizerProducesCategoryLeaf() [OK]
+| | +-- ramIsNotMistakenForStorage() [OK]
+| | +-- colorFamiliesGroupMarketingNames() [OK]
+| | +-- modelDigitGroupsDistinguishGenerations() [OK]
+| | +-- packCountsAndVolumesAreCanonical() [OK]
+| | +-- sharedFixtureCases() [OK]
+| | | +-- title: Sony WH-1000XM5 Wireless Noise Canceling Headphones, Black [OK]
+| | | +-- title: Apple iPhone 15 Pro 256 GB ? Natural Titanium [OK]
+| | | +-- title: Samsung 55" Class QLED 4K Smart TV [OK]
+| | | +-- title: SAMSUNG 55-Inch Class QLED 4K Smart TV [OK]
+| | | +-- title: Echo Dot (5th Gen, 2022 release) | Charcoal [OK]
+| | | +-- title: Kindle Paperwhite Second Generation [OK]
+| | | +-- title: Canon EOS 5D Mark IV Body [OK]
+| | | +-- title: Lenovo Yoga 7i 2-in-1 Laptop 16GB RAM 1TB SSD [OK]
+| | | +-- title: Caf? Bustelo Espresso, 10 oz (Pack of 6) [OK]
+| | | +-- title: Hydro Flask 32 fl. oz Wide Mouth Bottle [OK]
+| | | +-- title: Anker 735 Charger (Nano II 65W) GaN [OK]
+| | | +-- title: Wi-Fi 6 Router, Space Grey [OK]
+| | | +-- title: LG 27 inch UltraGear 144 Hz Monitor [OK]
+| | | +-- title: Duracell AA Batteries, 24 Count [OK]
+| | | +-- title: Galaxy S24+ 512GB [OK]
+| | | +-- title:     [OK]
+| | | +-- brand: Samsung Electronics Co., Ltd. [OK]
+| | | +-- brand: Hewlett-Packard [OK]
+| | | +-- brand: The LEGO Group [OK]
+| | | +-- brand: Sony Corporation [OK]
+| | | +-- brand: Procter & Gamble [OK]
+| | | +-- brand: Black+Decker [OK]
+| | | +-- brand: Logitech International S.A. [OK]
+| | | +-- brand: Apple [OK]
+| | | +-- model: WH-1000XM5 [OK]
+| | | +-- model: SM-G991B/DS [OK]
+| | | +-- model: MQ8N3LL/A [OK]
+| | | +-- model:   [OK]
+| | | +-- category: Electronics > Headphones > Over-Ear [OK]
+| | | +-- category: home/kitchen | Kettles [OK]
+| | | '-- category: ?lectronique [OK]
+| | '-- inchWordDoesNotSwallowTwoInOne() [OK]
+| +-- CoverageIT [OK]
+| | +-- afterReconciliationPartsAddUpAndMatchTheGapTable() [OK]
+| | '-- beforeReconciliationUncarriedProductsAreNotEvaluated() [OK]
+| +-- RuleBasedMatcherTest [OK]
+| | +-- unspecifiedVariantBlocksAutoMatch() [OK]
+| | +-- brandOwnerAndSubBrandAreToleratedWhenTheTitleNamesTheBrand() [OK]
+| | +-- markIiIsADifferentGenerationThanTheBaseModel() [OK]
+| | +-- identicalGtinAutoMatches() [OK]
+| | +-- titleSimilarityAloneNeverAutoMatches() [OK]
+| | +-- storageVariantsAreNotTheSameProduct() [OK]
+| | +-- marketingTierWordsAreIgnoredWhenModelsAgree() [OK]
+| | +-- featureScoresAreBoundedAndEvidenceIsOrderedDeterministically() [OK]
+| | +-- tierWordWithoutAgreeingIdentifiersForcesNoMatch() [OK]
+| | +-- brandMismatchForcesNoMatch() [OK]
+| | +-- agreeingModelAndBrandAutoMatchDespiteRewordedTitles() [OK]
+| | +-- modelFollowedByTierWordInTitleIsADifferentModel() [OK]
+| | +-- decisionsAreSymmetricAcrossTheWholeGoldenSet() [OK]
+| | +-- previousGenerationModelIsNotAMatch() [OK]
+| | '-- identicalGtinWithVariantConflictIsADataQualityReview() [OK]
+| +-- ReconciliationJobDurabilityIT [OK]
+| | +-- jobsRequestedWhileNoRunnerIsUpAreRunWhenOneStarts() [OK]
+| | +-- aRunnerThatLostItsLeaseCannotOverwriteTheNewOwner() [OK]
+| | +-- aJobWhoseRunnerDiedOnTheLastAttemptFailsVisiblyAndFreesTheTarget() [OK]
+| | +-- aFailedAttemptIsRetriedAfterABackoffWithTheErrorVisible() [OK]
+| | +-- aCrashedRunnersJobIsClaimedAgainOnlyAfterItsLeaseExpires() [OK]
+| | +-- twoPollersOnOneDatabaseRunEachAttemptExactlyOnce() [OK]
+| | +-- attemptsAreBoundedAndTheFinalFailureFreesTheTarget() [OK]
+| | '-- aSaturatedRunnerLeavesJobsQueuedInTheDatabaseInsteadOfDroppingThem() [OK]
+| +-- GapRulesTest [OK]
+| | +-- pendingReviewLowersConfidenceAndPriority() [OK]
+| | +-- noCandidateIsTheMostConfidentGap() [OK]
+| | +-- allowedTransitions(GapStatus, GapDecision, GapStatus) [OK]
+| | | +-- OPEN --CONFIRM--> CONFIRMED [OK]
+| | | +-- OPEN --DISMISS--> DISMISSED [OK]
+| | | +-- OPEN --RESOLVE--> RESOLVED [OK]
+| | | +-- CONFIRMED --DISMISS--> DISMISSED [OK]
+| | | +-- CONFIRMED --RESOLVE--> RESOLVED [OK]
+| | | '-- DISMISSED --REOPEN--> OPEN [OK]
+| | +-- nonMatchingCandidateConfidenceDecreasesWithScore() [OK]
+| | +-- forbiddenTransitions(GapStatus, GapDecision) [OK]
+| | | +-- OPEN --REOPEN--> rejected [OK]
+| | | +-- CONFIRMED --REOPEN--> rejected [OK]
+| | | +-- DISMISSED --CONFIRM--> rejected [OK]
+| | | +-- DISMISSED --RESOLVE--> rejected [OK]
+| | | +-- RESOLVED --REOPEN--> rejected [OK]
+| | | +-- RESOLVED --CONFIRM--> rejected [OK]
+| | | '-- RESOLVED --DISMISS--> rejected [OK]
+| | +-- siblingVariantIsReportedAsVariantNotCarried() [OK]
+| | '-- repeatingTheCurrentStateIsANoOp() [OK]
+| +-- ListingContentAndHashingTest [OK]
+| | +-- titleIsRequired() [OK]
+| | +-- fingerprintExcludesEventIdButIncludesEverythingElse() [OK]
+| | +-- gtinIsCanonicalizedToGtin14() [OK]
+| | +-- withdrawalMustNotCarryPayload() [OK]
+| | +-- invalidGtinIsRejectedWithFieldName() [OK]
+| | +-- contentHashChangesWhenAnyFieldChanges() [OK]
+| | +-- contentHashIgnoresWhitespaceAndAttributeOrder() [OK]
+| | +-- validGtins(String) [OK]
+| | | +-- [1] raw=036000291452 [OK]
+| | | +-- [2] raw=0036000291452 [OK]
+| | | +-- [3] raw=00036000291452 [OK]
+| | | +-- [4] raw=96385074 [OK]
+| | | +-- [5] raw=4006381333931 [OK]
+| | | '-- [6] raw=0 36000 29145 2 [OK]
+| | +-- eventValidationReportsAllViolations() [OK]
+| | +-- invalidGtins(String) [OK]
+| | | +-- [1] raw=036000291453 [OK]
+| | | +-- [2] raw=123 [OK]
+| | | +-- [3] raw=abcdefghijkl [OK]
+| | | +-- [4] raw=00000000000000 [OK]
+| | | '-- [5] raw=40063813339310 [OK]
+| | '-- canonicalFormIsInjectiveAcrossFieldBoundaries() [OK]
+| +-- AsyncIngestionServiceTest [OK]
+| | +-- rejectsDuplicateEventIdsWithinBatchAndOversizedBatches() [OK]
+| | +-- rejectsWholeBatchWhenAnyEventIsInvalidAndEnqueuesNothing() [OK]
+| | +-- reportsEnqueueFailuresSoTheClientCanRetry() [OK]
+| | '-- enqueuesValidBatchWithStampedMetadataAndAttributes() [OK]
+| +-- SimilarityTest [OK]
+| | +-- trigramsFollowPgTrgmPadding() [OK]
+| | +-- jaccardAndOverlap() [OK]
+| | '-- jaroWinklerMatchesReferenceValues() [OK]
+| +-- ListingQueryIT [OK]
+| | +-- filtersBySourceStatusBrandGtinAndText() [OK]
+| | '-- paginatesNewestFirstWithoutGapsOrDuplicates() [OK]
+| +-- QueueConsumerTest [OK]
+| | +-- retryBacksOffThenRedeliversWithIncrementedReceiveCount() [OK]
+| | +-- backoffCeilingsDoubleUpToTheCap() [OK]
+| | +-- redrivePolicyIsTheSafetyNetWhenAConsumerCrashesRepeatedly() [OK]
+| | +-- failedDeadLetteringLeavesTheMessageForRedrive() [OK]
+| | +-- exceptionsAreClassified() [OK]
+| | +-- ackDeletesTheMessage() [OK]
+| | +-- retriesAreBoundedThenDeadLettered() [OK]
+| | +-- poisonMessagesGoToTheDlqImmediatelyWithAReason() [OK]
+| | +-- slowHandlersKeepTheirMessageInvisibleWithAVisibilityHeartbeat() [OK]
+| | +-- threadedConsumerRespectsConcurrencyAndDrainsOnStop() [OK]
+| | '-- consecutiveDependencyOutagesPausePollingUntilTheProbePasses() [OK]
+| +-- TrigramParityIT [OK]
+| | '-- javaMatchesPgTrgm(String, String) [OK]
+| |   +-- [1] left=Sony WH-1000XM5 Wireless Headphones, right=SONY WH1000XM5 Noise Cancell... [OK]
+| |   +-- [2] left=Apple iPhone 15 Pro 128GB, right=Apple iPhone 15 128GB [OK]
+| |   +-- [3] left=Starbucks Pike Place 12 oz, right=Starbucks Veranda Blend 12 oz [OK]
+| |   +-- [4] left=LEGO Icons Concorde 10318, right=Lego 10318 Concorde [OK]
+| |   '-- [5] left=a, right=b [OK]
+| +-- SmokeScenarioIT [OK]
+| | +-- theSmokeScenarioBehavesAsScripted(String, boolean) [OK]
+| | | +-- run token qorvandel, marketplace changes first: false [OK]
+| | | +-- run token zymbrastik, marketplace changes first: true [OK]
+| | | '-- run token plenturix, marketplace changes first: false [OK]
+| | '-- gtinDerivationMatchesThePythonImplementation() [OK]
+| +-- QuantityVariantConflictTest [OK]
+| | +-- extractsVoltageAndOuncesFromTitlesAndStructuredAttributes() [OK]
+| | +-- differentVoltagesOrOuncesAreAVariantConflict() [OK]
+| | '-- equalQuantitiesWithinToleranceStillMatch() [OK]
+| +-- MatchingServiceIT [OK]
+| | +-- reviewQueueAndProductQueriesExposeEvidence() [OK]
+| | +-- withdrawingAListingSupersedesItsPendingReviews() [OK]
+| | +-- rematchingIsIdempotent() 11918 ms [OK]
+| | '-- sqlRetrievalFindsEveryTruePairAndClustersArePrecise() [OK]
+| +-- SourceServiceIT [OK]
+| | +-- registersAndFetchesSources() [OK]
+| | +-- listsWithFiltersAndKeysetPagination() [OK]
+| | +-- rejectsForeignCursorsAndMissingSources() [OK]
+| | +-- validatesInput() [OK]
+| | '-- duplicateCodeIsAConflict() [OK]
+| +-- NormalizationParityFixtureTest [OK]
+| | '-- parityFixtureMatchesTheJavaNormalizers() [OK]
+| +-- ReferenceSourceEligibilityIT [OK]
+| | +-- allEnabledSourcesCountForCoverageAndDemand() [OK]
+| | +-- aRunWhoseSelectedSourceWasDisabledMeanwhileFailsVisiblyWithoutTouchingGaps() [OK]
+| | +-- disablingASourceRemovesItsExclusiveGapsAndItsEvidenceUntilItIsEnabledAgain() [OK]
+| | +-- aSelectedReferenceSourceScopesEligibilityCoverageAndDemand() [OK]
+| | '-- aDisabledReferenceSourceCannotBeSelected() [OK]
+| +-- ListingEventDeciderTest [OK]
+| | +-- decisionTable(ListingStatus, long, String, long, boolean, IngestionOutcome) [OK]
+| | | +-- ACTIVE v5 <- UPSERT v4 sameContent=true => STALE_IGNORED [OK]
+| | | +-- ACTIVE v5 <- UPSERT v4 sameContent=false => STALE_IGNORED [OK]
+| | | +-- ACTIVE v5 <- UPSERT v5 sameContent=true => UNCHANGED [OK]
+| | | +-- ACTIVE v5 <- UPSERT v5 sameContent=false => VERSION_CONFLICT [OK]
+| | | +-- ACTIVE v5 <- UPSERT v6 sameContent=true => UNCHANGED [OK]
+| | | +-- ACTIVE v5 <- UPSERT v6 sameContent=false => UPDATED [OK]
+| | | +-- ACTIVE v5 <- WITHDRAW v4 sameContent=false => STALE_IGNORED [OK]
+| | | +-- ACTIVE v5 <- WITHDRAW v5 sameContent=false => VERSION_CONFLICT [OK]
+| | | +-- ACTIVE v5 <- WITHDRAW v6 sameContent=false => WITHDRAWN [OK]
+| | | +-- WITHDRAWN v5 <- UPSERT v4 sameContent=true => STALE_IGNORED [OK]
+| | | +-- WITHDRAWN v5 <- UPSERT v5 sameContent=true => VERSION_CONFLICT [OK]
+| | | +-- WITHDRAWN v5 <- UPSERT v6 sameContent=true => REACTIVATED [OK]
+| | | +-- WITHDRAWN v5 <- UPSERT v6 sameContent=false => REACTIVATED [OK]
+| | | +-- WITHDRAWN v5 <- WITHDRAW v4 sameContent=false => STALE_IGNORED [OK]
+| | | +-- WITHDRAWN v5 <- WITHDRAW v5 sameContent=false => UNCHANGED [OK]
+| | | '-- WITHDRAWN v5 <- WITHDRAW v6 sameContent=false => UNCHANGED [OK]
+| | +-- Tombstones [OK]
+| | | +-- newerUpsertReactivatesWithdrawnListing() [OK]
+| | | +-- outOfOrderDeliveryConvergesToLatestVersion() [OK]
+| | | +-- repeatedNewerWithdrawalAdvancesTombstoneVersion() [OK]
+| | | +-- withdrawalAtSameVersionAsActiveContentIsConflict() [OK]
+| | | +-- staleUpsertCannotResurrectWithdrawnListing() [OK]
+| | | +-- newerWithdrawalTombstonesActiveListing() [OK]
+| | | +-- sameVersionUpsertCannotResurrectWithdrawnListing() [OK]
+| | | '-- tombstoneWithoutContentCanBeReactivated() [OK]
+| | +-- OrderingRules [OK]
+| | | +-- newerVersionUpdatesContent() [OK]
+| | | +-- sameVersionIdenticalContentIsNoOp() [OK]
+| | | +-- sameVersionConflictingContentIsRejected() [OK]
+| | | +-- olderVersionCannotOverwriteNewerData() [OK]
+| | | '-- newerVersionWithIdenticalContentOnlyAdvancesVersion() [OK]
+| | '-- NewListing [OK]
+| |   +-- upsertCreatesActiveListing() [OK]
+| |   '-- withdrawalOfUnseenListingRecordsTombstone() [OK]
+| +-- ListingEventMapperTest [OK]
+| | +-- mapsValidUpsert() [OK]
+| | +-- reportsEveryViolationAtOnce() [OK]
+| | +-- invalidTitleIsReportedOnceWithoutSpuriousPayloadError() [OK]
+| | +-- upsertWithoutPayloadAndWithdrawalWithPayloadAreRejected() [OK]
+| | +-- toleratesSmallClockSkew() [OK]
+| | '-- mapsValidWithdrawal() [OK]
+| +-- ConcurrentIngestionIT [OK]
+| | +-- concurrentDeliveriesOfOneEventHaveExactlyOneEffect() [OK]
+| | +-- concurrentCreationOfOneListingByDifferentEventsCreatesOneRow() [OK]
+| | +-- independentListingsIngestInParallel() [OK]
+| | '-- shuffledConcurrentVersionsConvergeToTheHighestVersion() [OK]
+| |   +-- repetition 1 of 3 [OK]
+| |   +-- repetition 2 of 3 [OK]
+| |   '-- repetition 3 of 3 [OK]
+| +-- IngestionJobServiceIT [OK]
+| | +-- fullLifecycleWithRetriedCompletionReport() [OK]
+| | +-- registrationIsIdempotentForTheSameManifest() [OK]
+| | +-- progressIsDerivedFromTheIdempotencyLedger() [OK]
+| | +-- failedJobRestartsWithNextAttemptAndKeepsBoundedErrorHistory() [OK]
+| | +-- reusingAKeyForADifferentManifestOrSourceIsAConflict() [OK]
+| | +-- publishingRequiresConsistentCounts() [OK]
+| | +-- registrationValidatesInput() [OK]
+| | '-- listIsNewestFirstWithKeysetPaginationAndFilters() [OK]
+| +-- AsyncPipelineIT [OK]
+| | +-- poisonMessagesAreDeadLetteredAndFixableOnesCanBeReplayed() [OK]
+| | +-- duplicateAndOutOfOrderDeliveryHaveExactlyOnceEffects() [OK]
+| | +-- relayFailuresBackOffAndEventuallyFailButCanBeRequeued() [OK]
+| | +-- databaseOutageIsRetriedNotDeadLetteredAndRecoversAfterwards() [OK]
+| | +-- crashBeforeAcknowledgingIsRecoveredByRedeliveryWithoutDuplicateEffects() [OK]
+| | +-- outboxRelayPublishesChangesThatDriveMatching() [OK]
+| | '-- concurrentRelaysNeverPublishARowTwice() [OK]
+| +-- StaleMatchEvidenceIT [OK]
+| | +-- changedListingLeavesTheSharedProductAndStaleEvidenceCannotRejoinIt() [OK]
+| | +-- changedRepresentativeDoesNotRewriteTheProductOfUnchangedMembers() [OK]
+| | +-- redeliveredChangeEventsAndRepeatedRunsChangeNothing() [OK]
+| | +-- productHeldTogetherOnlyByAChangedListingSplitsIntoItsIndependentParts() [OK]
+| | +-- humanApprovalIsSupersededWithAnAuditRecordWhenContentChanges() [OK]
+| | '-- withdrawalSupersedesEvidenceAndReactivationRebuildsItFromCurrentContent() [OK]
+| '-- GapReconciliationIT [OK]
+|   +-- approvingAPendingMatchClosesTheGapItExplained() [OK]
+|   +-- detectsGapsAgainstGroundTruthAndIsIdempotent() [OK]
+|   +-- withdrawnReferenceResolvesItsGap() [OK]
+|   +-- auditTrailIsAppendOnlyAtTheDatabaseLevel() [OK]
+|   +-- lifecycleTransitionsAreAuditedAndValidated() [OK]
+|   +-- dismissalSuppressesRedetectionAndNewListingResolvesGapsAutomatically() [OK]
+|   +-- onlyOneActiveReconciliationPerTarget() [OK]
+|   +-- dashboardSummaryReflectsState() [OK]
+|   '-- abandonedJobsAreRecovered() [OK]
+'-- JUnit Vintage [OK]
+
+Test run finished after 175685 ms
+[        44 containers found      ]
+[         0 containers skipped    ]
+[        44 containers started    ]
+[         0 containers aborted    ]
+[        44 containers successful ]
+[         0 containers failed     ]
+[       242 tests found           ]
+[         0 tests skipped         ]
+[       242 tests started         ]
+[         0 tests aborted         ]
+[       242 tests successful      ]
+[         0 tests failed          ]
+
+# finished 2026-11-03T17:05:49Z: harness exit status 0 (JUnit console: 0 = all passed, 1 = failures)

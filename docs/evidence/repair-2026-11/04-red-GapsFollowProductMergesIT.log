@@ -1,0 +1,114 @@
+# started  2026-11-03T17:00:08Z: Red run: GapsFollowProductMergesIT (new) against the current code, before the fix
+# commit 5c738c7 | javac 21.0.12.1 | PostgreSQL 16.15 | 2 vCPU
+# harness: javac + JUnit Platform Console Standalone against a real PostgreSQL (NOT a Maven build)
+# class filter: .*GapsFollowProductMergesIT$
+# output filtered for readability: ANSI colour codes removed, stack frames of logged exceptions collapsed
+== recreate catalogsentinel_test and apply db/migrations (psql, one transaction per file, like Flyway)
+== javac main (104 files)
+== javac test (40 files)
+== junit
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=1, gapsOpened=1}
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 1 joins canonical products 1 and 2; merged into 1
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=1, productsCarried=1, gapsResolved=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=1, gapsOpened=1}
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 1 joins canonical products 1 and 2; merged into 1
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=1, gapsOpened=1, gapsResolved=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=2, gapsOpened=2}
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 1 joins canonical products 1 and 2; merged into 1
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=1, gapsRefreshed=1, gapsResolved=1}
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 1 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=1, gapsOpened=1}
+[main] INFO io.catalogsentinel.core.matching.MatchingService - evidence 1 joins canonical products 1 and 2; merged into 1
+[main] INFO io.catalogsentinel.core.gaps.ReconciliationService - reconciliation job 2 for mkt-target succeeded on attempt 1: {listingsMatched=0, identitiesMerged=0, productsEvaluated=1, gapsOpened=1}
+.
++-- JUnit Platform Suite [OK]
++-- JUnit Jupiter [OK]
+| '-- GapsFollowProductMergesIT [OK]
+|   +-- aGapWhoseProductIsMergedIntoACarriedProductIsResolvedAsCarried() [X] [the target carries the product] 
+|   |     Expecting:
+|   |      <"MERGED_PRODUCT">
+|   |     to be equal to:
+|   |      <"AUTO_MATCH_FOUND">
+|   |     but was not.
+|   +-- aConfirmedGapStaysConfirmedAfterItsProductIsMerged() [X] 
+|   |     Expecting:
+|   |      <2L>
+|   |     to be equal to:
+|   |      <1L>
+|   |     but was not.
+|   +-- whenTheSurvivorAlreadyHasAGapItIsKeptAndTheMergedProductsGapIsResolvedWithTheCon... [X] 
+|   |     Expecting:
+|   |      <"MERGED_PRODUCT: product no longer qualifies as a gap">
+|   |     to contain:
+|   |      <"gap 1"> 
+|   '-- aDismissedGapKeepsSuppressingDetectionAfterItsProductIsMerged() [X] [no new OPEN gap replaces the dismissal] 
+|         Expected size:<1> but was:<2> in:
+|         <[GapView[gapId=2, canonicalProductId=1, targetSourceId=3, targetSourceCode=mkt-target, status=OPEN, reason=NO_CANDIDATE, confidence=0.9500, priorityScore=72.50, priority=P1, bestCandidateListingId=null, bestCandidateScore=null, evidenceJson={"demand": {"value": 0.5, "source": "UNKNOWN"}, "reason": "NO_CANDIDATE", "assessor": "gap-v1", "explanation": ["No similar listing was retrieved from the marketplace (GTIN, brand+model and title search).", "No demand signal available; neutral 0.50 used.", "Carried by 1 of 2 reference sources."], "referenceCoverage": {"of": 2, "sources": 1}, "referenceListings": [2]}, detectionCount=1, firstDetectedAt=2026-11-03T17:00:24.664434Z, lastDetectedAt=2026-11-03T17:00:24.664434Z, lastJobId=2, resolvedAt=null, resolution=null, updatedAt=2026-11-03T17:00:24.664434Z, productTitle=Altora Pro USB Flash Drive 64GB Black, productBrand=Altora, productCategory=audio, referenceListingId=2, referenceTitle=Altora Pro AL-4520X 64GB USB Flash Drive, Black, referenceSourceCode=ref-supply, referenceGtin=02000000000015, bestCandidateTitle=null, bestCandidateSourceCode=null],
+|             GapView[gapId=1, canonicalProductId=2, targetSourceId=3, targetSourceCode=mkt-target, status=DISMISSED, reason=NO_CANDIDATE, confidence=0.9500, priorityScore=72.50, priority=P1, bestCandidateListingId=null, bestCandidateScore=null, evidenceJson={"demand": {"value": 0.5, "source": "UNKNOWN"}, "reason": "NO_CANDIDATE", "assessor": "gap-v1", "explanation": ["No similar listing was retrieved from the marketplace (GTIN, brand+model and title search).", "No demand signal available; neutral 0.50 used.", "Carried by 1 of 2 reference sources."], "referenceCoverage": {"of": 2, "sources": 1}, "referenceListings": [2]}, detectionCount=1, firstDetectedAt=2026-11-03T17:00:24.119903Z, lastDetectedAt=2026-11-03T17:00:24.119903Z, lastJobId=1, resolvedAt=null, resolution=null, updatedAt=2026-11-03T17:00:24.263385Z, productTitle=Altora Pro AL-4520X 64GB USB Flash Drive, Black, productBrand=Altora, productCategory=audio, referenceListingId=2, referenceTitle=Altora Pro AL-4520X 64GB USB Flash Drive, Black, referenceSourceCode=ref-supply, referenceGtin=02000000000015, bestCandidateTitle=null, bestCandidateSourceCode=null]]>
+'-- JUnit Vintage [OK]
+
+Failures (4):
+  JUnit Jupiter:GapsFollowProductMergesIT:aGapWhoseProductIsMergedIntoACarriedProductIsResolvedAsCarried()
+    MethodSource [className = 'io.catalogsentinel.core.gaps.GapsFollowProductMergesIT', methodName = 'aGapWhoseProductIsMergedIntoACarriedProductIsResolvedAsCarried', methodParameterTypes = '']
+    => org.opentest4j.AssertionFailedError: [the target carries the product] 
+Expecting:
+ <"MERGED_PRODUCT">
+to be equal to:
+ <"AUTO_MATCH_FOUND">
+but was not.
+       java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+       java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+       io.catalogsentinel.core.gaps.GapsFollowProductMergesIT.aGapWhoseProductIsMergedIntoACarriedProductIsResolvedAsCarried(GapsFollowProductMergesIT.java:103)
+       java.base/java.lang.reflect.Method.invoke(Method.java:580)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+  JUnit Jupiter:GapsFollowProductMergesIT:aConfirmedGapStaysConfirmedAfterItsProductIsMerged()
+    MethodSource [className = 'io.catalogsentinel.core.gaps.GapsFollowProductMergesIT', methodName = 'aConfirmedGapStaysConfirmedAfterItsProductIsMerged', methodParameterTypes = '']
+    => org.opentest4j.AssertionFailedError: 
+Expecting:
+ <2L>
+to be equal to:
+ <1L>
+but was not.
+       java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+       java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+       io.catalogsentinel.core.gaps.GapsFollowProductMergesIT.aConfirmedGapStaysConfirmedAfterItsProductIsMerged(GapsFollowProductMergesIT.java:143)
+       java.base/java.lang.reflect.Method.invoke(Method.java:580)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+  JUnit Jupiter:GapsFollowProductMergesIT:whenTheSurvivorAlreadyHasAGapItIsKeptAndTheMergedProductsGapIsResolvedWithTheConflictRecorded()
+    MethodSource [className = 'io.catalogsentinel.core.gaps.GapsFollowProductMergesIT', methodName = 'whenTheSurvivorAlreadyHasAGapItIsKeptAndTheMergedProductsGapIsResolvedWithTheConflictRecorded', methodParameterTypes = '']
+    => java.lang.AssertionError: 
+Expecting:
+ <"MERGED_PRODUCT: product no longer qualifies as a gap">
+to contain:
+ <"gap 1"> 
+       io.catalogsentinel.core.gaps.GapsFollowProductMergesIT.whenTheSurvivorAlreadyHasAGapItIsKeptAndTheMergedProductsGapIsResolvedWithTheConflictRecorded(GapsFollowProductMergesIT.java:171)
+       java.base/java.lang.reflect.Method.invoke(Method.java:580)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+  JUnit Jupiter:GapsFollowProductMergesIT:aDismissedGapKeepsSuppressingDetectionAfterItsProductIsMerged()
+    MethodSource [className = 'io.catalogsentinel.core.gaps.GapsFollowProductMergesIT', methodName = 'aDismissedGapKeepsSuppressingDetectionAfterItsProductIsMerged', methodParameterTypes = '']
+    => java.lang.AssertionError: [no new OPEN gap replaces the dismissal] 
+Expected size:<1> but was:<2> in:
+<[GapView[gapId=2, canonicalProductId=1, targetSourceId=3, targetSourceCode=mkt-target, status=OPEN, reason=NO_CANDIDATE, confidence=0.9500, priorityScore=72.50, priority=P1, bestCandidateListingId=null, bestCandidateScore=null, evidenceJson={"demand": {"value": 0.5, "source": "UNKNOWN"}, "reason": "NO_CANDIDATE", "assessor": "gap-v1", "explanation": ["No similar listing was retrieved from the marketplace (GTIN, brand+model and title search).", "No demand signal available; neutral 0.50 used.", "Carried by 1 of 2 reference sources."], "referenceCoverage": {"of": 2, "sources": 1}, "referenceListings": [2]}, detectionCount=1, firstDetectedAt=2026-11-03T17:00:24.664434Z, lastDetectedAt=2026-11-03T17:00:24.664434Z, lastJobId=2, resolvedAt=null, resolution=null, updatedAt=2026-11-03T17:00:24.664434Z, productTitle=Altora Pro USB Flash Drive 64GB Black, productBrand=Altora, productCategory=audio, referenceListingId=2, referenceTitle=Altora Pro AL-4520X 64GB USB Flash Drive, Black, referenceSourceCode=ref-supply, referenceGtin=02000000000015, bestCandidateTitle=null, bestCandidateSourceCode=null],
+    GapView[gapId=1, canonicalProductId=2, targetSourceId=3, targetSourceCode=mkt-target, status=DISMISSED, reason=NO_CANDIDATE, confidence=0.9500, priorityScore=72.50, priority=P1, bestCandidateListingId=null, bestCandidateScore=null, evidenceJson={"demand": {"value": 0.5, "source": "UNKNOWN"}, "reason": "NO_CANDIDATE", "assessor": "gap-v1", "explanation": ["No similar listing was retrieved from the marketplace (GTIN, brand+model and title search).", "No demand signal available; neutral 0.50 used.", "Carried by 1 of 2 reference sources."], "referenceCoverage": {"of": 2, "sources": 1}, "referenceListings": [2]}, detectionCount=1, firstDetectedAt=2026-11-03T17:00:24.119903Z, lastDetectedAt=2026-11-03T17:00:24.119903Z, lastJobId=1, resolvedAt=null, resolution=null, updatedAt=2026-11-03T17:00:24.263385Z, productTitle=Altora Pro AL-4520X 64GB USB Flash Drive, Black, productBrand=Altora, productCategory=audio, referenceListingId=2, referenceTitle=Altora Pro AL-4520X 64GB USB Flash Drive, Black, referenceSourceCode=ref-supply, referenceGtin=02000000000015, bestCandidateTitle=null, bestCandidateSourceCode=null]]>
+       io.catalogsentinel.core.gaps.GapsFollowProductMergesIT.aDismissedGapKeepsSuppressingDetectionAfterItsProductIsMerged(GapsFollowProductMergesIT.java:120)
+       java.base/java.lang.reflect.Method.invoke(Method.java:580)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+       java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+Test run finished after 7112 ms
+[         4 containers found      ]
+[         0 containers skipped    ]
+[         4 containers started    ]
+[         0 containers aborted    ]
+[         4 containers successful ]
+[         0 containers failed     ]
+[         4 tests found           ]
+[         0 tests skipped         ]
+[         4 tests started         ]
+[         0 tests aborted         ]
+[         0 tests successful      ]
+[         4 tests failed          ]
+
+# finished 2026-11-03T17:00:24Z: harness exit status 1 (JUnit console: 0 = all passed, 1 = failures)

@@ -1,0 +1,8 @@
+# started  2026-11-03T20:15:41Z: type-check of platform-adapters, catalog-api, ingestion-worker (main + tests) against API stubs
+# commit dcb1832 + uncommitted P2 changes | javac 21.0.12.1
+# NOT a build against the real Spring Boot 4 / Security 7 / AWS SDK: proves internal consistency only (Maven Central blocked)
+== type-check main (32 files)
+== type-check tests: 1 file(s)
+== type-check catalog-api tests: 4 file(s)
+== OK
+# finished 2026-11-03T20:15:48Z: exit 0
